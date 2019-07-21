@@ -4,6 +4,11 @@
 #include <utility>
 #include <vector>
 
+template<typename , size_t, size_t, typename> class Matrix;
+
+template<typename T, size_t ColumnsN, typename Container1>
+T dot(const Matrix<T, 1, ColumnsN, Container1>&, const Matrix<T, 1, ColumnsN, T[ColumnsN]>&);
+
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container=T[ColumnsN]>
 class Matrix{
 public:
@@ -96,6 +101,9 @@ public:
 
     void insertValueAtRowColumn(const T& value, size_t row, size_t column);
 
+    //Vector operations
+    friend T dot<>(const Matrix<T, 1, ColumnsN, Container>&, const Matrix<T, 1, ColumnsN, T[ColumnsN]>&);
+
 private:
     std::pair<size_t, size_t> actualRowColumnIndex(size_t row, size_t column) const{
         size_t actualRow = (_isTransposed^1) *row + (_isTransposed) *column;
@@ -141,6 +149,24 @@ void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowColumn(const T& valu
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowIndex(const T& value, T row[ColumnsN], size_t index){
     row[index] = value;
+}
+
+//Vector operations
+
+// returns the dot product of two vectors
+// Note that it doesnt matter if any of the vectors have been logically transposed
+// it will always return the dot product as long as you provide two matrix with RowsN == 1 and same ColumnsN
+// If what is intended is the matrix product use the matrix operator*
+template<typename T, size_t ColumnsN, typename Container1>
+T dot(const Matrix<T, 1, ColumnsN, Container1> &v1, const Matrix<T, 1, ColumnsN, T[ColumnsN]> &v2){
+    T sum = T();
+    const T* row_v2 = v2._mat[0];
+
+    for(size_t c = 0; c < ColumnsN; ++c){
+        sum += (row_v2[c] * v1.retrieveAt(0,c));
+    }
+
+    return sum;
 }
 
 #endif

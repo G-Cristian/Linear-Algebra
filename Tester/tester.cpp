@@ -43,6 +43,8 @@ bool matrix_array_container_assign_operator_passing_transposed_copies_all();
 bool matrix_array_container_copy_constructor_copies_by_value();
 bool matrix_array_container_assign_operator_copies_by_value();
 bool matrix_array_container_storedElementsCount();
+bool matrix_array_container_array_container_dot();
+bool matrix_array_container_array_container_dot_doesnt_change_vectors_values();
 
 int main(){
     int passedTests = 0;
@@ -69,6 +71,8 @@ int main(){
     RUN_TEST(matrix_array_container_copy_constructor_copies_by_value, passedTests, failedTests);
     RUN_TEST(matrix_array_container_assign_operator_copies_by_value, passedTests, failedTests);
     RUN_TEST(matrix_array_container_storedElementsCount, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_array_container_dot, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_array_container_dot_doesnt_change_vectors_values, passedTests, failedTests);
     
     cout << endl << "-----------------" << endl;
     cout << "Total tests: " << passedTests +  failedTests << endl;
@@ -407,4 +411,61 @@ bool matrix_array_container_storedElementsCount(){
     Matrix<float,4,5> mat1;
 
     return mat1.storedElementsCount() == 20;
+}
+
+bool matrix_array_container_array_container_dot(){
+    Matrix<float,1,5> mat1;
+    Matrix<float,1,5> mat2;
+
+    mat1.at(0,0) = 2.0f;
+    mat2.at(0,0) = 5.0f;
+
+    mat1.at(0,2) = 8.0f;
+
+    mat2.at(0,3) = 15.0f;
+
+    mat1.at(0,4) = 13.0f;
+    mat2.at(0,4) = 10.0f;
+
+    return dot(mat1,mat2) == 140.0f;
+}
+
+bool matrix_array_container_array_container_dot_doesnt_change_vectors_values(){
+    bool ok = true;
+    Matrix<float,1,5> mat1;
+    Matrix<float,1,5> mat2;
+
+    mat1.at(0,0) = 2.0f;
+    mat2.at(0,0) = 5.0f;
+
+    mat1.at(0,2) = 8.0f;
+
+    mat2.at(0,3) = 15.0f;
+
+    mat1.at(0,4) = 13.0f;
+    mat2.at(0,4) = 10.0f;
+
+    float dotVal = dot(mat1,mat2);
+
+    ok = (dotVal == 140.0f);
+
+    for(int j=0; j < 5 && ok; ++j){
+        if(j == 0){
+            ok = (mat1.retrieveAt(0,j) == 2.0f) && (mat2.retrieveAt(0,j) == 5.0f);
+        }
+        else if(j == 2){
+            ok = (mat1.retrieveAt(0,j) == 8.0f) && (mat2.retrieveAt(0,j) == 0.0f);
+        }
+        else if(j == 3){
+            ok = (mat1.retrieveAt(0,j) == 0.0f) && (mat2.retrieveAt(0,j) == 15.0f);
+        }
+        else if(j == 4){
+            ok = (mat1.retrieveAt(0,j) == 13.0f) && (mat2.retrieveAt(0,j) == 10.0f);
+        }
+        else{
+            ok = (mat1.retrieveAt(0,j) == 0.0f) && (mat2.retrieveAt(0,j) == 0.0f);
+        }
+    }
+
+    return ok;
 }
