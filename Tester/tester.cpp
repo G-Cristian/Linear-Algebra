@@ -25,16 +25,17 @@ bool matrix_array_container_Creation();
 bool matrix_array_container_Get_Size();
 bool matrix_array_container_Get_Number_Of_Rows();
 bool matrix_array_container_Get_Number_Of_Columns();
-bool matrix_array_container_Get_Number_Of_Rows_Of_Transposed();
+bool matrix_array_container_Get_Number_Of_Rows_Of_Logic_Transposed();
+bool matrix_array_container_Get_Number_Of_Columns_Of_Logic_Transposed();
 bool matrix_array_container_at_in_uninitialized_matrix();
 bool matrix_array_container_isTransposed_rvalue();
 bool matrix_array_container_isTransposed_lvalue();
 bool matrix_array_container_set_value_at_and_check();
-bool matrix_array_container_set_value_at_and_check_transposed();
+bool matrix_array_container_set_value_at_and_check_logic_transposed();
 bool matrix_array_container_retrieveAt();
-bool matrix_array_container_retrieveAt_transposed();
+bool matrix_array_container_retrieveAt_logic_transposed();
 bool matrix_array_container_insertAt_and_check();
-bool matrix_array_container_insertAt_and_check_transposed();
+bool matrix_array_container_insertAt_and_check_logic_transposed();
 bool matrix_array_container_copy_constructor_copies_all();
 bool matrix_array_container_assign_operator_copies_all();
 bool matrix_array_container_copy_constructor_passing_transposed_copies_all();
@@ -49,16 +50,17 @@ int main(){
     RUN_TEST(matrix_array_container_Get_Size, passedTests, failedTests);
     RUN_TEST(matrix_array_container_Get_Number_Of_Rows, passedTests, failedTests);
     RUN_TEST(matrix_array_container_Get_Number_Of_Columns, passedTests, failedTests);
-    RUN_TEST(matrix_array_container_Get_Number_Of_Rows_Of_Transposed, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_Get_Number_Of_Rows_Of_Logic_Transposed, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_Get_Number_Of_Columns_Of_Logic_Transposed, passedTests, failedTests);
     RUN_TEST(matrix_array_container_at_in_uninitialized_matrix, passedTests, failedTests);
     RUN_TEST(matrix_array_container_isTransposed_rvalue, passedTests, failedTests);
     RUN_TEST(matrix_array_container_isTransposed_lvalue, passedTests, failedTests);
     RUN_TEST(matrix_array_container_set_value_at_and_check, passedTests, failedTests);
-    RUN_TEST(matrix_array_container_set_value_at_and_check_transposed, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_set_value_at_and_check_logic_transposed, passedTests, failedTests);
     RUN_TEST(matrix_array_container_retrieveAt, passedTests, failedTests);
-    RUN_TEST(matrix_array_container_retrieveAt_transposed, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_retrieveAt_logic_transposed, passedTests, failedTests);
     RUN_TEST(matrix_array_container_insertAt_and_check, passedTests, failedTests);
-    RUN_TEST(matrix_array_container_insertAt_and_check_transposed, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_insertAt_and_check_logic_transposed, passedTests, failedTests);
     RUN_TEST(matrix_array_container_copy_constructor_copies_all, passedTests, failedTests);
     RUN_TEST(matrix_array_container_assign_operator_copies_all, passedTests, failedTests);
     RUN_TEST(matrix_array_container_copy_constructor_passing_transposed_copies_all, passedTests, failedTests);
@@ -94,8 +96,12 @@ bool matrix_array_container_Get_Number_Of_Columns(){
     return mat.columns() == 2;
 }
 
-bool matrix_array_container_Get_Number_Of_Rows_Of_Transposed(){
-    return Matrix<float,3,2>().transposed().rows() == 2;
+bool matrix_array_container_Get_Number_Of_Rows_Of_Logic_Transposed(){
+    return Matrix<float,3,2>().logicTransposed().rows() == 2;
+}
+
+bool matrix_array_container_Get_Number_Of_Columns_Of_Logic_Transposed(){
+    return Matrix<float,3,2>().logicTransposed().columns() == 3;
 }
 
 bool matrix_array_container_at_in_uninitialized_matrix(){
@@ -110,14 +116,14 @@ bool matrix_array_container_at_in_uninitialized_matrix(){
 }
 
 bool matrix_array_container_isTransposed_rvalue(){
-    bool ok = Matrix<float,3,2>().transposed().isTransposed();
+    bool ok = Matrix<float,3,2>().logicTransposed().isTransposed();
     return ok;
 }
 
 bool matrix_array_container_isTransposed_lvalue(){
     Matrix<float,3,2> mat;
     bool ok1 = !mat.isTransposed();
-    Matrix<float,3,2> matTranp = mat.transposed();
+    Matrix<float,3,2> matTranp = mat.logicTransposed();
     bool ok2 = matTranp.isTransposed();
     bool ok3 = !mat.isTransposed();
 
@@ -145,12 +151,12 @@ bool matrix_array_container_set_value_at_and_check(){
     return ok;
 }
 
-bool matrix_array_container_set_value_at_and_check_transposed(){
+bool matrix_array_container_set_value_at_and_check_logic_transposed(){
     bool ok =true;
     Matrix<float,3,2> mat;
     mat.at(2,1)= 21.0f;
     mat.at(1,0)= 10.0f;
-    Matrix<float,3,2> mat2 = mat.transposed();
+    Matrix<float,3,2> mat2 = mat.logicTransposed();
     for(int i=0; i < 2 && ok; ++i){
         for(int j=0; j < 3 && ok; ++j){
             if(i == 0 && j == 1){
@@ -188,12 +194,12 @@ bool matrix_array_container_retrieveAt(){
     return ok;
 }
 
-bool matrix_array_container_retrieveAt_transposed(){
+bool matrix_array_container_retrieveAt_logic_transposed(){
     bool ok =true;
     Matrix<float,3,2> mat;
     mat.at(2,1)= 21.0f;
     mat.at(1,0)= 10.0f;
-    Matrix<float,3,2> mat2 = mat.transposed();
+    Matrix<float,3,2> mat2 = mat.logicTransposed();
     for(int i=0; i < 2 && ok; ++i){
         for(int j=0; j < 3 && ok; ++j){
             if(i == 0 && j == 1){
@@ -231,12 +237,12 @@ bool matrix_array_container_insertAt_and_check(){
     return ok;
 }
 
-bool matrix_array_container_insertAt_and_check_transposed(){
+bool matrix_array_container_insertAt_and_check_logic_transposed(){
     bool ok =true;
     Matrix<float,3,2> mat;
     mat.insertValueAtRowColumn(21.0f,2,1);
     mat.insertValueAtRowColumn(10.0f,1,0);
-    Matrix<float,3,2> mat2 = mat.transposed();
+    Matrix<float,3,2> mat2 = mat.logicTransposed();
     for(int i=0; i < 2 && ok; ++i){
         for(int j=0; j < 3 && ok; ++j){
             if(i == 0 && j == 1){
@@ -302,7 +308,7 @@ bool matrix_array_container_copy_constructor_passing_transposed_copies_all(){
     Matrix<float,4,5> mat1;
     mat1.at(0,0) = 1.0f;
     mat1.insertValueAtRowColumn(34.0f,3,4);
-    Matrix<float,4,5> matCopy(mat1.transposed());
+    Matrix<float,4,5> matCopy(mat1.logicTransposed());
 
     ok =    (mat1.size() == matCopy.size()) &&
             (mat1.rows() == matCopy.columns()) &&
@@ -325,7 +331,7 @@ bool matrix_array_container_assign_operator_passing_transposed_copies_all(){
     mat1.insertValueAtRowColumn(34.0f,3,4);
     Matrix<float,4,5> matCopy;
     matCopy.at(2,2) = 22.0f;
-    matCopy = mat1.transposed();
+    matCopy = mat1.logicTransposed();
 
     ok =    (mat1.size() == matCopy.size()) &&
             (mat1.rows() == matCopy.columns()) &&

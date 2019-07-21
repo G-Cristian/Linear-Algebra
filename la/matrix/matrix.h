@@ -26,20 +26,40 @@ public:
         return (_isTransposed^1) *ColumnsN + (_isTransposed) *RowsN;
     }
 
-    Matrix<T,RowsN,ColumnsN,Container>& transposed() &&{
+    // This is a logic transposed which means that the inner matrix implementations, RowsN and ColumnsN are maintained,
+    // and what is changed is the _isTransposed member value.
+    // The returned matrix will behave as a transposed though, just keep in mind that the varialbe where you are assigning the transposed,
+    // will need to be of type Matrix<T,RowsN,ColumnsN,Container> with all template arguments equal to this original matrix.
+    //
+    // It's faster used in rvalues since it does not copy values, it just returns this same matrix by reference swapping the _isTransposed member value.
+    //
+    // return the same matrix but swapping the _isTransposed member value.
+    Matrix<T,RowsN,ColumnsN,Container>& logicTransposed() &&{
         _isTransposed = (_isTransposed + 1)%2;
         return *this;
     }
 
-    // TODO: Replace this method to return a Matri<T,ColumnsN,RowsN,Container>
-    // in order to do so all stored values should be copied (use retrieve for retrieving the values in *this),
-    // and no extra values should be stored (use insert to insert values in returned matrix)
-    Matrix<T,RowsN,ColumnsN,Container> transposed() const &{
+    // This is a logic transposed which means that the inner matrix implementations, RowsN and ColumnsN are maintained,
+    // and what is changed is the _isTransposed member value.
+    // The returned matrix will behave as a transposed though, just keep in mind that the varialbe where you are assigning the transposed,
+    // will need to be of type Matrix<T,RowsN,ColumnsN,Container> with all template arguments equal to this original matrix.
+    //
+    // It's usefull used in rvalues since it does not copy values, it just returns this same matrix by reference swapping the _isTransposed member value.
+    // Does not make much sence in lvalues since it copies the inner matrix implementation, but is here for completeness.
+    //
+    // return the same matrix but swapping the _isTransposed member value.
+    Matrix<T,RowsN,ColumnsN,Container> logicTransposed() const &{
         Matrix<T,RowsN,ColumnsN,Container> mat = *this;
         mat._isTransposed = (_isTransposed + 1)%2;
         return mat;
     }
 
+    // TODO: Implement a physical transpose to return a Matri<T,ColumnsN,RowsN,Container>
+    // In order to do so all stored values should be copied (use retrieve for retrieving the values in *this),
+    // and no extra values should be stored (use insert to insert values in returned matrix)
+
+    // returns the _isTransposed value.
+    // It's mostly usefull for testing when the logicTransposed is used.
     bool isTransposed() const{
         return _isTransposed==1;
     }
