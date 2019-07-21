@@ -42,6 +42,7 @@ bool matrix_array_container_copy_constructor_passing_transposed_copies_all();
 bool matrix_array_container_assign_operator_passing_transposed_copies_all();
 bool matrix_array_container_copy_constructor_copies_by_value();
 bool matrix_array_container_assign_operator_copies_by_value();
+bool matrix_array_container_storedElementsCount();
 
 int main(){
     int passedTests = 0;
@@ -67,6 +68,7 @@ int main(){
     RUN_TEST(matrix_array_container_assign_operator_passing_transposed_copies_all, passedTests, failedTests);
     RUN_TEST(matrix_array_container_copy_constructor_copies_by_value, passedTests, failedTests);
     RUN_TEST(matrix_array_container_assign_operator_copies_by_value, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_storedElementsCount, passedTests, failedTests);
     
     cout << endl << "-----------------" << endl;
     cout << "Total tests: " << passedTests +  failedTests << endl;
@@ -399,4 +401,10 @@ bool matrix_array_container_assign_operator_copies_by_value(){
     }
 
     return ok;
+}
+
+bool matrix_array_container_storedElementsCount(){
+    Matrix<float,4,5> mat1;
+
+    return mat1.storedElementsCount() == 20;
 }

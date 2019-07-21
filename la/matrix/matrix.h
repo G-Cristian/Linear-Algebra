@@ -64,6 +64,20 @@ public:
         return _isTransposed==1;
     }
 
+    // returns the number of actually stored elements
+    // usefull for testing when implementing sparce matrix using 'map' as container.
+    size_t storedElementsCount() const{
+        size_t elements = 0;
+
+        for(auto rowsIt = std::begin(_mat); rowsIt != std::end(_mat); ++rowsIt){
+            for(auto columnsIt = std::begin(*rowsIt); columnsIt != std::end(*rowsIt); ++columnsIt){
+                ++elements;
+            }
+        }
+
+        return elements;
+    }
+
     // returns a reference to the element in row 'row', column 'column'.
     // if the element does not exist it may be created depending of the Container used for the row.
     // For example, of the container is a 'map', and the value at row,column does not exist, it will be created.
