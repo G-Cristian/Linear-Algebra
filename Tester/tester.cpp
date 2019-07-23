@@ -45,6 +45,8 @@ bool matrix_array_container_assign_operator_copies_by_value();
 bool matrix_array_container_storedElementsCount();
 bool matrix_array_container_array_container_dot();
 bool matrix_array_container_array_container_dot_doesnt_change_vectors_values();
+bool matrix_array_container_array_container_multiplication();
+bool matrix_array_container_array_container_multiplication_doesnt_change_matrices_values();
 
 int main(){
     int passedTests = 0;
@@ -73,6 +75,8 @@ int main(){
     RUN_TEST(matrix_array_container_storedElementsCount, passedTests, failedTests);
     RUN_TEST(matrix_array_container_array_container_dot, passedTests, failedTests);
     RUN_TEST(matrix_array_container_array_container_dot_doesnt_change_vectors_values, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_array_container_multiplication, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_array_container_multiplication_doesnt_change_matrices_values, passedTests, failedTests);
     
     cout << endl << "-----------------" << endl;
     cout << "Total tests: " << passedTests +  failedTests << endl;
@@ -466,6 +470,53 @@ bool matrix_array_container_array_container_dot_doesnt_change_vectors_values(){
             ok = (mat1.retrieveAt(0,j) == 0.0f) && (mat2.retrieveAt(0,j) == 0.0f);
         }
     }
+
+    return ok;
+}
+
+bool matrix_array_container_array_container_multiplication(){
+    bool ok = false;
+    Matrix<float,2,3> mat1;
+    Matrix<float,3,1> mat2;
+
+    mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; mat1.at(0,2) = 4.0f;
+    mat1.at(1,0) = 5.0f; mat1.at(1,1) = 6.0f; mat1.at(1,2) = 7.0f;
+
+    mat2.at(0,0) = 9.0f;
+    mat2.at(1,0) = 8.0f;
+    mat2.at(2,0) = 7.0f;
+
+    Matrix<float,2,1> mat3 = mat1*mat2;
+
+    ok = (  mat3.retrieveAt(0,0) == 70.0f &&
+            mat3.retrieveAt(1,0) == 142.0f);
+    
+
+    return ok;
+}
+
+bool matrix_array_container_array_container_multiplication_doesnt_change_matrices_values(){
+    bool ok = false;
+    Matrix<float,2,3> mat1;
+    Matrix<float,3,1> mat2;
+
+    mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; mat1.at(0,2) = 4.0f;
+    mat1.at(1,0) = 5.0f; mat1.at(1,1) = 6.0f; mat1.at(1,2) = 7.0f;
+
+    mat2.at(0,0) = 9.0f;
+    mat2.at(1,0) = 8.0f;
+    mat2.at(2,0) = 7.0f;
+
+    Matrix<float,2,1> mat3 = mat1*mat2;
+
+    ok = (  mat1.retrieveAt(0,0) == 2.0f && mat1.retrieveAt(0,1) == 3.0f && mat1.retrieveAt(0,2) == 4.0f &&
+            mat1.retrieveAt(1,0) == 5.0f && mat1.retrieveAt(1,1) == 6.0f && mat1.retrieveAt(1,2) == 7.0f &&
+            mat2.retrieveAt(0,0) == 9.0f &&
+            mat2.retrieveAt(1,0) == 8.0f &&
+            mat2.retrieveAt(2,0) == 7.0f &&
+            mat3.retrieveAt(0,0) == 70.0f &&
+            mat3.retrieveAt(1,0) == 142.0f);
+    
 
     return ok;
 }
