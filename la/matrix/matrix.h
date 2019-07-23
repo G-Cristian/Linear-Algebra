@@ -1,6 +1,7 @@
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
 
+#include <map>
 #include <utility>
 #include <vector>
 
@@ -71,17 +72,8 @@ public:
     //    return mat;
     //}
 
-    Matrix<T,ColumnsN,RowsN,T[RowsN]> transposed() const{
-        Matrix<T,ColumnsN,RowsN,T[RowsN]> mat;
-
-        for(size_t r = 0; r < RowsN; ++r){
-            for(size_t c = 0; c < ColumnsN; ++c){
-                mat.insertValueAtRowColumn(this->retrieveAt(r,c), c, r);
-            }
-        }
-        
-        return mat;
-    }
+    template<typename Container_Ret>
+    Matrix<T,ColumnsN,RowsN,Container_Ret> transposed() const;
 
     // TODO: Implement a physical transpose to return a Matri<T,ColumnsN,RowsN,Container>
     // In order to do so all stored values should be copied (use retrieve for retrieving the values in *this),
@@ -171,6 +163,20 @@ Matrix<T, RowsN, ColumnsN, Container>::Matrix(){
             *colIt=T();
         }
     }
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+template<typename Container_Ret>
+Matrix<T,ColumnsN,RowsN,Container_Ret> Matrix<T, RowsN, ColumnsN, Container>::transposed() const{
+    Matrix<T,ColumnsN,RowsN,Container_Ret> mat;
+
+    for(size_t r = 0; r < RowsN; ++r){
+        for(size_t c = 0; c < ColumnsN; ++c){
+            mat.insertValueAtRowColumn(this->retrieveAt(r,c), c, r);
+        }
+    }
+        
+    return mat;
 }
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
