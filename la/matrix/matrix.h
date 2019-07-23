@@ -31,12 +31,14 @@ public:
 
     //gets number of rows.
     size_t rows() const{
-        return (_isTransposed^1) *RowsN + (_isTransposed) *ColumnsN;
+        //return (_isTransposed^1) *RowsN + (_isTransposed) *ColumnsN;
+        return RowsN;
     }
 
     //gets number of columns.
     size_t columns() const{
-        return (_isTransposed^1) *ColumnsN + (_isTransposed) *RowsN;
+        //return (_isTransposed^1) *ColumnsN + (_isTransposed) *RowsN;
+        return ColumnsN;
     }
 
     /* ----- TRANSPOSE ----- */
@@ -49,10 +51,10 @@ public:
     // It's faster used in rvalues since it does not copy values, it just returns this same matrix by reference swapping the _isTransposed member value.
     //
     // return the same matrix but swapping the _isTransposed member value.
-    Matrix<T,RowsN,ColumnsN,Container>& logicTransposed() &&{
-        _isTransposed = (_isTransposed + 1)%2;
-        return *this;
-    }
+    //Matrix<T,RowsN,ColumnsN,Container>& logicTransposed() &&{
+    //    _isTransposed = (_isTransposed + 1)%2;
+    //    return *this;
+    //}
 
     // This is a logic transposed which means that the inner matrix implementations, RowsN and ColumnsN are maintained,
     // and what is changed is the _isTransposed member value.
@@ -63,9 +65,21 @@ public:
     // Does not make much sence in lvalues since it copies the inner matrix implementation, but is here for completeness.
     //
     // return the same matrix but swapping the _isTransposed member value.
-    Matrix<T,RowsN,ColumnsN,Container> logicTransposed() const &{
-        Matrix<T,RowsN,ColumnsN,Container> mat = *this;
-        mat._isTransposed = (_isTransposed + 1)%2;
+    //Matrix<T,RowsN,ColumnsN,Container> logicTransposed() const &{
+    //    Matrix<T,RowsN,ColumnsN,Container> mat = *this;
+    //    mat._isTransposed = (_isTransposed + 1)%2;
+    //    return mat;
+    //}
+
+    Matrix<T,ColumnsN,RowsN,T[RowsN]> transposed() const{
+        Matrix<T,ColumnsN,RowsN,T[RowsN]> mat;
+
+        for(size_t r = 0; r < RowsN; ++r){
+            for(size_t c = 0; c < ColumnsN; ++c){
+                mat.insertValueAtRowColumn(this->retrieveAt(r,c), c, r);
+            }
+        }
+        
         return mat;
     }
 
@@ -75,9 +89,9 @@ public:
 
     // returns the _isTransposed value.
     // It's mostly usefull for testing when the logicTransposed is used.
-    bool isTransposed() const{
-        return _isTransposed==1;
-    }
+    //bool isTransposed() const{
+    //    return _isTransposed==1;
+    //}
 
     /* ----- GETTERS & SETTERS ----- */
 
@@ -87,8 +101,9 @@ public:
     // if you are using a 'map' container and you want to retrieve a copy of the value but you don't want to create it if it does not exist
     // use 'retrieveAt' instead.
     T& at(size_t row, size_t column){
-        auto actualRowColumn = actualRowColumnIndex(row, column);
-        return _mat[actualRowColumn.first][actualRowColumn.second];
+        //auto actualRowColumn = actualRowColumnIndex(row, column);
+        //return _mat[actualRowColumn.first][actualRowColumn.second];
+        return _mat[row][column];
     }
 
     // returns a copy of the element in row 'row', column 'column'.
@@ -130,18 +145,19 @@ public:
 
 private:
     /* ----- UTILITIES ----- */
-    std::pair<size_t, size_t> actualRowColumnIndex(size_t row, size_t column) const{
-        size_t actualRow = (_isTransposed^1) *row + (_isTransposed) *column;
-        size_t actualColumn = (_isTransposed^1) *column + (_isTransposed) *row;
-        return { actualRow, actualColumn };
-    }
+    
+    //std::pair<size_t, size_t> actualRowColumnIndex(size_t row, size_t column) const{
+    //    size_t actualRow = (_isTransposed^1) *row + (_isTransposed) *column;
+    //    size_t actualColumn = (_isTransposed^1) *column + (_isTransposed) *row;
+    //    return { actualRow, actualColumn };
+    //}
 
     T getValueAtIndex(const T(&)[ColumnsN], size_t) const;
     void insertValueAtRowIndex(const T&, T(&)[ColumnsN], size_t);
 
     /* ----- MEMBERS ----- */
 
-    unsigned char _isTransposed = 0;
+    //unsigned char _isTransposed = 0;
     Container _mat[RowsN];
 };
 
@@ -159,9 +175,9 @@ Matrix<T, RowsN, ColumnsN, Container>::Matrix(){
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 T Matrix<T, RowsN, ColumnsN, Container>::retrieveAt(size_t row, size_t column) const{
-    auto actualRowColumn = actualRowColumnIndex(row, column);
-
-    return getValueAtIndex(_mat[actualRowColumn.first], actualRowColumn.second);
+    //auto actualRowColumn = actualRowColumnIndex(row, column);
+    //return getValueAtIndex(_mat[actualRowColumn.first], actualRowColumn.second);
+    return getValueAtIndex(_mat[row], column);
 }
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
@@ -171,8 +187,9 @@ T Matrix<T, RowsN, ColumnsN, Container>::getValueAtIndex(const T (&row)[ColumnsN
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowColumn(const T& value, size_t row, size_t column){
-    auto actualRowColumn = actualRowColumnIndex(row, column);
-    insertValueAtRowIndex(value, _mat[actualRowColumn.first], actualRowColumn.second);
+    //auto actualRowColumn = actualRowColumnIndex(row, column);
+    //insertValueAtRowIndex(value, _mat[actualRowColumn.first], actualRowColumn.second);
+    insertValueAtRowIndex(value, _mat[row], column);
 }
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
@@ -203,8 +220,7 @@ void multiplyRow(const T(&row)[ColumnsN], const Matrix<T,ColumnsN,ColumnsN_2,Con
 //Vector operations
 
 // returns the dot product of two vectors
-// Note that it doesnt matter if any of the vectors have been logically transposed
-// it will always return the dot product as long as you provide two matrix with RowsN == 1 and same ColumnsN
+// It will always return the dot product as long as you provide two matrix with RowsN == 1 and same ColumnsN
 // If what is intended is the matrix product use the matrix operator*
 template<typename T, size_t ColumnsN, typename Container1>
 T dot(const Matrix<T, 1, ColumnsN, Container1> &v1, const Matrix<T, 1, ColumnsN, T[ColumnsN]> &v2){
