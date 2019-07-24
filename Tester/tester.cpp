@@ -1,5 +1,6 @@
 #include "../la/matrix/matrix.h"
 #include <iostream>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -20,6 +21,8 @@ do{                                                                 \
     cout << "END test " << #testName << endl;                       \
     cout << "----------------------------------" << endl;           \
 }while(false)
+
+/* ------------ Array container tests --------------- */
 
 bool matrix_array_container_Creation();
 bool matrix_array_container_Get_Size();
@@ -53,9 +56,24 @@ bool matrix_array_container_array_container_dot_doesnt_change_vectors_values();
 bool matrix_array_container_array_container_multiplication();
 bool matrix_array_container_array_container_multiplication_doesnt_change_matrices_values();
 
+/* ------------ Map container tests --------------- */
+
+bool matrix_map_container_Creation();
+bool matrix_map_container_Get_Size();
+bool matrix_map_container_Get_Number_Of_Rows();
+bool matrix_map_container_Get_Number_Of_Columns();
+//bool matrix_map_container_Get_Number_Of_Rows_Of_Logic_Transposed();
+//bool matrix_map_container_Get_Number_Of_Rows_Of_Transposed();
+//bool matrix_map_container_Get_Number_Of_Columns_Of_Logic_Transposed();
+//bool matrix_map_container_Get_Number_Of_Columns_Of_Transposed();
+bool matrix_map_container_at_in_uninitialized_matrix();
+//bool matrix_map_container_isTransposed_rvalue();
+//bool matrix_map_container_isTransposed_lvalue();
+
 int main(){
     int passedTests = 0;
     int failedTests = 0;
+    /* ------------ Array container tests --------------- */
     RUN_TEST(matrix_array_container_Creation, passedTests, failedTests);
     RUN_TEST(matrix_array_container_Get_Size, passedTests, failedTests);
     RUN_TEST(matrix_array_container_Get_Number_Of_Rows, passedTests, failedTests);
@@ -87,6 +105,19 @@ int main(){
     RUN_TEST(matrix_array_container_array_container_dot_doesnt_change_vectors_values, passedTests, failedTests);
     RUN_TEST(matrix_array_container_array_container_multiplication, passedTests, failedTests);
     RUN_TEST(matrix_array_container_array_container_multiplication_doesnt_change_matrices_values, passedTests, failedTests);
+
+    /* ------------ Map container tests --------------- */
+    RUN_TEST(matrix_map_container_Creation, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_Get_Size, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_Get_Number_Of_Rows, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_Get_Number_Of_Columns, passedTests, failedTests);
+    //RUN_TEST(matrix_map_container_Get_Number_Of_Rows_Of_Logic_Transposed, passedTests, failedTests);
+    //RUN_TEST(matrix_map_container_Get_Number_Of_Rows_Of_Transposed, passedTests, failedTests);
+    //RUN_TEST(matrix_map_container_Get_Number_Of_Columns_Of_Logic_Transposed, passedTests, failedTests);
+  //  RUN_TEST(matrix_map_container_Get_Number_Of_Columns_Of_Transposed, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_at_in_uninitialized_matrix, passedTests, failedTests);
+    //RUN_TEST(matrix_map_container_isTransposed_rvalue, passedTests, failedTests);
+    //RUN_TEST(matrix_map_container_isTransposed_lvalue, passedTests, failedTests);
     
     cout << endl << "-----------------" << endl;
     cout << "Total tests: " << passedTests +  failedTests << endl;
@@ -94,6 +125,8 @@ int main(){
     cout << "Total tests: " << failedTests << endl;
     return 0;
 }
+
+/* ------------ Array container tests --------------- */
 
 bool matrix_array_container_Creation(){
     Matrix<float,1,2> mat;
@@ -605,3 +638,52 @@ bool matrix_array_container_array_container_multiplication_doesnt_change_matrice
 
     return ok;
 }
+
+/* ------------ Map container tests --------------- */
+
+bool matrix_map_container_Creation(){
+    Matrix<float,1, 2, std::map<size_t, float>> mat;
+    return true;
+}
+
+bool matrix_map_container_Get_Size(){
+    Matrix<float,1,2, std::map<size_t, float>> mat;
+
+    return mat.size()==2;
+}
+
+bool matrix_map_container_Get_Number_Of_Rows(){
+    Matrix<float,3,2, std::map<size_t, float>> mat;
+    return mat.rows() == 3;
+}
+
+bool matrix_map_container_Get_Number_Of_Columns(){
+    Matrix<float,3,2, std::map<size_t, float>> mat;
+    return mat.columns() == 2;
+}
+
+//bool matrix_map_container_Get_Number_Of_Rows_Of_Logic_Transposed();
+
+/*
+bool matrix_map_container_Get_Number_Of_Rows_Of_Transposed(){
+    return Matrix<float,3,2, std::map<size_t, float>>().transposed<std::map<size_t, float>>().rows() == 2;
+}
+
+//bool matrix_map_container_Get_Number_Of_Columns_Of_Logic_Transposed();
+
+bool matrix_map_container_Get_Number_Of_Columns_Of_Transposed(){
+    return Matrix<float,3,2, std::map<size_t, float>>().transposed<std::map<size_t, float>>().columns() == 3;
+}
+*/
+bool matrix_map_container_at_in_uninitialized_matrix(){
+    bool ok =true;
+    Matrix<float,3,2, std::map<size_t, float>> mat;
+    for(int i=0; i < 3 && ok; ++i){
+        for(int j=0; j < 2 && ok; ++j){
+            ok = mat.at(i,j) == 0.0f;
+        }
+    }
+    return ok;
+}
+//bool matrix_map_container_isTransposed_rvalue();
+//bool matrix_map_container_isTransposed_lvalue();

@@ -147,6 +147,16 @@ private:
     T getValueAtIndex(const T(&)[ColumnsN], size_t) const;
     void insertValueAtRowIndex(const T&, T(&)[ColumnsN], size_t);
 
+    void setValueToIterator(const T &value, T *it){
+        *it = value;
+    }
+
+    // Note that this method does not set the index into the map iterator, just the value.
+    // Usefull when the position in the matrix already exist and the value wants to be changed.
+    void setValueToIterator(const T &value, typename std::map<size_t, T>::iterator &it){
+        it->second = value;
+    }
+
     /* ----- MEMBERS ----- */
 
     //unsigned char _isTransposed = 0;
@@ -160,7 +170,7 @@ Matrix<T, RowsN, ColumnsN, Container>::Matrix(){
     using namespace std;
     for(auto rowIt=begin(_mat); rowIt != end(_mat); rowIt++){
         for(auto colIt=begin(*rowIt); colIt != end(*rowIt); colIt++){
-            *colIt=T();
+            setValueToIterator(T(), colIt);
         }
     }
 }
