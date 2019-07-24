@@ -63,12 +63,21 @@ bool matrix_map_container_Get_Size();
 bool matrix_map_container_Get_Number_Of_Rows();
 bool matrix_map_container_Get_Number_Of_Columns();
 //bool matrix_map_container_Get_Number_Of_Rows_Of_Logic_Transposed();
-//bool matrix_map_container_Get_Number_Of_Rows_Of_Transposed();
+bool matrix_map_container_Get_Number_Of_Rows_Of_Transposed();
 //bool matrix_map_container_Get_Number_Of_Columns_Of_Logic_Transposed();
-//bool matrix_map_container_Get_Number_Of_Columns_Of_Transposed();
+bool matrix_map_container_Get_Number_Of_Columns_Of_Transposed();
 bool matrix_map_container_at_in_uninitialized_matrix();
 //bool matrix_map_container_isTransposed_rvalue();
 //bool matrix_map_container_isTransposed_lvalue();
+bool matrix_map_container_set_value_at_and_check();
+//bool matrix_map_container_set_value_at_and_check_logic_transposed();
+bool matrix_map_container_set_value_at_and_check_transposed();
+bool matrix_map_container_retrieveAt();
+//bool matrix_map_container_retrieveAt_logic_transposed();
+bool matrix_map_container_retrieveAt_transposed();
+bool matrix_map_container_insertAt_and_check();
+//bool matrix_map_container_insertAt_and_check_logic_transposed();
+bool matrix_map_container_insertAt_and_check_transposed();
 
 int main(){
     int passedTests = 0;
@@ -112,12 +121,21 @@ int main(){
     RUN_TEST(matrix_map_container_Get_Number_Of_Rows, passedTests, failedTests);
     RUN_TEST(matrix_map_container_Get_Number_Of_Columns, passedTests, failedTests);
     //RUN_TEST(matrix_map_container_Get_Number_Of_Rows_Of_Logic_Transposed, passedTests, failedTests);
-    //RUN_TEST(matrix_map_container_Get_Number_Of_Rows_Of_Transposed, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_Get_Number_Of_Rows_Of_Transposed, passedTests, failedTests);
     //RUN_TEST(matrix_map_container_Get_Number_Of_Columns_Of_Logic_Transposed, passedTests, failedTests);
-  //  RUN_TEST(matrix_map_container_Get_Number_Of_Columns_Of_Transposed, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_Get_Number_Of_Columns_Of_Transposed, passedTests, failedTests);
     RUN_TEST(matrix_map_container_at_in_uninitialized_matrix, passedTests, failedTests);
     //RUN_TEST(matrix_map_container_isTransposed_rvalue, passedTests, failedTests);
     //RUN_TEST(matrix_map_container_isTransposed_lvalue, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_set_value_at_and_check, passedTests, failedTests);
+    //RUN_TEST(matrix_map_container_set_value_at_and_check_logic_transposed, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_set_value_at_and_check_transposed, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_retrieveAt, passedTests, failedTests);
+    //RUN_TEST(matrix_map_container_retrieveAt_logic_transposed, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_retrieveAt_transposed, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_insertAt_and_check, passedTests, failedTests);
+    //RUN_TEST(matrix_map_container_insertAt_and_check_logic_transposed, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_insertAt_and_check_transposed, passedTests, failedTests);
     
     cout << endl << "-----------------" << endl;
     cout << "Total tests: " << passedTests +  failedTests << endl;
@@ -664,7 +682,6 @@ bool matrix_map_container_Get_Number_Of_Columns(){
 
 //bool matrix_map_container_Get_Number_Of_Rows_Of_Logic_Transposed();
 
-/*
 bool matrix_map_container_Get_Number_Of_Rows_Of_Transposed(){
     return Matrix<float,3,2, std::map<size_t, float>>().transposed<std::map<size_t, float>>().rows() == 2;
 }
@@ -674,7 +691,7 @@ bool matrix_map_container_Get_Number_Of_Rows_Of_Transposed(){
 bool matrix_map_container_Get_Number_Of_Columns_Of_Transposed(){
     return Matrix<float,3,2, std::map<size_t, float>>().transposed<std::map<size_t, float>>().columns() == 3;
 }
-*/
+
 bool matrix_map_container_at_in_uninitialized_matrix(){
     bool ok =true;
     Matrix<float,3,2, std::map<size_t, float>> mat;
@@ -687,3 +704,197 @@ bool matrix_map_container_at_in_uninitialized_matrix(){
 }
 //bool matrix_map_container_isTransposed_rvalue();
 //bool matrix_map_container_isTransposed_lvalue();
+
+bool matrix_map_container_set_value_at_and_check(){
+    bool ok =true;
+    Matrix<float,3,2, map<size_t, float>> mat;
+    mat.at(2,1)= 21.0f;
+    mat.at(1,0)= 10.0f;
+    for(int i=0; i < 3 && ok; ++i){
+        for(int j=0; j < 2 && ok; ++j){
+            if(i == 1 && j == 0){
+                ok = (mat.at(i,j) == 10.0f);
+            }
+            else if(i == 2 && j == 1){
+                ok = (mat.at(i,j) == 21.0f);
+            }
+            else{
+                ok = (mat.at(i,j) == 0.0f);
+            }
+        }
+    }
+    return ok;
+}
+/*
+bool matrix_map_container_set_value_at_and_check_logic_transposed(){
+    bool ok =true;
+    Matrix<float,3,2, map<size_t, float>> mat;
+    mat.at(2,1)= 21.0f;
+    mat.at(1,0)= 10.0f;
+    Matrix<float,3,2> mat2 = mat.logicTransposed();
+    for(int i=0; i < 2 && ok; ++i){
+        for(int j=0; j < 3 && ok; ++j){
+            if(i == 0 && j == 1){
+                ok = (mat2.at(i,j) == 10.0f);
+            }
+            else if(i == 1 && j == 2){
+                ok = (mat2.at(i,j) == 21.0f);
+            }
+            else{
+                ok = (mat2.at(i,j) == 0.0f);
+            }
+        }
+    }
+    return ok;
+}*/
+
+bool matrix_map_container_set_value_at_and_check_transposed(){
+    bool ok =true;
+    Matrix<float,3,2> mat;
+    mat.at(2,1)= 21.0f;
+    mat.at(1,0)= 10.0f;
+    Matrix<float,2,3, map<size_t, float>> mat2 = mat.transposed<map<size_t, float>>();
+    for(int i=0; i < 2 && ok; ++i){
+        for(int j=0; j < 3 && ok; ++j){
+            if(i == 0 && j == 1){
+                ok = (mat2.at(i,j) == 10.0f);
+            }
+            else if(i == 1 && j == 2){
+                ok = (mat2.at(i,j) == 21.0f);
+            }
+            else{
+                ok = (mat2.at(i,j) == 0.0f);
+            }
+        }
+    }
+    return ok;
+}
+
+bool matrix_map_container_retrieveAt(){
+    bool ok =true;
+    Matrix<float,3,2, map<size_t, float>> mat;
+    mat.at(2,1)= 21.0f;
+    mat.at(1,0)= 10.0f;
+    for(int i=0; i < 3 && ok; ++i){
+        for(int j=0; j < 2 && ok; ++j){
+            if(i == 1 && j == 0){
+                ok = (mat.retrieveAt(i,j) == 10.0f);
+            }
+            else if(i == 2 && j == 1){
+                ok = (mat.retrieveAt(i,j) == 21.0f);
+            }
+            else{
+                ok = (mat.retrieveAt(i,j) == 0.0f);
+            }
+        }
+    }
+    return ok;
+}
+/*
+bool matrix_map_container_retrieveAt_logic_transposed(){
+    bool ok =true;
+    Matrix<float,3,2, map<size_t, float>> mat;
+    mat.at(2,1)= 21.0f;
+    mat.at(1,0)= 10.0f;
+    Matrix<float,3,2, map<size_t, float>> mat2 = mat.logicTransposed();
+    for(int i=0; i < 2 && ok; ++i){
+        for(int j=0; j < 3 && ok; ++j){
+            if(i == 0 && j == 1){
+                ok = (mat2.retrieveAt(i,j) == 10.0f);
+            }
+            else if(i == 1 && j == 2){
+                ok = (mat2.retrieveAt(i,j) == 21.0f);
+            }
+            else{
+                ok = (mat2.retrieveAt(i,j) == 0.0f);
+            }
+        }
+    }
+    return ok;
+}
+*/
+bool matrix_map_container_retrieveAt_transposed(){
+    bool ok =true;
+    Matrix<float,3,2, map<size_t, float>> mat;
+    mat.at(2,1)= 21.0f;
+    mat.at(1,0)= 10.0f;
+    Matrix<float,2,3, map<size_t, float>> mat2 = mat.transposed<map<size_t, float>>();
+    for(int i=0; i < 2 && ok; ++i){
+        for(int j=0; j < 3 && ok; ++j){
+            if(i == 0 && j == 1){
+                ok = (mat2.retrieveAt(i,j) == 10.0f);
+            }
+            else if(i == 1 && j == 2){
+                ok = (mat2.retrieveAt(i,j) == 21.0f);
+            }
+            else{
+                ok = (mat2.retrieveAt(i,j) == 0.0f);
+            }
+        }
+    }
+    return ok;
+}
+
+bool matrix_map_container_insertAt_and_check(){
+    bool ok =true;
+    Matrix<float,3,2, map<size_t, float>> mat;
+    mat.insertValueAtRowColumn(21.0f,2,1);
+    mat.insertValueAtRowColumn(10.0f,1,0);
+    for(int i=0; i < 3 && ok; ++i){
+        for(int j=0; j < 2 && ok; ++j){
+            if(i == 1 && j == 0){
+                ok = (mat.retrieveAt(i,j) == 10.0f);
+            }
+            else if(i == 2 && j == 1){
+                ok = (mat.retrieveAt(i,j) == 21.0f);
+            }
+            else{
+                ok = (mat.retrieveAt(i,j) == 0.0f);
+            }
+        }
+    }
+    return ok;
+}
+/*
+bool matrix_map_container_insertAt_and_check_logic_transposed(){
+    bool ok =true;
+    Matrix<float,3,2, map<size_t, float>> mat;
+    mat.insertValueAtRowColumn(21.0f,2,1);
+    mat.insertValueAtRowColumn(10.0f,1,0);
+    Matrix<float,3,2, map<size_t, float>> mat2 = mat.logicTransposed();
+    for(int i=0; i < 2 && ok; ++i){
+        for(int j=0; j < 3 && ok; ++j){
+            if(i == 0 && j == 1){
+                ok = (mat2.retrieveAt(i,j) == 10.0f);
+            }
+            else if(i == 1 && j == 2){
+                ok = (mat2.retrieveAt(i,j) == 21.0f);
+            }
+            else{
+                ok = (mat2.retrieveAt(i,j) == 0.0f);
+            }
+        }
+    }
+    return ok;
+}*/
+bool matrix_map_container_insertAt_and_check_transposed(){
+    bool ok =true;
+    Matrix<float,3,2, map<size_t, float>> mat;
+    mat.insertValueAtRowColumn(21.0f,2,1);
+    mat.insertValueAtRowColumn(10.0f,1,0);
+    Matrix<float,2,3, map<size_t, float>> mat2 = mat.transposed<map<size_t, float>>();
+    for(int i=0; i < 2 && ok; ++i){
+        for(int j=0; j < 3 && ok; ++j){
+            if(i == 0 && j == 1){
+                ok = (mat2.retrieveAt(i,j) == 10.0f);
+            }
+            else if(i == 1 && j == 2){
+                ok = (mat2.retrieveAt(i,j) == 21.0f);
+            }
+            else{
+                ok = (mat2.retrieveAt(i,j) == 0.0f);
+            }
+        }
+    }
+    return ok;
+}

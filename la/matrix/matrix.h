@@ -145,7 +145,9 @@ private:
     //}
 
     T getValueAtIndex(const T(&)[ColumnsN], size_t) const;
+    T getValueAtIndex(const std::map<size_t,T>&, size_t) const;
     void insertValueAtRowIndex(const T&, T(&)[ColumnsN], size_t);
+    void insertValueAtRowIndex(const T&, std::map<size_t, T>&, size_t);
 
     void setValueToIterator(const T &value, T *it){
         *it = value;
@@ -202,6 +204,17 @@ T Matrix<T, RowsN, ColumnsN, Container>::getValueAtIndex(const T (&row)[ColumnsN
 }
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+T Matrix<T, RowsN, ColumnsN, Container>::getValueAtIndex(const std::map<size_t,T> &row, size_t index) const{
+    auto colIt = row.find(index);
+    if(colIt != row.end()){
+        return colIt->second;
+    }
+    else{
+        return T();
+    }
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowColumn(const T& value, size_t row, size_t column){
     //auto actualRowColumn = actualRowColumnIndex(row, column);
     //insertValueAtRowIndex(value, _mat[actualRowColumn.first], actualRowColumn.second);
@@ -211,6 +224,23 @@ void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowColumn(const T& valu
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowIndex(const T& value, T (&row)[ColumnsN], size_t index){
     row[index] = value;
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowIndex(const T &value, std::map<size_t, T> &row, size_t index){
+    if(value == T()){
+        // if '0' is trying to be inserted, we must remove the position if it exists.
+        auto colIt = row.find(index);
+        if(colIt != row.end()){
+            //if position exists, remove it.
+            row.erase(colIt);
+        }
+    }
+    else{
+        // A value other than '0' is trying to be inserted so we either create the position and assigns the value
+        // or assign the value to the existing position.
+        row[index] = value;
+    }
 }
 
 template<typename U, size_t RowsN_1, size_t ColumnsN_1, typename Container_1, size_t ColumnsN_2, typename Container_2>
