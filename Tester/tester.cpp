@@ -227,6 +227,7 @@ bool matrix_array_container_set_value_at_and_check(){
             }
         }
     }
+    ok = ok && mat.storedElementsCount() == 6;
     return ok;
 }
 /*
@@ -271,6 +272,10 @@ bool matrix_array_container_set_value_at_and_check_transposed(){
             }
         }
     }
+
+    ok = ok && mat.storedElementsCount() == 6;
+    ok = ok && mat2.storedElementsCount() == 6;
+
     return ok;
 }
 
@@ -292,6 +297,9 @@ bool matrix_array_container_retrieveAt(){
             }
         }
     }
+
+    ok = ok && mat.storedElementsCount() == 6;
+
     return ok;
 }
 /*
@@ -336,6 +344,10 @@ bool matrix_array_container_retrieveAt_transposed(){
             }
         }
     }
+
+    ok = ok && mat.storedElementsCount() == 6;
+    ok = ok && mat2.storedElementsCount() == 6;
+
     return ok;
 }
 
@@ -357,6 +369,9 @@ bool matrix_array_container_insertAt_and_check(){
             }
         }
     }
+
+    ok = ok && mat.storedElementsCount() == 6;
+
     return ok;
 }
 /*
@@ -400,6 +415,10 @@ bool matrix_array_container_insertAt_and_check_transposed(){
             }
         }
     }
+
+    ok = ok && mat.storedElementsCount() == 6;
+    ok = ok && mat2.storedElementsCount() == 6;
+
     return ok;
 }
 
@@ -420,6 +439,9 @@ bool matrix_array_container_copy_constructor_copies_all(){
             ok = (mat1.retrieveAt(i,j) == matCopy.retrieveAt(i,j));
         }
     }
+
+    ok = ok && mat1.storedElementsCount() == 20;
+    ok = ok && matCopy.storedElementsCount() == 20;
 
     return ok;
 }
@@ -444,6 +466,9 @@ bool matrix_array_container_assign_operator_copies_all(){
         }
     }
 
+    ok = ok && mat1.storedElementsCount() == 20;
+    ok = ok && matCopy.storedElementsCount() == 20;
+
     return ok;
 }
 
@@ -465,6 +490,9 @@ bool matrix_array_container_copy_constructor_passing_transposed_copies_all(){
             ok = (mat1.retrieveAt(i,j) == matCopy.retrieveAt(j,i));
         }
     }
+
+    ok = ok && mat1.storedElementsCount() == 20;
+    ok = ok && matCopy.storedElementsCount() == 20;
 
     return ok;
 }
@@ -489,6 +517,9 @@ bool matrix_array_container_assign_operator_passing_transposed_copies_all(){
             ok = (mat1.retrieveAt(i,j) == matCopy.retrieveAt(j,i));
         }
     }
+
+    ok = ok && mat1.storedElementsCount() == 20;
+    ok = ok && matCopy.storedElementsCount() == 20;
 
     return ok;
 }
@@ -607,6 +638,9 @@ bool matrix_array_container_array_container_dot_doesnt_change_vectors_values(){
         }
     }
 
+    ok = ok && mat1.storedElementsCount() == 5;
+    ok = ok && mat2.storedElementsCount() == 5;
+
     return ok;
 }
 
@@ -627,6 +661,8 @@ bool matrix_array_container_array_container_multiplication(){
     ok = (  mat3.retrieveAt(0,0) == 70.0f &&
             mat3.retrieveAt(1,0) == 142.0f);
     
+    ok = ok && mat1.storedElementsCount() == 6;
+    ok = ok && mat2.storedElementsCount() == 3;
 
     return ok;
 }
@@ -661,7 +697,7 @@ bool matrix_array_container_array_container_multiplication_doesnt_change_matrice
 
 bool matrix_map_container_Creation(){
     Matrix<float,1, 2, std::map<size_t, float>> mat;
-    return true;
+    return mat.storedElementsCount() == 0;
 }
 
 bool matrix_map_container_Get_Size(){
@@ -700,6 +736,9 @@ bool matrix_map_container_at_in_uninitialized_matrix(){
             ok = mat.at(i,j) == 0.0f;
         }
     }
+
+    ok = ok && mat.storedElementsCount() == 6;
+
     return ok;
 }
 //bool matrix_map_container_isTransposed_rvalue();
@@ -723,6 +762,9 @@ bool matrix_map_container_set_value_at_and_check(){
             }
         }
     }
+
+    ok = ok && mat.storedElementsCount() == 6;
+
     return ok;
 }
 /*
@@ -750,7 +792,7 @@ bool matrix_map_container_set_value_at_and_check_logic_transposed(){
 
 bool matrix_map_container_set_value_at_and_check_transposed(){
     bool ok =true;
-    Matrix<float,3,2> mat;
+    Matrix<float,3,2, map<size_t, float>> mat;
     mat.at(2,1)= 21.0f;
     mat.at(1,0)= 10.0f;
     Matrix<float,2,3, map<size_t, float>> mat2 = mat.transposed<map<size_t, float>>();
@@ -767,6 +809,10 @@ bool matrix_map_container_set_value_at_and_check_transposed(){
             }
         }
     }
+
+    ok = ok && mat.storedElementsCount() == 2;
+    ok = ok && mat2.storedElementsCount() == 6;
+
     return ok;
 }
 
@@ -788,6 +834,9 @@ bool matrix_map_container_retrieveAt(){
             }
         }
     }
+
+    ok = ok && mat.storedElementsCount() == 2;
+
     return ok;
 }
 /*
@@ -832,6 +881,10 @@ bool matrix_map_container_retrieveAt_transposed(){
             }
         }
     }
+
+    ok = ok && mat.storedElementsCount() == 2;
+    ok = ok && mat2.storedElementsCount() == 2;
+
     return ok;
 }
 
@@ -853,6 +906,9 @@ bool matrix_map_container_insertAt_and_check(){
             }
         }
     }
+
+    ok = ok && mat.storedElementsCount() == 2;
+
     return ok;
 }
 /*
@@ -896,5 +952,9 @@ bool matrix_map_container_insertAt_and_check_transposed(){
             }
         }
     }
+
+    ok = ok && mat.storedElementsCount() == 2;
+    ok = ok && mat2.storedElementsCount() == 2;
+    
     return ok;
 }
