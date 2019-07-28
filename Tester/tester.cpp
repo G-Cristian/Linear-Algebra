@@ -78,6 +78,14 @@ bool matrix_map_container_retrieveAt_transposed();
 bool matrix_map_container_insertAt_and_check();
 //bool matrix_map_container_insertAt_and_check_logic_transposed();
 bool matrix_map_container_insertAt_and_check_transposed();
+bool matrix_map_container_copy_constructor_copies_all();
+bool matrix_map_container_assign_operator_copies_all();
+bool matrix_map_container_copy_constructor_passing_transposed_copies_all();
+bool matrix_map_container_assign_operator_passing_transposed_copies_all();
+bool matrix_map_container_copy_constructor_copies_by_value();
+bool matrix_map_container_assign_operator_copies_by_value();
+bool matrix_map_container_storedElementsCount();
+bool matrix_map_container_inserting_zero_with_insertAt_doesnt_store_value_or_removes_stored_value_if_not_equal_zero();
 
 int main(){
     int passedTests = 0;
@@ -136,6 +144,14 @@ int main(){
     RUN_TEST(matrix_map_container_insertAt_and_check, passedTests, failedTests);
     //RUN_TEST(matrix_map_container_insertAt_and_check_logic_transposed, passedTests, failedTests);
     RUN_TEST(matrix_map_container_insertAt_and_check_transposed, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_copy_constructor_copies_all, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_assign_operator_copies_all, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_copy_constructor_passing_transposed_copies_all, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_assign_operator_passing_transposed_copies_all, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_copy_constructor_copies_by_value, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_assign_operator_copies_by_value, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_storedElementsCount, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_inserting_zero_with_insertAt_doesnt_store_value_or_removes_stored_value_if_not_equal_zero, passedTests, failedTests);
     
     cout << endl << "-----------------" << endl;
     cout << "Total tests: " << passedTests +  failedTests << endl;
@@ -956,5 +972,200 @@ bool matrix_map_container_insertAt_and_check_transposed(){
     ok = ok && mat.storedElementsCount() == 2;
     ok = ok && mat2.storedElementsCount() == 2;
     
+    return ok;
+}
+
+bool matrix_map_container_copy_constructor_copies_all(){
+    bool ok = true;
+    Matrix<float,4,5,map<size_t,float>> mat1;
+    mat1.at(0,0) = 1.0f;
+    mat1.insertValueAtRowColumn(34.0f,3,4);
+    Matrix<float,4,5,map<size_t,float>> matCopy(mat1);
+
+    ok =    (mat1.size() == matCopy.size()) &&
+            (mat1.rows() == matCopy.rows()) &&
+            (mat1.columns() == matCopy.columns())/*&&
+            (mat1.isTransposed() == matCopy.isTransposed())*/;
+    
+    for(int i=0; i < 4 && ok; ++i){
+        for(int j=0; j < 5 && ok; ++j){
+            ok = (mat1.retrieveAt(i,j) == matCopy.retrieveAt(i,j));
+        }
+    }
+
+    ok = ok && mat1.storedElementsCount() == 2;
+    ok = ok && matCopy.storedElementsCount() == 2;
+
+    return ok;
+}
+
+bool matrix_map_container_assign_operator_copies_all(){
+    bool ok = true;
+    Matrix<float,4,5,map<size_t,float>> mat1;
+    mat1.at(0,0) = 1.0f;
+    mat1.insertValueAtRowColumn(34.0f,3,4);
+    Matrix<float,4,5,map<size_t,float>> matCopy;
+    matCopy.at(2,2) = 22.0f;
+
+    ok =    (mat1.storedElementsCount() == 2) &&
+            (matCopy.storedElementsCount() == 1);
+            
+    matCopy = mat1;
+
+    ok =    ok &&
+            (mat1.size() == matCopy.size()) &&
+            (mat1.rows() == matCopy.rows()) &&
+            (mat1.columns() == matCopy.columns())/* &&
+            (mat1.isTransposed() == matCopy.isTransposed())*/;
+    
+    for(int i=0; i < 4 && ok; ++i){
+        for(int j=0; j < 5 && ok; ++j){
+            ok = (mat1.retrieveAt(i,j) == matCopy.retrieveAt(i,j));
+        }
+    }
+
+    ok = ok && mat1.storedElementsCount() == 2;
+    ok = ok && matCopy.storedElementsCount() == 2;
+
+    return ok;
+}
+
+bool matrix_map_container_copy_constructor_passing_transposed_copies_all(){
+    bool ok = true;
+    Matrix<float,4,5,map<size_t,float>> mat1;
+    mat1.at(0,0) = 1.0f;
+    mat1.insertValueAtRowColumn(34.0f,3,4);
+    //Matrix<float,4,5> matCopy(mat1.logicTransposed());
+    Matrix<float,5,4,map<size_t,float>> matCopy(mat1.transposed<map<size_t,float>>());
+
+    ok =    (mat1.size() == matCopy.size()) &&
+            (mat1.rows() == matCopy.columns()) &&
+            (mat1.columns() == matCopy.rows())/* &&
+            (mat1.isTransposed() == !matCopy.isTransposed())*/;
+    
+    for(int i=0; i < 4 && ok; ++i){
+        for(int j=0; j < 5 && ok; ++j){
+            ok = (mat1.retrieveAt(i,j) == matCopy.retrieveAt(j,i));
+        }
+    }
+
+    ok = ok && mat1.storedElementsCount() == 2;
+    ok = ok && matCopy.storedElementsCount() == 2;
+
+    return ok;
+}
+
+bool matrix_map_container_assign_operator_passing_transposed_copies_all(){
+    bool ok = true;
+    Matrix<float,4,5,map<size_t,float>> mat1;
+    mat1.at(0,0) = 1.0f;
+    mat1.insertValueAtRowColumn(34.0f,3,4);
+    Matrix<float,5,4,map<size_t,float>> matCopy;
+    matCopy.at(2,2) = 22.0f;
+    //matCopy = mat1.logicTransposed();
+
+    ok =    (mat1.storedElementsCount() == 2) &&
+            (matCopy.storedElementsCount() == 1);
+
+    matCopy = mat1.transposed<map<size_t,float>>();
+
+    ok =    ok &&
+            (mat1.size() == matCopy.size()) &&
+            (mat1.rows() == matCopy.columns()) &&
+            (mat1.columns() == matCopy.rows()) /*&&
+            (mat1.isTransposed() == !matCopy.isTransposed())*/;
+    
+    for(int i=0; i < 4 && ok; ++i){
+        for(int j=0; j < 5 && ok; ++j){
+            ok = (mat1.retrieveAt(i,j) == matCopy.retrieveAt(j,i));
+        }
+    }
+
+    ok = ok && mat1.storedElementsCount() == 2;
+    ok = ok && matCopy.storedElementsCount() == 2;
+
+    return ok;
+}
+
+bool matrix_map_container_copy_constructor_copies_by_value(){
+    bool ok = true;
+    Matrix<float,4,5,map<size_t,float>> mat1;
+    mat1.at(0,0) = 1.0f;
+    mat1.insertValueAtRowColumn(34.0f,3,4);
+    Matrix<float,4,5,map<size_t,float>> matCopy(mat1);
+    matCopy.at(0,0) = 200.0f;
+    matCopy.insertValueAtRowColumn(800.0f,3,4);
+
+    for(int i=0; i < 4 && ok; ++i){
+        for(int j=0; j < 5 && ok; ++j){
+            if(i == 0 && j == 0){
+                ok = (mat1.retrieveAt(i,j) == 1.0f) && (matCopy.retrieveAt(i,j) == 200.0f);
+            }
+            else if(i == 3 && j == 4){
+                ok = (mat1.retrieveAt(i,j) == 34.0f) && (matCopy.retrieveAt(i,j) == 800.0f);
+            }
+            else{
+                ok = (mat1.retrieveAt(i,j) == 0.0f) && (matCopy.retrieveAt(i,j) == 0.0f);
+            }
+        }
+    }
+
+    return ok;
+}
+
+bool matrix_map_container_assign_operator_copies_by_value(){
+    bool ok = true;
+    Matrix<float,4,5,map<size_t,float>> mat1;
+    mat1.at(0,0) = 1.0f;
+    mat1.insertValueAtRowColumn(34.0f,3,4);
+    Matrix<float,4,5,map<size_t,float>> matCopy;
+    matCopy.at(2,2) = 22.0f;
+    matCopy = mat1;
+    matCopy.at(0,0) = 200.0f;
+    matCopy.insertValueAtRowColumn(800.0f,3,4);
+
+    for(int i=0; i < 4 && ok; ++i){
+        for(int j=0; j < 5 && ok; ++j){
+            if(i == 0 && j == 0){
+                ok = (mat1.retrieveAt(i,j) == 1.0f) && (matCopy.retrieveAt(i,j) == 200.0f);
+            }
+            else if(i == 3 && j == 4){
+                ok = (mat1.retrieveAt(i,j) == 34.0f) && (matCopy.retrieveAt(i,j) == 800.0f);
+            }
+            else{
+                ok = (mat1.retrieveAt(i,j) == 0.0f) && (matCopy.retrieveAt(i,j) == 0.0f);
+            }
+        }
+    }
+
+    return ok;
+}
+
+bool matrix_map_container_storedElementsCount(){
+    Matrix<float,4,5,map<size_t,float>> mat1;
+
+    return mat1.storedElementsCount() == 0;
+}
+
+bool matrix_map_container_inserting_zero_with_insertAt_doesnt_store_value_or_removes_stored_value_if_not_equal_zero(){
+    bool ok = true;
+    Matrix<float,3,3,map<size_t,float>> mat1;
+    mat1.at(0,0) = 0.0f;                    mat1.at(0,1) = 1.0f;                    mat1.at(0,2) = 2.0f;
+    mat1.insertValueAtRowColumn(2.0f,1,0);  mat1.insertValueAtRowColumn(0.0f,1,1);  mat1.insertValueAtRowColumn(1.0f,1,2);
+
+    ok =    mat1.retrieveAt(0,0) == 0.0f    &&  mat1.retrieveAt(0,1) == 1.0f    &&  mat1.retrieveAt(0,2) == 2.0f    &&
+            mat1.retrieveAt(1,0) == 2.0f    &&  mat1.retrieveAt(1,1) == 0.0f    &&  mat1.retrieveAt(1,2) == 1.0f    &&
+            mat1.retrieveAt(2,0) == 0.0f    &&  mat1.retrieveAt(2,1) == 0.0f    &&  mat1.retrieveAt(2,2) == 0.0f;
+    ok = ok && mat1.storedElementsCount() == 5;
+
+    mat1.insertValueAtRowColumn(0.0f,0,0);  mat1.insertValueAtRowColumn(0.0f,0,1);
+    mat1.insertValueAtRowColumn(0.0f,1,0);  mat1.at(1,1) = 0.0f;
+
+    ok =    ok  &&
+            mat1.retrieveAt(0,0) == 0.0f    &&  mat1.retrieveAt(0,1) == 0.0f    &&  mat1.retrieveAt(0,2) == 2.0f    &&
+            mat1.retrieveAt(1,0) == 0.0f    &&  mat1.retrieveAt(1,1) == 0.0f    &&  mat1.retrieveAt(1,2) == 1.0f    &&
+            mat1.retrieveAt(2,0) == 0.0f    &&  mat1.retrieveAt(2,1) == 0.0f    &&  mat1.retrieveAt(2,2) == 0.0f;
+    ok = ok && mat1.storedElementsCount() == 3;
+
     return ok;
 }
