@@ -56,6 +56,7 @@ bool matrix_array_container_array_container_dot_doesnt_change_vectors_values();
 bool matrix_array_container_array_container_multiplication();
 bool matrix_array_container_array_container_multiplication_doesnt_change_matrices_values();
 bool matrix_array_container_RowIterator();
+bool matrix_array_container_ConstRowIterator();
 
 /* ------------ Map container tests --------------- */
 
@@ -124,6 +125,7 @@ int main(){
     RUN_TEST(matrix_array_container_array_container_multiplication, passedTests, failedTests);
     RUN_TEST(matrix_array_container_array_container_multiplication_doesnt_change_matrices_values, passedTests, failedTests);
     RUN_TEST(matrix_array_container_RowIterator, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_ConstRowIterator, passedTests, failedTests);
 
     /* ------------ Map container tests --------------- */
     RUN_TEST(matrix_map_container_Creation, passedTests, failedTests);
@@ -733,6 +735,30 @@ bool matrix_array_container_RowIterator(){
     ok =    ok &&
             mat1.retrieveAt(0,0) == 5.0f && mat1.retrieveAt(0,1) == 6.0f && mat1.retrieveAt(0,2) == 7.0f &&
             mat1.retrieveAt(1,0) == 8.0f && mat1.retrieveAt(1,1) == 9.0f && mat1.retrieveAt(1,2) == 10.0f;
+
+    return ok && cantIt == 3;
+}
+
+bool matrix_array_container_ConstRowIterator(){
+    bool ok = true;
+    Matrix<float,2,3> mat1;
+
+    mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; mat1.at(0,2) = 4.0f;
+    mat1.at(1,0) = 8.0f; mat1.at(1,1) = 9.0f; mat1.at(1,2) = 10.0f;
+
+    const auto mat2(mat1);
+
+    auto end = mat2.rowIteratorEnd(0);
+
+    size_t cantIt = 0;
+    for(auto it = mat2.rowIteratorBegin(0); it != end; ++it){
+        ok =    ok &&
+                (((*it).first == 0 && (*it).second == 2.0f) ||
+                 ((*it).first == 1 && (*it).second == 3.0f) ||
+                 ((*it).first == 2 && (*it).second == 4.0f));
+        // not allowed because it's a const iterator (*it).second += 3.0f;
+        ++cantIt;
+    }
 
     return ok && cantIt == 3;
 }
