@@ -131,22 +131,22 @@ public:
 
     //returns a ConstRowIterator for the begining of the row at 'rowIndex'
     ConstRowIterator<T, ColumnsN, Container> rowIteratorBegin(size_t rowIndex) const{
-        return ConstRowIterator<T,ColumnsN, Container>(&(_mat[rowIndex]),0);
+        return ConstRowIterator<T,ColumnsN, Container>::begin(&(_mat[rowIndex]));
     }
 
     //returns a RowIterator for the begining of the row at 'rowIndex'
     RowIterator<T, ColumnsN, Container> rowIteratorBegin(size_t rowIndex){
-        return RowIterator<T,ColumnsN, Container>(&(_mat[rowIndex]),0);
+        return RowIterator<T,ColumnsN, Container>::begin(&(_mat[rowIndex]));
     }
 
     //returns a ConstRowIterator for the ending of the row at 'rowIndex'
     ConstRowIterator<T, ColumnsN, Container> rowIteratorEnd(size_t rowIndex) const{
-        return ConstRowIterator<T,ColumnsN, Container>(&(_mat[rowIndex]),ColumnsN);
+        return ConstRowIterator<T,ColumnsN, Container>::end(&(_mat[rowIndex]));
     }
 
     //returns a RowIterator for the ending of the row at 'rowIndex'
     RowIterator<T, ColumnsN, Container> rowIteratorEnd(size_t rowIndex){
-        return RowIterator<T,ColumnsN, Container>(&(_mat[rowIndex]),ColumnsN);
+        return RowIterator<T,ColumnsN, Container>::end(&(_mat[rowIndex]));
     }
 
     /* ----- FRIENDS ----- */
@@ -199,6 +199,14 @@ class RowIterator<T, ColumnsN, T[ColumnsN]>{
 public:
     typedef T Container[ColumnsN];
 
+    static RowIterator begin(Container *row){
+        return RowIterator(row, 0);
+    }
+
+    static RowIterator end(Container *row){
+        return RowIterator(row, ColumnsN);
+    }
+
     RowIterator(const RowIterator &ri):
         _row(ri._row),
         _index(ri._index){
@@ -227,10 +235,7 @@ private:
         _index(index){
     }
 
-    /* ----- FRIENDS ----- */
-
-    template<typename, size_t, size_t, typename>
-    friend class Matrix;
+    /* ----- MEMBERS ----- */
 
     Container *_row;
     size_t _index;
@@ -242,6 +247,14 @@ template<typename T, size_t ColumnsN>
 class ConstRowIterator<T, ColumnsN, T[ColumnsN]>{
 public:
     typedef T Container[ColumnsN];
+
+    static ConstRowIterator begin(const Container *row){
+        return ConstRowIterator(row, 0);
+    }
+
+    static ConstRowIterator end(const Container *row){
+        return ConstRowIterator(row, ColumnsN);
+    }
 
     ConstRowIterator(const ConstRowIterator &ri):
         _row(ri._row),
@@ -271,13 +284,104 @@ private:
         _index(index){
     }
 
-    /* ----- FRIENDS ----- */
-
-    template<typename, size_t, size_t, typename>
-    friend class Matrix;
+    /* ----- MEMBERS ----- */
 
     const Container *_row;
     size_t _index;
+};
+
+/* ----- ROWITERATOR (map) ----- */
+
+template<typename T, size_t ColumnsN>
+class RowIterator<T, ColumnsN, std::map<size_t, T>>{
+public:
+    typedef std::map<size_t, T> Container;
+    typedef typename std::map<size_t, T>::iterator iterator;
+
+    static RowIterator begin(Container *row){
+        return RowIterator(row->begin());
+    }
+
+    static RowIterator end(Container *row){
+        return RowIterator(row->end());
+    }
+
+    RowIterator(const RowIterator &ri):
+        _it(ri._it){
+    }
+
+    RowIterator& operator++(){
+        ++_it;
+        return *this;
+    }
+
+    std::pair<size_t, T&> operator*(){
+        return { _it->first, _it->second };
+    }
+
+    bool operator==(const RowIterator &rho)const{
+        return _it == rho._it;
+    }
+
+    bool operator!=(const RowIterator &rho)const{
+        return !(*this == rho);
+    }
+    
+private:
+    explicit RowIterator(const iterator & it):
+        _it(it){
+    }
+
+    /* ----- MEMBERS ----- */
+
+    iterator _it;
+};
+
+/* ----- CONSTROWITERATOR (map) ----- */
+
+template<typename T, size_t ColumnsN>
+class ConstRowIterator<T, ColumnsN, std::map<size_t, T>>{
+public:
+    typedef std::map<size_t, T> Container;
+    typedef typename std::map<size_t, T>::const_iterator constIterator;
+
+    static ConstRowIterator begin(const Container *row){
+        return ConstRowIterator(row->begin());
+    }
+
+    static ConstRowIterator end(const Container *row){
+        return ConstRowIterator(row->end());
+    }
+
+    ConstRowIterator(const ConstRowIterator &ri):
+        _it(ri._it){
+    }
+
+    ConstRowIterator& operator++(){
+        ++_it;
+        return *this;
+    }
+
+    std::pair<size_t, const T&> operator*(){
+        return { _it->first, _it->second };
+    }
+
+    bool operator==(const ConstRowIterator &rho)const{
+        return _it == rho._it;
+    }
+
+    bool operator!=(const ConstRowIterator &rho)const{
+        return !(*this == rho);
+    }
+    
+private:
+    explicit ConstRowIterator(const constIterator & it):
+        _it(it){
+    }
+
+    /* ----- MEMBERS ----- */
+
+    constIterator _it;
 };
 
 /* ----- DEFINITIONS ----- */
