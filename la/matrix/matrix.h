@@ -18,6 +18,9 @@ void multiplyRow(const T(&row)[ColumnsN], const Matrix<T,ColumnsN,ColumnsN_2,Con
 template<typename T, size_t ColumnsN, typename Container1>
 T dot(const Matrix<T, 1, ColumnsN, Container1>&, const Matrix<T, 1, ColumnsN, T[ColumnsN]>&);
 
+template<typename, size_t, typename> class RowIterator;
+template<typename, size_t, typename> class ConstRowIterator;
+
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container=T[ColumnsN]>
 class Matrix{
 public:
@@ -122,6 +125,22 @@ public:
         return elements;
     }
 
+    /* ----- ITERATORS OPERATIONS ----- */
+
+    //returns a ConstRowIterator for the begining of the row at 'rowIndex'
+    ConstRowIterator<T, ColumnsN, Container> rowIteratorBegin(size_t rowIndex) const;
+    //returns a RowIterator for the begining of the row at 'rowIndex'
+    RowIterator<T, ColumnsN, Container> rowIteratorBegin(size_t rowIndex){
+        return RowIterator<T,ColumnsN, Container>(&(_mat[rowIndex]),0);
+    }
+
+    //returns a ConstRowIterator for the ending of the row at 'rowIndex'
+    ConstRowIterator<T, ColumnsN, Container> rowIteratorEnd(size_t rowIndex) const;
+    //returns a RowIterator for the ending of the row at 'rowIndex'
+    RowIterator<T, ColumnsN, Container> rowIteratorEnd(size_t rowIndex){
+        return RowIterator<T,ColumnsN, Container>(&(_mat[rowIndex]),ColumnsN);
+    }
+
     /* ----- FRIENDS ----- */
 
     /* ----- OPERATORS ----- */
@@ -165,7 +184,53 @@ private:
     Container _mat[RowsN];
 };
 
+template<typename T, size_t ColumnsN>
+class RowIterator<T, ColumnsN, T[ColumnsN]>{
+public:
+    typedef T Container[ColumnsN];
+
+    RowIterator(const RowIterator &ri):
+        _row(ri._row),
+        _index(ri._index){
+    }
+
+    RowIterator& operator++(){
+        ++_index;
+        return *this;
+    }
+
+    std::pair<size_t, T&> operator*(){
+        return {_index, (*_row)[_index]};
+    }
+
+    bool operator==(const RowIterator &rho)const{
+        return _row == rho._row && _index == rho._index;
+    }
+
+    bool operator!=(const RowIterator &rho)const{
+        return !(*this == rho);
+    }
+    
+private:
+    explicit RowIterator(Container *row, size_t index):
+        _row(row),
+        _index(index){
+    }
+
+    /* ----- FRIENDS ----- */
+
+    template<typename, size_t, size_t, typename>
+    friend class Matrix;
+
+    Container *_row;
+    size_t _index;
+};
+
 /* ----- DEFINITIONS ----- */
+
+/* ----- ROWITERATOR (Array) DEFINITIONS ----- */
+
+/* ----- MATRIX DEFINITIONS ----- */
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 Matrix<T, RowsN, ColumnsN, Container>::Matrix(){
