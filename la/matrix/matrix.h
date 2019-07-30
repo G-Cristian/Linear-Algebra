@@ -15,8 +15,8 @@ template<typename , size_t, size_t, typename> class Matrix;
 template<typename T, size_t ColumnsN, size_t ColumnsN_2, typename Container_2>
 void multiplyRow(const T(&row)[ColumnsN], const Matrix<T,ColumnsN,ColumnsN_2,Container_2> &mat2, T(&ret)[ColumnsN_2]);
 
-template<typename T, size_t ColumnsN, typename Container1>
-T dot(const Matrix<T, 1, ColumnsN, Container1>&, const Matrix<T, 1, ColumnsN, T[ColumnsN]>&);
+template<typename T, size_t ColumnsN, typename Container1, typename Container2>
+T dot(const Matrix<T, 1, ColumnsN, Container1>&, const Matrix<T, 1, ColumnsN, Container2>&);
 
 template<typename, size_t, typename> class RowIterator;
 template<typename, size_t, typename> class ConstRowIterator;
@@ -159,8 +159,6 @@ public:
     friend Matrix<U, RowsN_1, ColumnsN_2, Container_2> operator*(const Matrix<U, RowsN_1, ColumnsN_1, Container_1>&, const Matrix<U, ColumnsN_1, ColumnsN_2, Container_2>&);
 
     //Vector operations
-
-    friend T dot<>(const Matrix<T, 1, ColumnsN, Container>&, const Matrix<T, 1, ColumnsN, T[ColumnsN]>&);
 
 private:
     /* ----- UTILITIES ----- */
@@ -491,13 +489,13 @@ void multiplyRow(const T(&row)[ColumnsN], const Matrix<T,ColumnsN,ColumnsN_2,Con
 // returns the dot product of two vectors
 // It will always return the dot product as long as you provide two matrix with RowsN == 1 and same ColumnsN
 // If what is intended is the matrix product use the matrix operator*
-template<typename T, size_t ColumnsN, typename Container1>
-T dot(const Matrix<T, 1, ColumnsN, Container1> &v1, const Matrix<T, 1, ColumnsN, T[ColumnsN]> &v2){
+template<typename T, size_t ColumnsN, typename Container1, typename Container2>
+T dot(const Matrix<T, 1, ColumnsN, Container1> &v1, const Matrix<T, 1, ColumnsN, Container2> &v2){
     T sum = T();
-    const T* row_v2 = v2._mat[0];
+    auto endIt = v1.rowIteratorEnd(0);
 
-    for(size_t c = 0; c < ColumnsN; ++c){
-        sum += (row_v2[c] * v1.retrieveAt(0,c));
+    for(auto it = v1.rowIteratorBegin(0); it != endIt; ++it){
+        sum += ((*it).second * v2.retrieveAt(0,(*it).first));
     }
 
     return sum;

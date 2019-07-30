@@ -87,6 +87,12 @@ bool matrix_map_container_assign_operator_passing_transposed_copies_all();
 bool matrix_map_container_copy_constructor_copies_by_value();
 bool matrix_map_container_assign_operator_copies_by_value();
 bool matrix_map_container_storedElementsCount();
+bool matrix_map_container_map_container_dot();
+bool matrix_map_container_map_container_dot_doesnt_change_vectors_values();
+bool matrix_array_container_map_container_dot();
+bool matrix_array_container_map_container_dot_doesnt_change_vectors_values();
+bool matrix_map_container_array_container_dot();
+bool matrix_map_container_array_container_dot_doesnt_change_vectors_values();
 bool matrix_map_container_inserting_zero_with_insertAt_doesnt_store_value_or_removes_stored_value_if_not_equal_zero();
 bool matrix_map_container_RowIterator();
 bool matrix_map_container_ConstRowIterator();
@@ -157,6 +163,12 @@ int main(){
     RUN_TEST(matrix_map_container_copy_constructor_copies_by_value, passedTests, failedTests);
     RUN_TEST(matrix_map_container_assign_operator_copies_by_value, passedTests, failedTests);
     RUN_TEST(matrix_map_container_storedElementsCount, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_map_container_dot, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_map_container_dot_doesnt_change_vectors_values, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_map_container_dot, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_map_container_dot_doesnt_change_vectors_values, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_array_container_dot, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_array_container_dot_doesnt_change_vectors_values, passedTests, failedTests);
     RUN_TEST(matrix_map_container_inserting_zero_with_insertAt_doesnt_store_value_or_removes_stored_value_if_not_equal_zero, passedTests, failedTests);
     RUN_TEST(matrix_map_container_RowIterator, passedTests, failedTests);
     RUN_TEST(matrix_map_container_ConstRowIterator, passedTests, failedTests);
@@ -1207,6 +1219,186 @@ bool matrix_map_container_storedElementsCount(){
     Matrix<float,4,5,map<size_t,float>> mat1;
 
     return mat1.storedElementsCount() == 0;
+}
+
+bool matrix_map_container_map_container_dot(){
+    Matrix<float,1,5,map<size_t,float>> mat1;
+    Matrix<float,1,5,map<size_t,float>> mat2;
+
+    mat1.at(0,0) = 2.0f;
+    mat2.at(0,0) = 5.0f;
+
+    mat1.at(0,2) = 8.0f;
+
+    mat2.at(0,3) = 15.0f;
+
+    mat1.at(0,4) = 13.0f;
+    mat2.at(0,4) = 10.0f;
+
+    return dot(mat1,mat2) == 140.0f;
+}
+
+bool matrix_map_container_map_container_dot_doesnt_change_vectors_values(){
+    bool ok = true;
+    Matrix<float,1,5,map<size_t,float>> mat1;
+    Matrix<float,1,5,map<size_t,float>> mat2;
+
+    mat1.at(0,0) = 2.0f;
+    mat2.at(0,0) = 5.0f;
+
+    mat1.at(0,2) = 8.0f;
+
+    mat2.at(0,3) = 15.0f;
+
+    mat1.at(0,4) = 13.0f;
+    mat2.at(0,4) = 10.0f;
+
+    float dotVal = dot(mat1,mat2);
+
+    ok = (dotVal == 140.0f);
+
+    for(int j=0; j < 5 && ok; ++j){
+        if(j == 0){
+            ok = (mat1.retrieveAt(0,j) == 2.0f) && (mat2.retrieveAt(0,j) == 5.0f);
+        }
+        else if(j == 2){
+            ok = (mat1.retrieveAt(0,j) == 8.0f) && (mat2.retrieveAt(0,j) == 0.0f);
+        }
+        else if(j == 3){
+            ok = (mat1.retrieveAt(0,j) == 0.0f) && (mat2.retrieveAt(0,j) == 15.0f);
+        }
+        else if(j == 4){
+            ok = (mat1.retrieveAt(0,j) == 13.0f) && (mat2.retrieveAt(0,j) == 10.0f);
+        }
+        else{
+            ok = (mat1.retrieveAt(0,j) == 0.0f) && (mat2.retrieveAt(0,j) == 0.0f);
+        }
+    }
+
+    ok = ok && mat1.storedElementsCount() == 3;
+    ok = ok && mat2.storedElementsCount() == 3;
+
+    return ok;
+}
+
+bool matrix_array_container_map_container_dot(){
+    Matrix<float,1,5> mat1;
+    Matrix<float,1,5,map<size_t,float>> mat2;
+
+    mat1.at(0,0) = 2.0f;
+    mat2.at(0,0) = 5.0f;
+
+    mat1.at(0,2) = 8.0f;
+
+    mat2.at(0,3) = 15.0f;
+
+    mat1.at(0,4) = 13.0f;
+    mat2.at(0,4) = 10.0f;
+
+    return dot(mat1,mat2) == 140.0f;
+}
+
+bool matrix_array_container_map_container_dot_doesnt_change_vectors_values(){
+    bool ok = true;
+    Matrix<float,1,5> mat1;
+    Matrix<float,1,5,map<size_t,float>> mat2;
+
+    mat1.at(0,0) = 2.0f;
+    mat2.at(0,0) = 5.0f;
+
+    mat1.at(0,2) = 8.0f;
+
+    mat2.at(0,3) = 15.0f;
+
+    mat1.at(0,4) = 13.0f;
+    mat2.at(0,4) = 10.0f;
+
+    float dotVal = dot(mat1,mat2);
+
+    ok = (dotVal == 140.0f);
+
+    for(int j=0; j < 5 && ok; ++j){
+        if(j == 0){
+            ok = (mat1.retrieveAt(0,j) == 2.0f) && (mat2.retrieveAt(0,j) == 5.0f);
+        }
+        else if(j == 2){
+            ok = (mat1.retrieveAt(0,j) == 8.0f) && (mat2.retrieveAt(0,j) == 0.0f);
+        }
+        else if(j == 3){
+            ok = (mat1.retrieveAt(0,j) == 0.0f) && (mat2.retrieveAt(0,j) == 15.0f);
+        }
+        else if(j == 4){
+            ok = (mat1.retrieveAt(0,j) == 13.0f) && (mat2.retrieveAt(0,j) == 10.0f);
+        }
+        else{
+            ok = (mat1.retrieveAt(0,j) == 0.0f) && (mat2.retrieveAt(0,j) == 0.0f);
+        }
+    }
+
+    ok = ok && mat1.storedElementsCount() == 5;
+    ok = ok && mat2.storedElementsCount() == 3;
+
+    return ok;
+}
+
+bool matrix_map_container_array_container_dot(){
+    Matrix<float,1,5,map<size_t,float>> mat1;
+    Matrix<float,1,5> mat2;
+
+    mat1.at(0,0) = 2.0f;
+    mat2.at(0,0) = 5.0f;
+
+    mat1.at(0,2) = 8.0f;
+
+    mat2.at(0,3) = 15.0f;
+
+    mat1.at(0,4) = 13.0f;
+    mat2.at(0,4) = 10.0f;
+
+    return dot(mat1,mat2) == 140.0f;
+}
+
+bool matrix_map_container_array_container_dot_doesnt_change_vectors_values(){
+    bool ok = true;
+    Matrix<float,1,5,map<size_t,float>> mat1;
+    Matrix<float,1,5> mat2;
+
+    mat1.at(0,0) = 2.0f;
+    mat2.at(0,0) = 5.0f;
+
+    mat1.at(0,2) = 8.0f;
+
+    mat2.at(0,3) = 15.0f;
+
+    mat1.at(0,4) = 13.0f;
+    mat2.at(0,4) = 10.0f;
+
+    float dotVal = dot(mat1,mat2);
+
+    ok = (dotVal == 140.0f);
+
+    for(int j=0; j < 5 && ok; ++j){
+        if(j == 0){
+            ok = (mat1.retrieveAt(0,j) == 2.0f) && (mat2.retrieveAt(0,j) == 5.0f);
+        }
+        else if(j == 2){
+            ok = (mat1.retrieveAt(0,j) == 8.0f) && (mat2.retrieveAt(0,j) == 0.0f);
+        }
+        else if(j == 3){
+            ok = (mat1.retrieveAt(0,j) == 0.0f) && (mat2.retrieveAt(0,j) == 15.0f);
+        }
+        else if(j == 4){
+            ok = (mat1.retrieveAt(0,j) == 13.0f) && (mat2.retrieveAt(0,j) == 10.0f);
+        }
+        else{
+            ok = (mat1.retrieveAt(0,j) == 0.0f) && (mat2.retrieveAt(0,j) == 0.0f);
+        }
+    }
+
+    ok = ok && mat1.storedElementsCount() == 3;
+    ok = ok && mat2.storedElementsCount() == 5;
+
+    return ok;
 }
 
 bool matrix_map_container_inserting_zero_with_insertAt_doesnt_store_value_or_removes_stored_value_if_not_equal_zero(){
