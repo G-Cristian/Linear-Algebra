@@ -8,12 +8,16 @@
 template<typename , size_t, size_t, typename> class Matrix;
 
 // return the matrix multiplication.
-// The container type used for the returned matrix is the same type as the one used for the second matrix.
-//template<typename T, size_t RowsN_1, size_t ColumnsN_1, typename Container_1, size_t ColumnsN_2, typename Container_2>
-//Matrix<T, RowsN_1, ColumnsN_2, Container_2> operator*(const Matrix<T, RowsN_1, ColumnsN_1, Container_1>&, const Matrix<T, ColumnsN_1, ColumnsN_2, Container_2>&);
+// The container type used for the returned matrix is is an array.
+template<typename T, size_t RowsN_1, size_t ColumnsN_1, size_t ColumnsN_2, typename Container_2>
+Matrix<T, RowsN_1, ColumnsN_2, T[ColumnsN_2]> operator*(const Matrix<T, RowsN_1, ColumnsN_1, T[ColumnsN_1]>&, const Matrix<T, ColumnsN_1, ColumnsN_2, Container_2>&);
+// return the matrix multiplication.
+// The container type used for the returned matrix is the same type as the one used for the first matrix.
+template<typename T, size_t RowsN_1, size_t ColumnsN_1, typename Container_1, size_t ColumnsN_2, typename Container_2>
+Matrix<T, RowsN_1, ColumnsN_2, Container_1> operator*(const Matrix<T, RowsN_1, ColumnsN_1, Container_1>&, const Matrix<T, ColumnsN_1, ColumnsN_2, Container_2>&);
 
-template<typename T, size_t ColumnsN, size_t ColumnsN_2, typename Container_2>
-void multiplyRow(const T(&row)[ColumnsN], const Matrix<T,ColumnsN,ColumnsN_2,Container_2> &mat2, T(&ret)[ColumnsN_2]);
+//template<typename T, size_t ColumnsN, size_t ColumnsN_2, typename Container_2>
+//void multiplyRow(const T(&row)[ColumnsN], const Matrix<T,ColumnsN,ColumnsN_2,Container_2> &mat2, T(&ret)[ColumnsN_2]);
 
 template<typename T, size_t ColumnsN, typename Container1, typename Container2>
 T dot(const Matrix<T, 1, ColumnsN, Container1>&, const Matrix<T, 1, ColumnsN, Container2>&);
@@ -152,11 +156,6 @@ public:
     /* ----- FRIENDS ----- */
 
     /* ----- OPERATORS ----- */
-
-    // return the matrix multiplication.
-    // The container type used for the returned matrix is the same type as the one used for the second matrix.
-    template<typename U, size_t RowsN_1, size_t ColumnsN_1, typename Container_1, size_t ColumnsN_2, typename Container_2>
-    friend Matrix<U, RowsN_1, ColumnsN_2, Container_2> operator*(const Matrix<U, RowsN_1, ColumnsN_1, Container_1>&, const Matrix<U, ColumnsN_1, ColumnsN_2, Container_2>&);
 
     //Vector operations
 
@@ -464,24 +463,54 @@ void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowIndex(const T &value
     }
 }
 
-template<typename U, size_t RowsN_1, size_t ColumnsN_1, typename Container_1, size_t ColumnsN_2, typename Container_2>
-Matrix<U, RowsN_1, ColumnsN_2, Container_2> operator*(const Matrix<U, RowsN_1, ColumnsN_1, Container_1> &mat1, const Matrix<U, ColumnsN_1, ColumnsN_2, Container_2> &mat2){
-    Matrix<U, RowsN_1, ColumnsN_2, Container_2> ret;
-
-    for(size_t row = 0; row < RowsN_1; ++row){
-        multiplyRow(mat1._mat[row], mat2, ret._mat[row]);
+template<typename U, size_t RowsN_1, size_t ColumnsN_1, size_t ColumnsN_2, typename Container_2>
+Matrix<U, RowsN_1, ColumnsN_2, U[ColumnsN_2]> operator*(const Matrix<U, RowsN_1, ColumnsN_1, U[ColumnsN_1]> &mat1, const Matrix<U, ColumnsN_1, ColumnsN_2, Container_2> &mat2){
+    Matrix<U, RowsN_1, ColumnsN_2, U[ColumnsN_2]> ret;
+    // for each row in mat 1
+    for(size_t row1 = 0; row1 < RowsN_1; ++row1){    
+        //multiplyRow(mat1._mat[row], mat2, ret._mat[row]);
+        auto endRow1It = mat1.rowIteratorEnd(row1);
+        // grab stored values in current row of mat1
+        for(auto row1It = mat1.rowIteratorBegin(row1); row1It != endRow1It; ++row1It){
+            auto endRow2It = mat2.rowIteratorEnd((*row1It).first);
+            // grab stored values in the corresponding row of mat2
+            for(auto row2It = mat2.rowIteratorBegin((*row1It).first); row2It != endRow2It; ++row2It){
+                // multiply the corresponding value of the row of mat1 with the corresponding value of the row of mat2
+                // and add that value to the temp row in the corresponding position
+                ret.at(row1,(*row2It).first)+=((*row1It).second*(*row2It).second);
+            }
+        }
     }
 
     return ret;
 }
 
-template<typename T, size_t ColumnsN, size_t ColumnsN_2, typename Container_2>
-void multiplyRow(const T(&row)[ColumnsN], const Matrix<T,ColumnsN,ColumnsN_2,Container_2> &mat2, T(&ret)[ColumnsN_2]){
-    for(size_t c2 = 0; c2 < ColumnsN_2; ++c2){
-        for(size_t c = 0; c < ColumnsN; ++c){
-            ret[c2] += row[c]*mat2.retrieveAt(c,c2);
+template<typename U, size_t RowsN_1, size_t ColumnsN_1, typename Container_1, size_t ColumnsN_2, typename Container_2>
+Matrix<U, RowsN_1, ColumnsN_2, Container_1> operator*(const Matrix<U, RowsN_1, ColumnsN_1, Container_1> &mat1, const Matrix<U, ColumnsN_1, ColumnsN_2, Container_2> &mat2){
+    Matrix<U, RowsN_1, ColumnsN_2, Container_1> ret;
+    // for each row in mat 1
+    for(size_t row1 = 0; row1 < RowsN_1; ++row1){    
+        //multiplyRow(mat1._mat[row], mat2, ret._mat[row]);
+        auto endRow1It = mat1.rowIteratorEnd(row1);
+        std::vector<U> tmpRow(ColumnsN_2, 0);
+        // grab stored values in current row of mat1
+        for(auto row1It = mat1.rowIteratorBegin(row1); row1It != endRow1It; ++row1It){
+            auto endRow2It = mat2.rowIteratorEnd((*row1It).first);
+            // grab stored values in the corresponding row of mat2
+            for(auto row2It = mat2.rowIteratorBegin((*row1It).first); row2It != endRow2It; ++row2It){
+                // multiply the corresponding value of the row of mat1 with the corresponding value of the row of mat2
+                // and add that value to the temp row in the corresponding position
+                tmpRow[(*row2It).first]+=((*row1It).second*(*row2It).second);
+            }
+        }
+        // finally copy the tempRow to the corresponding row of the returned matrix
+        auto tmpRowSize = tmpRow.size();
+        for(size_t i = 0; i < tmpRowSize; ++i){
+            ret.insertValueAtRowColumn(tmpRow[i],row1, i);
         }
     }
+
+    return ret;
 }
 
 //Vector operations

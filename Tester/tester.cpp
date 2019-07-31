@@ -93,6 +93,8 @@ bool matrix_array_container_map_container_dot();
 bool matrix_array_container_map_container_dot_doesnt_change_vectors_values();
 bool matrix_map_container_array_container_dot();
 bool matrix_map_container_array_container_dot_doesnt_change_vectors_values();
+bool matrix_map_container_map_container_multiplication();
+bool matrix_map_container_map_container_multiplication_doesnt_change_matrices_values();
 bool matrix_map_container_inserting_zero_with_insertAt_doesnt_store_value_or_removes_stored_value_if_not_equal_zero();
 bool matrix_map_container_RowIterator();
 bool matrix_map_container_ConstRowIterator();
@@ -169,6 +171,8 @@ int main(){
     RUN_TEST(matrix_array_container_map_container_dot_doesnt_change_vectors_values, passedTests, failedTests);
     RUN_TEST(matrix_map_container_array_container_dot, passedTests, failedTests);
     RUN_TEST(matrix_map_container_array_container_dot_doesnt_change_vectors_values, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_map_container_multiplication, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_map_container_multiplication_doesnt_change_matrices_values, passedTests, failedTests);
     RUN_TEST(matrix_map_container_inserting_zero_with_insertAt_doesnt_store_value_or_removes_stored_value_if_not_equal_zero, passedTests, failedTests);
     RUN_TEST(matrix_map_container_RowIterator, passedTests, failedTests);
     RUN_TEST(matrix_map_container_ConstRowIterator, passedTests, failedTests);
@@ -1397,6 +1401,59 @@ bool matrix_map_container_array_container_dot_doesnt_change_vectors_values(){
 
     ok = ok && mat1.storedElementsCount() == 3;
     ok = ok && mat2.storedElementsCount() == 5;
+
+    return ok;
+}
+
+bool matrix_map_container_map_container_multiplication(){
+    bool ok = false;
+    Matrix<float,2,3, map<size_t, float>> mat1;
+    Matrix<float,3,1, map<size_t, float>> mat2;
+
+    mat1.at(0,0) = 2.0f;  mat1.at(0,1) = 3.0f; /* mat1.at(0,2) = 4.0f;*/
+    mat1.at(1,0) = 5.0f; mat1.at(1,1) = 7.0f; mat1.at(1,2) = -8.0f;
+
+    //mat2.at(0,0) = 9.0f;
+    mat2.at(1,0) = 8.0f;
+    mat2.at(2,0) = 7.0f;
+
+    Matrix<float,2,1, map<size_t, float>> mat3 = mat1*mat2;
+
+    ok = (  mat3.retrieveAt(0,0) == 24.0f &&
+            mat3.retrieveAt(1,0) == 0.0f);
+    
+    ok = ok && mat1.storedElementsCount() == 5;
+    ok = ok && mat2.storedElementsCount() == 2;
+    ok = ok && mat3.storedElementsCount() == 1;
+
+    return ok;
+}
+
+bool matrix_map_container_map_container_multiplication_doesnt_change_matrices_values(){
+    bool ok = false;
+    Matrix<float,2,3, map<size_t, float>> mat1;
+    Matrix<float,3,1, map<size_t, float>> mat2;
+
+    mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; /* mat1.at(0,2) = 4.0f;*/
+    mat1.at(1,0) = 5.0f; mat1.at(1,1) = 7.0f; mat1.at(1,2) = -8.0f;
+
+    //mat2.at(0,0) = 9.0f;
+    mat2.at(1,0) = 8.0f;
+    mat2.at(2,0) = 7.0f;
+
+    Matrix<float,2,1, map<size_t, float>> mat3 = mat1*mat2;
+
+    ok = (  mat1.retrieveAt(0,0) == 2.0f && mat1.retrieveAt(0,1) == 3.0f && mat1.retrieveAt(0,2) == 0.0f &&
+            mat1.retrieveAt(1,0) == 5.0f && mat1.retrieveAt(1,1) == 7.0f && mat1.retrieveAt(1,2) == -8.0f &&
+            mat2.retrieveAt(0,0) == 0.0f &&
+            mat2.retrieveAt(1,0) == 8.0f &&
+            mat2.retrieveAt(2,0) == 7.0f &&
+            mat3.retrieveAt(0,0) == 24.0f &&
+            mat3.retrieveAt(1,0) == 0.0f);
+    
+    ok = ok && mat1.storedElementsCount() == 5;
+    ok = ok && mat2.storedElementsCount() == 2;
+    ok = ok && mat3.storedElementsCount() == 1;
 
     return ok;
 }
