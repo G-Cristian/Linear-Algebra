@@ -157,6 +157,9 @@ public:
 
     /* ----- OPERATORS ----- */
 
+    template<typename Container2>
+    Matrix<T, RowsN, ColumnsN, Container>& operator+=(const Matrix<T,RowsN,ColumnsN,Container2>&);
+
     //Vector operations
 
 private:
@@ -511,6 +514,20 @@ Matrix<U, RowsN_1, ColumnsN_2, Container_1> operator*(const Matrix<U, RowsN_1, C
     }
 
     return ret;
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+template<typename Container2>
+Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::operator+=(const Matrix<T,RowsN,ColumnsN,Container2> &m2){
+    for(size_t row = 0; row < RowsN; ++row){
+        auto endIt = m2.rowIteratorEnd(row);
+        for(auto it = m2.rowIteratorBegin(row); it != endIt; ++it){
+            T sum = this->at(row, (*it).first) + (*it).second;
+            this->insertValueAtRowColumn(sum, row, (*it).first);
+        }
+    }
+
+    return *this;
 }
 
 //Vector operations
