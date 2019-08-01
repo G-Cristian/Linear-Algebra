@@ -160,6 +160,8 @@ public:
     template<typename Container2>
     Matrix<T, RowsN, ColumnsN, Container>& operator+=(const Matrix<T,RowsN,ColumnsN,Container2>&);
 
+    Matrix<T, RowsN, ColumnsN, Container>& operator*=(const T&);
+
     //Vector operations
 
 private:
@@ -176,15 +178,8 @@ private:
     void insertValueAtRowIndex(const T&, T(&)[ColumnsN], size_t);
     void insertValueAtRowIndex(const T&, std::map<size_t, T>&, size_t);
 
-    void setValueToIterator(const T &value, T *it){
-        *it = value;
-    }
-
-    // Note that this method does not set the index into the map iterator, just the value.
-    // Usefull when the position in the matrix already exist and the value wants to be changed.
-    void setValueToIterator(const T &value, typename std::map<size_t, T>::iterator &it){
-        it->second = value;
-    }
+    void resetRow(T(&)[ColumnsN]);
+    void resetRow(std::map<size_t, T>&);
 
     /* ----- MEMBERS ----- */
 
@@ -394,10 +389,20 @@ template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 Matrix<T, RowsN, ColumnsN, Container>::Matrix(){
     using namespace std;
     for(auto rowIt=begin(_mat); rowIt != end(_mat); rowIt++){
-        for(auto colIt=begin(*rowIt); colIt != end(*rowIt); colIt++){
-            setValueToIterator(T(), colIt);
-        }
+        resetRow(*rowIt);
     }
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+void Matrix<T, RowsN, ColumnsN, Container>::resetRow(T(&row)[ColumnsN]){
+    for(auto it = std::begin(row); it != std::end(row); ++it){
+        *it = T();
+    }
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+void Matrix<T, RowsN, ColumnsN, Container>::resetRow(std::map<size_t, T> &row){
+    row=std::map<size_t, T>();
 }
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
@@ -524,6 +529,31 @@ Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::op
         for(auto it = m2.rowIteratorBegin(row); it != endIt; ++it){
             T sum = this->at(row, (*it).first) + (*it).second;
             this->insertValueAtRowColumn(sum, row, (*it).first);
+        }
+    }
+
+    return *this;
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::operator*=(const T &scalar){
+    if(scalar == T())
+    {
+        // if multiplying by 0
+        for(auto rowIt = std::begin(_mat); rowIt != std::end(_mat); ++rowIt){
+            // reset each row
+            resetRow(*rowIt);
+        }
+    }
+    else{
+        //if multiplying by scalar not equal 0
+        for(size_t row = 0; row < RowsN; ++row){
+            //update each row
+            auto endIt = this->rowIteratorEnd(row);
+            for(auto it = this->rowIteratorBegin(row); it != endIt; ++it){
+                //multiplying only stored values
+                (*it).second*=scalar;
+            }
         }
     }
 
