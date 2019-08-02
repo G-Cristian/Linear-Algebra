@@ -126,6 +126,19 @@ public:
 
     Matrix<T, RowsN, ColumnsN, Container>& operator*=(const T&);
 
+    // returns a reference to this matrix with the negative of each element
+    // used for rvalues
+    Matrix<T, RowsN, ColumnsN, Container>& operator-() &&{
+        return (*this)*=(-1);
+    }
+
+    // returns a copy of the matrix with the negative of each element
+    // used for lvalues
+    Matrix<T, RowsN, ColumnsN, Container> operator-() const &{
+        Matrix<T, RowsN, ColumnsN, Container>ret(*this);
+        return ret*=(-1);
+    }
+
     //Vector operations
 
 private:

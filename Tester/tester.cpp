@@ -60,6 +60,8 @@ bool matrix_array_container_ConstRowIterator();
 bool matrix_array_container_add_in_place();
 bool matrix_array_container_multiply_in_place_by_scalar_not_equal_zero();
 bool matrix_array_container_multiply_in_place_by_scalar_equal_zero();
+bool matrix_array_container_unary_minus_operator_on_rvalue();
+bool matrix_array_container_unary_minus_operator_on_lvalue();
 
 /* ------------ Map container tests --------------- */
 
@@ -104,6 +106,8 @@ bool matrix_map_container_ConstRowIterator();
 bool matrix_map_container_add_in_place();
 bool matrix_map_container_multiply_in_place_by_scalar_not_equal_zero();
 bool matrix_map_container_multiply_in_place_by_scalar_equal_zero();
+bool matrix_map_container_unary_minus_operator_on_rvalue();
+bool matrix_map_container_unary_minus_operator_on_lvalue();
 
 int main(){
     int passedTests = 0;
@@ -145,6 +149,8 @@ int main(){
     RUN_TEST(matrix_array_container_add_in_place, passedTests, failedTests);
     RUN_TEST(matrix_array_container_multiply_in_place_by_scalar_not_equal_zero, passedTests, failedTests);
     RUN_TEST(matrix_array_container_multiply_in_place_by_scalar_equal_zero, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_unary_minus_operator_on_rvalue, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_unary_minus_operator_on_lvalue, passedTests, failedTests);
 
     /* ------------ Map container tests --------------- */
     RUN_TEST(matrix_map_container_Creation, passedTests, failedTests);
@@ -188,6 +194,8 @@ int main(){
     RUN_TEST(matrix_map_container_add_in_place, passedTests, failedTests);
     RUN_TEST(matrix_map_container_multiply_in_place_by_scalar_not_equal_zero, passedTests, failedTests);
     RUN_TEST(matrix_map_container_multiply_in_place_by_scalar_equal_zero, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_unary_minus_operator_on_rvalue, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_unary_minus_operator_on_lvalue, passedTests, failedTests);
     
     cout << endl << "-----------------" << endl;
     cout << "Total tests: " << passedTests +  failedTests << endl;
@@ -883,6 +891,37 @@ bool matrix_array_container_multiply_in_place_by_scalar_equal_zero(){
             m1.retrieveAt(1, 0) == 0.0f &&  m1.retrieveAt(1, 1) == 0.0f &&     m1.retrieveAt(1, 2) == 0.0f;
 
     return ok;
+}
+
+bool matrix_array_container_unary_minus_operator_on_rvalue(){
+    Matrix<float,2,3> m1;
+    m1.insertValueAtRowColumn(1.0f, 0, 0);
+    m1.insertValueAtRowColumn(-2.0f, 1, 2);
+    Matrix<float,3,2> m2 = -(m1.transposed<float[2]>());
+    m2.insertValueAtRowColumn(11.0f, 1, 1);
+
+    return  m1.retrieveAt(0,0) == 1.0f &&   m1.retrieveAt(0,1) == 0.0f &&   m1.retrieveAt(0,2) == 0.0f &&
+            m1.retrieveAt(1,0) == 0.0f &&   m1.retrieveAt(1,1) == 0.0f &&   m1.retrieveAt(1,2) == -2.0f &&
+            m1.storedElementsCount() == 6 &&
+            m2.retrieveAt(0,0) == -1.0f &&  m2.retrieveAt(0,1) == 0.0f &&
+            m2.retrieveAt(1,0) == 0.0f &&   m2.retrieveAt(1,1) == 11.0f &&
+            m2.retrieveAt(2,0) == 0.0f &&   m2.retrieveAt(2,1) == 2.0f &&
+            m2.storedElementsCount() == 6;
+}
+
+bool matrix_array_container_unary_minus_operator_on_lvalue(){
+    Matrix<float,2,3> m1;
+    m1.insertValueAtRowColumn(1.0f, 0, 0);
+    m1.insertValueAtRowColumn(-2.0f, 1, 2);
+    Matrix<float,2,3> m2 = -m1;
+    m2.insertValueAtRowColumn(11.0f, 1, 1);
+
+    return  m1.retrieveAt(0,0) == 1.0f &&   m1.retrieveAt(0,1) == 0.0f &&   m1.retrieveAt(0,2) == 0.0f &&
+            m1.retrieveAt(1,0) == 0.0f &&   m1.retrieveAt(1,1) == 0.0f &&   m1.retrieveAt(1,2) == -2.0f &&
+            m1.storedElementsCount() == 6 &&
+            m2.retrieveAt(0,0) == -1.0f &&  m2.retrieveAt(0,1) == 0.0f &&   m2.retrieveAt(0,2) == 0.0f &&
+            m2.retrieveAt(1,0) == 0.0f &&   m2.retrieveAt(1,1) == 11.0f &&  m2.retrieveAt(1,2) == 2.0f &&
+            m2.storedElementsCount() == 6;
 }
 
 /* ------------ Map container tests --------------- */
@@ -1716,4 +1755,35 @@ bool matrix_map_container_multiply_in_place_by_scalar_equal_zero(){
             m1.retrieveAt(1, 0) == 0.0f &&  m1.retrieveAt(1, 1) == 0.0f &&     m1.retrieveAt(1, 2) == 0.0f;
 
     return ok;
+}
+
+bool matrix_map_container_unary_minus_operator_on_rvalue(){
+    Matrix<float,2,3,map<size_t,float>> m1;
+    m1.insertValueAtRowColumn(1.0f, 0, 0);
+    m1.insertValueAtRowColumn(-2.0f, 1, 2);
+    Matrix<float,3,2,map<size_t,float>> m2 = -(m1.transposed<map<size_t,float>>());
+    m2.insertValueAtRowColumn(11.0f, 1, 1);
+
+    return  m1.retrieveAt(0,0) == 1.0f &&   m1.retrieveAt(0,1) == 0.0f &&   m1.retrieveAt(0,2) == 0.0f &&
+            m1.retrieveAt(1,0) == 0.0f &&   m1.retrieveAt(1,1) == 0.0f &&   m1.retrieveAt(1,2) == -2.0f &&
+            m1.storedElementsCount() == 2 &&
+            m2.retrieveAt(0,0) == -1.0f &&  m2.retrieveAt(0,1) == 0.0f &&
+            m2.retrieveAt(1,0) == 0.0f &&   m2.retrieveAt(1,1) == 11.0f &&
+            m2.retrieveAt(2,0) == 0.0f &&   m2.retrieveAt(2,1) == 2.0f &&
+            m2.storedElementsCount() == 3;
+}
+
+bool matrix_map_container_unary_minus_operator_on_lvalue(){
+    Matrix<float,2,3,map<size_t,float>> m1;
+    m1.insertValueAtRowColumn(1.0f, 0, 0);
+    m1.insertValueAtRowColumn(-2.0f, 1, 2);
+    Matrix<float,2,3,map<size_t,float>> m2 = -m1;
+    m2.insertValueAtRowColumn(11.0f, 1, 1);
+
+    return  m1.retrieveAt(0,0) == 1.0f &&   m1.retrieveAt(0,1) == 0.0f &&   m1.retrieveAt(0,2) == 0.0f &&
+            m1.retrieveAt(1,0) == 0.0f &&   m1.retrieveAt(1,1) == 0.0f &&   m1.retrieveAt(1,2) == -2.0f &&
+            m1.storedElementsCount() == 2 &&
+            m2.retrieveAt(0,0) == -1.0f &&  m2.retrieveAt(0,1) == 0.0f &&   m2.retrieveAt(0,2) == 0.0f &&
+            m2.retrieveAt(1,0) == 0.0f &&   m2.retrieveAt(1,1) == 11.0f &&  m2.retrieveAt(1,2) == 2.0f &&
+            m2.storedElementsCount() == 3;
 }
