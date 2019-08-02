@@ -5,7 +5,13 @@
 #include <utility>
 #include <vector>
 
+/* ----- FORWARD DECLARETIONS ----- */
+
 template<typename , size_t, size_t, typename> class Matrix;
+template<typename, size_t, typename> class RowIterator;
+template<typename, size_t, typename> class ConstRowIterator;
+
+/* ----- OPERATORS ----- */
 
 // return the matrix multiplication.
 // The container type used for the returned matrix is is an array.
@@ -16,14 +22,10 @@ Matrix<T, RowsN_1, ColumnsN_2, T[ColumnsN_2]> operator*(const Matrix<T, RowsN_1,
 template<typename T, size_t RowsN_1, size_t ColumnsN_1, typename Container_1, size_t ColumnsN_2, typename Container_2>
 Matrix<T, RowsN_1, ColumnsN_2, Container_1> operator*(const Matrix<T, RowsN_1, ColumnsN_1, Container_1>&, const Matrix<T, ColumnsN_1, ColumnsN_2, Container_2>&);
 
-//template<typename T, size_t ColumnsN, size_t ColumnsN_2, typename Container_2>
-//void multiplyRow(const T(&row)[ColumnsN], const Matrix<T,ColumnsN,ColumnsN_2,Container_2> &mat2, T(&ret)[ColumnsN_2]);
+/* ----- OTHER OPERATIONS ----- */
 
 template<typename T, size_t ColumnsN, typename Container1, typename Container2>
 T dot(const Matrix<T, 1, ColumnsN, Container1>&, const Matrix<T, 1, ColumnsN, Container2>&);
-
-template<typename, size_t, typename> class RowIterator;
-template<typename, size_t, typename> class ConstRowIterator;
 
 /* ----- MATRIX ----- */
 
@@ -53,46 +55,8 @@ public:
 
     /* ----- TRANSPOSE ----- */
 
-    // This is a logic transposed which means that the inner matrix implementations, RowsN and ColumnsN are maintained,
-    // and what is changed is the _isTransposed member value.
-    // The returned matrix will behave as a transposed though, just keep in mind that the varialbe where you are assigning the transposed,
-    // will need to be of type Matrix<T,RowsN,ColumnsN,Container> with all template arguments equal to this original matrix.
-    //
-    // It's faster used in rvalues since it does not copy values, it just returns this same matrix by reference swapping the _isTransposed member value.
-    //
-    // return the same matrix but swapping the _isTransposed member value.
-    //Matrix<T,RowsN,ColumnsN,Container>& logicTransposed() &&{
-    //    _isTransposed = (_isTransposed + 1)%2;
-    //    return *this;
-    //}
-
-    // This is a logic transposed which means that the inner matrix implementations, RowsN and ColumnsN are maintained,
-    // and what is changed is the _isTransposed member value.
-    // The returned matrix will behave as a transposed though, just keep in mind that the varialbe where you are assigning the transposed,
-    // will need to be of type Matrix<T,RowsN,ColumnsN,Container> with all template arguments equal to this original matrix.
-    //
-    // It's usefull used in rvalues since it does not copy values, it just returns this same matrix by reference swapping the _isTransposed member value.
-    // Does not make much sence in lvalues since it copies the inner matrix implementation, but is here for completeness.
-    //
-    // return the same matrix but swapping the _isTransposed member value.
-    //Matrix<T,RowsN,ColumnsN,Container> logicTransposed() const &{
-    //    Matrix<T,RowsN,ColumnsN,Container> mat = *this;
-    //    mat._isTransposed = (_isTransposed + 1)%2;
-    //    return mat;
-    //}
-
     template<typename Container_Ret>
     Matrix<T,ColumnsN,RowsN,Container_Ret> transposed() const;
-
-    // TODO: Implement a physical transpose to return a Matri<T,ColumnsN,RowsN,Container>
-    // In order to do so all stored values should be copied (use retrieve for retrieving the values in *this),
-    // and no extra values should be stored (use insert to insert values in returned matrix)
-
-    // returns the _isTransposed value.
-    // It's mostly usefull for testing when the logicTransposed is used.
-    //bool isTransposed() const{
-    //    return _isTransposed==1;
-    //}
 
     /* ----- GETTERS & SETTERS ----- */
 
@@ -166,12 +130,6 @@ public:
 
 private:
     /* ----- UTILITIES ----- */
-    
-    //std::pair<size_t, size_t> actualRowColumnIndex(size_t row, size_t column) const{
-    //    size_t actualRow = (_isTransposed^1) *row + (_isTransposed) *column;
-    //    size_t actualColumn = (_isTransposed^1) *column + (_isTransposed) *row;
-    //    return { actualRow, actualColumn };
-    //}
 
     T getValueAtIndex(const T(&)[ColumnsN], size_t) const;
     T getValueAtIndex(const std::map<size_t,T>&, size_t) const;
@@ -183,7 +141,6 @@ private:
 
     /* ----- MEMBERS ----- */
 
-    //unsigned char _isTransposed = 0;
     Container _mat[RowsN];
 };
 
@@ -421,8 +378,6 @@ Matrix<T,ColumnsN,RowsN,Container_Ret> Matrix<T, RowsN, ColumnsN, Container>::tr
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 T Matrix<T, RowsN, ColumnsN, Container>::retrieveAt(size_t row, size_t column) const{
-    //auto actualRowColumn = actualRowColumnIndex(row, column);
-    //return getValueAtIndex(_mat[actualRowColumn.first], actualRowColumn.second);
     return getValueAtIndex(_mat[row], column);
 }
 
@@ -444,8 +399,6 @@ T Matrix<T, RowsN, ColumnsN, Container>::getValueAtIndex(const std::map<size_t,T
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowColumn(const T& value, size_t row, size_t column){
-    //auto actualRowColumn = actualRowColumnIndex(row, column);
-    //insertValueAtRowIndex(value, _mat[actualRowColumn.first], actualRowColumn.second);
     insertValueAtRowIndex(value, _mat[row], column);
 }
 
@@ -476,7 +429,6 @@ Matrix<U, RowsN_1, ColumnsN_2, U[ColumnsN_2]> operator*(const Matrix<U, RowsN_1,
     Matrix<U, RowsN_1, ColumnsN_2, U[ColumnsN_2]> ret;
     // for each row in mat 1
     for(size_t row1 = 0; row1 < RowsN_1; ++row1){    
-        //multiplyRow(mat1._mat[row], mat2, ret._mat[row]);
         auto endRow1It = mat1.rowIteratorEnd(row1);
         // grab stored values in current row of mat1
         for(auto row1It = mat1.rowIteratorBegin(row1); row1It != endRow1It; ++row1It){
@@ -484,7 +436,7 @@ Matrix<U, RowsN_1, ColumnsN_2, U[ColumnsN_2]> operator*(const Matrix<U, RowsN_1,
             // grab stored values in the corresponding row of mat2
             for(auto row2It = mat2.rowIteratorBegin((*row1It).first); row2It != endRow2It; ++row2It){
                 // multiply the corresponding value of the row of mat1 with the corresponding value of the row of mat2
-                // and add that value to the temp row in the corresponding position
+                // and add that value in the corresponding position
                 ret.at(row1,(*row2It).first)+=((*row1It).second*(*row2It).second);
             }
         }
@@ -498,7 +450,6 @@ Matrix<U, RowsN_1, ColumnsN_2, Container_1> operator*(const Matrix<U, RowsN_1, C
     Matrix<U, RowsN_1, ColumnsN_2, Container_1> ret;
     // for each row in mat 1
     for(size_t row1 = 0; row1 < RowsN_1; ++row1){    
-        //multiplyRow(mat1._mat[row], mat2, ret._mat[row]);
         auto endRow1It = mat1.rowIteratorEnd(row1);
         std::vector<U> tmpRow(ColumnsN_2, 0);
         // grab stored values in current row of mat1
