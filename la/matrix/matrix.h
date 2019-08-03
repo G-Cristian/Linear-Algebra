@@ -33,6 +33,9 @@ template<typename T, size_t RowsN, size_t ColumnsN, typename Container=T[Columns
 class Matrix{
 public:
     Matrix();
+    
+    template<typename Container_row>
+    explicit Matrix(const Container_row &row);
 
     /* ----- DIMENTIONS ----- */
 
@@ -78,6 +81,10 @@ public:
     T retrieveAt(size_t row, size_t column) const;
 
     void insertValueAtRowColumn(const T& value, size_t row, size_t column);
+
+    Matrix<T,1,ColumnsN,Container> rowAtIndex(size_t index) const{
+        return Matrix<T,1,ColumnsN,Container>(_mat[index]);
+    }
 
     /* ----- HELPERS ----- */
 
@@ -151,6 +158,9 @@ private:
 
     void resetRow(T(&)[ColumnsN]);
     void resetRow(std::map<size_t, T>&);
+
+    void copyRow(Container &dest, const T(&src)[ColumnsN]);
+    void copyRow(Container &dest, const std::map<size_t, T> &src);
 
     /* ----- MEMBERS ----- */
 
@@ -364,6 +374,15 @@ Matrix<T, RowsN, ColumnsN, Container>::Matrix(){
 }
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+template<typename Container_row>
+Matrix<T, RowsN, ColumnsN, Container>::Matrix(const Container_row &srcRow){
+    using namespace std;
+    for(auto rowIt=begin(_mat); rowIt != end(_mat); rowIt++){
+        copyRow(*rowIt, srcRow);
+    }
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 void Matrix<T, RowsN, ColumnsN, Container>::resetRow(T(&row)[ColumnsN]){
     for(auto it = std::begin(row); it != std::end(row); ++it){
         *it = T();
@@ -373,6 +392,23 @@ void Matrix<T, RowsN, ColumnsN, Container>::resetRow(T(&row)[ColumnsN]){
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 void Matrix<T, RowsN, ColumnsN, Container>::resetRow(std::map<size_t, T> &row){
     row=std::map<size_t, T>();
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+void Matrix<T, RowsN, ColumnsN, Container>::copyRow(Container &dest, const T(&src)[ColumnsN]){
+    size_t i=0;
+    for(auto c:src){
+        dest[i]=c;
+        ++i;
+    }
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+void Matrix<T, RowsN, ColumnsN, Container>::copyRow(Container &dest, const std::map<size_t, T> &src){
+    resetRow(dest);
+    for(auto it = src.begin(); it != src.end(); ++it){
+        dest[it->first]=it->second;
+    }
 }
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>

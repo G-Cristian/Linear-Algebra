@@ -62,6 +62,7 @@ bool matrix_array_container_multiply_in_place_by_scalar_not_equal_zero();
 bool matrix_array_container_multiply_in_place_by_scalar_equal_zero();
 bool matrix_array_container_unary_minus_operator_on_rvalue();
 bool matrix_array_container_unary_minus_operator_on_lvalue();
+bool matrix_array_container_rowAtIndex_array_container();
 
 /* ------------ Map container tests --------------- */
 
@@ -108,6 +109,7 @@ bool matrix_map_container_multiply_in_place_by_scalar_not_equal_zero();
 bool matrix_map_container_multiply_in_place_by_scalar_equal_zero();
 bool matrix_map_container_unary_minus_operator_on_rvalue();
 bool matrix_map_container_unary_minus_operator_on_lvalue();
+bool matrix_map_container_rowAtIndex_map_container();
 
 int main(){
     int passedTests = 0;
@@ -151,6 +153,7 @@ int main(){
     RUN_TEST(matrix_array_container_multiply_in_place_by_scalar_equal_zero, passedTests, failedTests);
     RUN_TEST(matrix_array_container_unary_minus_operator_on_rvalue, passedTests, failedTests);
     RUN_TEST(matrix_array_container_unary_minus_operator_on_lvalue, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_rowAtIndex_array_container, passedTests, failedTests);
 
     /* ------------ Map container tests --------------- */
     RUN_TEST(matrix_map_container_Creation, passedTests, failedTests);
@@ -196,6 +199,7 @@ int main(){
     RUN_TEST(matrix_map_container_multiply_in_place_by_scalar_equal_zero, passedTests, failedTests);
     RUN_TEST(matrix_map_container_unary_minus_operator_on_rvalue, passedTests, failedTests);
     RUN_TEST(matrix_map_container_unary_minus_operator_on_lvalue, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_rowAtIndex_map_container, passedTests, failedTests);
     
     cout << endl << "-----------------" << endl;
     cout << "Total tests: " << passedTests +  failedTests << endl;
@@ -922,6 +926,27 @@ bool matrix_array_container_unary_minus_operator_on_lvalue(){
             m2.retrieveAt(0,0) == -1.0f &&  m2.retrieveAt(0,1) == 0.0f &&   m2.retrieveAt(0,2) == 0.0f &&
             m2.retrieveAt(1,0) == 0.0f &&   m2.retrieveAt(1,1) == 11.0f &&  m2.retrieveAt(1,2) == 2.0f &&
             m2.storedElementsCount() == 6;
+}
+
+bool matrix_array_container_rowAtIndex_array_container(){
+    bool ok = true;
+    Matrix<float,2,3> mat;
+    mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
+    Matrix<float,1,3>row = mat.rowAtIndex(1);
+    
+    ok =    row.retrieveAt(0,0) == 1.0f && row.retrieveAt(0,1) == 0.0f && row.retrieveAt(0,2) == 3.0f &&
+            row.storedElementsCount() == 3;
+
+    row.insertValueAtRowColumn(0.0f,0,0);
+
+    ok =    ok &&
+            mat.retrieveAt(0,0) == 0.0f && mat.retrieveAt(0,1) == 0.0f && mat.retrieveAt(0,2) == 0.0f &&
+            mat.retrieveAt(1,0) == 1.0f && mat.retrieveAt(1,1) == 0.0f && mat.retrieveAt(1,2) == 3.0f &&
+            mat.storedElementsCount() == 6 &&
+            row.retrieveAt(0,0) == 0.0f && row.retrieveAt(0,1) == 0.0f && row.retrieveAt(0,2) == 3.0f &&
+            row.storedElementsCount() == 3;
+
+    return ok;
 }
 
 /* ------------ Map container tests --------------- */
@@ -1786,4 +1811,25 @@ bool matrix_map_container_unary_minus_operator_on_lvalue(){
             m2.retrieveAt(0,0) == -1.0f &&  m2.retrieveAt(0,1) == 0.0f &&   m2.retrieveAt(0,2) == 0.0f &&
             m2.retrieveAt(1,0) == 0.0f &&   m2.retrieveAt(1,1) == 11.0f &&  m2.retrieveAt(1,2) == 2.0f &&
             m2.storedElementsCount() == 3;
+}
+
+bool matrix_map_container_rowAtIndex_map_container(){
+    bool ok = true;
+    Matrix<float,2,3,map<size_t, float>> mat;
+    mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
+    Matrix<float,1,3,map<size_t, float>>row = mat.rowAtIndex(1);
+    
+    ok =    row.retrieveAt(0,0) == 1.0f && row.retrieveAt(0,1) == 0.0f && row.retrieveAt(0,2) == 3.0f &&
+            row.storedElementsCount() == 2;
+
+    row.insertValueAtRowColumn(0.0f,0,0);
+
+    ok =    ok &&
+            mat.retrieveAt(0,0) == 0.0f && mat.retrieveAt(0,1) == 0.0f && mat.retrieveAt(0,2) == 0.0f &&
+            mat.retrieveAt(1,0) == 1.0f && mat.retrieveAt(1,1) == 0.0f && mat.retrieveAt(1,2) == 3.0f &&
+            mat.storedElementsCount() == 2 &&
+            row.retrieveAt(0,0) == 0.0f && row.retrieveAt(0,1) == 0.0f && row.retrieveAt(0,2) == 3.0f &&
+            row.storedElementsCount() == 1;
+
+    return ok;
 }
