@@ -132,6 +132,7 @@ public:
     Matrix<T, RowsN, ColumnsN, Container>& operator+=(const Matrix<T,RowsN,ColumnsN,Container2>&);
 
     Matrix<T, RowsN, ColumnsN, Container>& operator*=(const T&);
+    Matrix<T, RowsN, ColumnsN, Container>& operator/=(const T&);
 
     // returns a reference to this matrix with the negative of each element
     // used for rvalues
@@ -554,6 +555,20 @@ Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::op
                 //multiplying only stored values
                 (*it).second*=scalar;
             }
+        }
+    }
+
+    return *this;
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::operator/=(const T &scalar){
+    for(size_t row = 0; row < RowsN; ++row){
+        //update each row
+        auto endIt = this->rowIteratorEnd(row);
+        for(auto it = this->rowIteratorBegin(row); it != endIt; ++it){
+            //dividing only stored values
+            (*it).second/=scalar;
         }
     }
 
