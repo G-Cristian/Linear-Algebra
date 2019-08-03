@@ -22,6 +22,13 @@ Matrix<T, RowsN_1, ColumnsN_2, T[ColumnsN_2]> operator*(const Matrix<T, RowsN_1,
 template<typename T, size_t RowsN_1, size_t ColumnsN_1, typename Container_1, size_t ColumnsN_2, typename Container_2>
 Matrix<T, RowsN_1, ColumnsN_2, Container_1> operator*(const Matrix<T, RowsN_1, ColumnsN_1, Container_1>&, const Matrix<T, ColumnsN_1, ColumnsN_2, Container_2>&);
 
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+Matrix<T, RowsN, ColumnsN, Container> operator*(const Matrix<T, RowsN, ColumnsN, Container>&, T);
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+Matrix<T, RowsN, ColumnsN, Container> operator*(T, const Matrix<T, RowsN, ColumnsN, Container>&);
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+Matrix<T, RowsN, ColumnsN, Container> operator/(const Matrix<T, RowsN, ColumnsN, Container>&, T);
+
 /* ----- OTHER OPERATIONS ----- */
 
 template<typename T, size_t ColumnsN, typename Container1, typename Container2>
@@ -573,6 +580,23 @@ Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::op
     }
 
     return *this;
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+Matrix<T, RowsN, ColumnsN, Container> operator*(const Matrix<T, RowsN, ColumnsN, Container> &mat, T scalar){
+    Matrix<T, RowsN, ColumnsN, Container> ret(mat);
+    return ret*=scalar;
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+Matrix<T, RowsN, ColumnsN, Container> operator*(T scalar, const Matrix<T, RowsN, ColumnsN, Container> &mat){
+    return mat*scalar;
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+Matrix<T, RowsN, ColumnsN, Container> operator/(const Matrix<T, RowsN, ColumnsN, Container> &mat, T scalar){
+    Matrix<T, RowsN, ColumnsN, Container> ret(mat);
+    return ret/=scalar;
 }
 
 //Vector operations
