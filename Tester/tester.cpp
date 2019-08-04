@@ -73,6 +73,8 @@ bool matrix_array_container_multiply_not_in_place_by_scalar_equal_zero();
 bool matrix_array_container_divide_not_in_place_by_scalar();
 bool matrix_array_container_print_operator_matrix_2_rows_1_column();
 bool matrix_array_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column();
+bool matrix_array_container_contructor_with_complete_initializer_list();
+bool matrix_array_container_contructor_with_incomplete_initializer_list();
 
 /* ------------ Map container tests --------------- */
 
@@ -126,6 +128,8 @@ bool matrix_map_container_multiply_not_in_place_by_scalar_equal_zero();
 bool matrix_map_container_divide_not_in_place_by_scalar();
 bool matrix_map_container_print_operator_matrix_2_rows_1_column();
 bool matrix_map_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column();
+bool matrix_map_container_contructor_with_complete_initializer_list();
+bool matrix_map_container_contructor_with_incomplete_initializer_list();
 
 int main(){
     int passedTests = 0;
@@ -176,6 +180,8 @@ int main(){
     RUN_TEST(matrix_array_container_divide_not_in_place_by_scalar, passedTests, failedTests);
     RUN_TEST(matrix_array_container_print_operator_matrix_2_rows_1_column, passedTests, failedTests);
     RUN_TEST(matrix_array_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_contructor_with_complete_initializer_list, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_contructor_with_incomplete_initializer_list, passedTests, failedTests);
 
     /* ------------ Map container tests --------------- */
     RUN_TEST(matrix_map_container_Creation, passedTests, failedTests);
@@ -228,6 +234,8 @@ int main(){
     RUN_TEST(matrix_map_container_divide_not_in_place_by_scalar, passedTests, failedTests);
     RUN_TEST(matrix_map_container_print_operator_matrix_2_rows_1_column, passedTests, failedTests);
     RUN_TEST(matrix_map_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_contructor_with_complete_initializer_list, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_contructor_with_incomplete_initializer_list, passedTests, failedTests);
     
     cout << endl << "-----------------" << endl;
     cout << "Total tests: " << passedTests +  failedTests << endl;
@@ -1159,6 +1167,34 @@ bool matrix_array_container_print_operator_matrix_2_rows_1_column_and_matrix_1_r
 
     ok = ok &&  mat1.retrieveAt(0,0) == 1.2f && mat1.retrieveAt(1,0) == 0.0f && mat1.storedElementsCount() == 2 &&
                 mat2.retrieveAt(0,0) == 0.0f && mat2.retrieveAt(0,1) == 1.2f && mat2.storedElementsCount() == 1;
+
+    return ok;
+}
+
+bool matrix_array_container_contructor_with_complete_initializer_list(){
+    bool ok = true;
+    Matrix<float,2,3> mat=  {   
+                                {1.0, 2.0, 0.0},
+                                {4.0, 0.0, 0.0}
+                            };
+    
+    ok =    mat.retrieveAt(0,0) == 1.0f && mat.retrieveAt(0,1) == 2.0f && mat.retrieveAt(0,2) == 0.0f && 
+            mat.retrieveAt(1,0) == 4.0f && mat.retrieveAt(1,1) == 0.0f && mat.retrieveAt(1,2) == 0.0f && 
+            mat.storedElementsCount() == 6;
+
+    return ok;
+}
+bool matrix_array_container_contructor_with_incomplete_initializer_list(){
+    bool ok = true;
+    Matrix<float,3,3> mat=  {   
+                                {1.0, 2.0},
+                                {4.0}
+                            };
+    
+    ok =    mat.retrieveAt(0,0) == 1.0f && mat.retrieveAt(0,1) == 2.0f && mat.retrieveAt(0,2) == 0.0f && 
+            mat.retrieveAt(1,0) == 4.0f && mat.retrieveAt(1,1) == 0.0f && mat.retrieveAt(1,2) == 0.0f && 
+            mat.retrieveAt(2,0) == 0.0f && mat.retrieveAt(2,1) == 0.0f && mat.retrieveAt(2,2) == 0.0f && 
+            mat.storedElementsCount() == 9;
 
     return ok;
 }
@@ -2230,6 +2266,34 @@ bool matrix_map_container_print_operator_matrix_2_rows_1_column_and_matrix_1_row
 
     ok = ok &&  mat1.retrieveAt(0,0) == 1.2f && mat1.retrieveAt(1,0) == 0.0f && mat1.storedElementsCount() == 1 &&
                 mat2.retrieveAt(0,0) == 0.0f && mat2.retrieveAt(0,1) == 1.2f && mat2.storedElementsCount() == 2;
+
+    return ok;
+}
+
+bool matrix_map_container_contructor_with_complete_initializer_list(){
+    bool ok = true;
+    Matrix<float,2,3,map<size_t,float>> mat=  {   
+                                {1.0, 2.0, 0.0},
+                                {4.0, 0.0, 0.0}
+                            };
+    
+    ok =    mat.retrieveAt(0,0) == 1.0f && mat.retrieveAt(0,1) == 2.0f && mat.retrieveAt(0,2) == 0.0f && 
+            mat.retrieveAt(1,0) == 4.0f && mat.retrieveAt(1,1) == 0.0f && mat.retrieveAt(1,2) == 0.0f && 
+            mat.storedElementsCount() == 3;
+
+    return ok;
+}
+bool matrix_map_container_contructor_with_incomplete_initializer_list(){
+    bool ok = true;
+    Matrix<float,3,3,map<size_t,float>> mat=  {   
+                                {1.0, 2.0},
+                                {4.0}
+                            };
+    
+    ok =    mat.retrieveAt(0,0) == 1.0f && mat.retrieveAt(0,1) == 2.0f && mat.retrieveAt(0,2) == 0.0f && 
+            mat.retrieveAt(1,0) == 4.0f && mat.retrieveAt(1,1) == 0.0f && mat.retrieveAt(1,2) == 0.0f && 
+            mat.retrieveAt(2,0) == 0.0f && mat.retrieveAt(2,1) == 0.0f && mat.retrieveAt(2,2) == 0.0f && 
+            mat.storedElementsCount() == 3;
 
     return ok;
 }

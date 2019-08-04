@@ -1,6 +1,7 @@
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
 
+#include <initializer_list>
 #include <iostream>
 #include <map>
 #include <utility>
@@ -46,6 +47,7 @@ template<typename T, size_t RowsN, size_t ColumnsN, typename Container=T[Columns
 class Matrix{
 public:
     Matrix();
+    Matrix(std::initializer_list<std::initializer_list<T>>);
     
     template<typename Container_row>
     explicit Matrix(const Container_row &row);
@@ -384,6 +386,22 @@ Matrix<T, RowsN, ColumnsN, Container>::Matrix(){
     using namespace std;
     for(auto rowIt=begin(_mat); rowIt != end(_mat); rowIt++){
         resetRow(*rowIt);
+    }
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+Matrix<T, RowsN, ColumnsN, Container>::Matrix(std::initializer_list<std::initializer_list<T>> il):Matrix(){
+    size_t row = 0;
+    size_t column = 0;
+    auto endIL = il.end();
+    for(auto rowIt = il.begin(); rowIt != endIL; ++rowIt){
+        column = 0;
+        auto endInnerIL = rowIt->end();
+        for(auto columnIt = rowIt->begin(); columnIt != endInnerIL; ++columnIt){
+            this->insertValueAtRowColumn(*columnIt, row, column);
+            ++column;
+        }
+        ++row;
     }
 }
 
