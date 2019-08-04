@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 #include <map>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -70,8 +71,8 @@ bool matrix_array_container_divide_in_place_by_scalar();
 bool matrix_array_container_multiply_not_in_place_by_scalar_not_equal_zero();
 bool matrix_array_container_multiply_not_in_place_by_scalar_equal_zero();
 bool matrix_array_container_divide_not_in_place_by_scalar();
-
-
+bool matrix_array_container_print_operator_matrix_2_rows_1_column();
+bool matrix_array_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column();
 
 /* ------------ Map container tests --------------- */
 
@@ -123,6 +124,8 @@ bool matrix_map_container_divide_in_place_by_scalar();
 bool matrix_map_container_multiply_not_in_place_by_scalar_not_equal_zero();
 bool matrix_map_container_multiply_not_in_place_by_scalar_equal_zero();
 bool matrix_map_container_divide_not_in_place_by_scalar();
+bool matrix_map_container_print_operator_matrix_2_rows_1_column();
+bool matrix_map_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column();
 
 int main(){
     int passedTests = 0;
@@ -171,6 +174,8 @@ int main(){
     RUN_TEST(matrix_array_container_multiply_not_in_place_by_scalar_not_equal_zero, passedTests, failedTests);
     RUN_TEST(matrix_array_container_multiply_not_in_place_by_scalar_equal_zero, passedTests, failedTests);
     RUN_TEST(matrix_array_container_divide_not_in_place_by_scalar, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_print_operator_matrix_2_rows_1_column, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column, passedTests, failedTests);
 
     /* ------------ Map container tests --------------- */
     RUN_TEST(matrix_map_container_Creation, passedTests, failedTests);
@@ -221,6 +226,8 @@ int main(){
     RUN_TEST(matrix_map_container_multiply_not_in_place_by_scalar_not_equal_zero, passedTests, failedTests);
     RUN_TEST(matrix_map_container_multiply_not_in_place_by_scalar_equal_zero, passedTests, failedTests);
     RUN_TEST(matrix_map_container_divide_not_in_place_by_scalar, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_print_operator_matrix_2_rows_1_column, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column, passedTests, failedTests);
     
     cout << endl << "-----------------" << endl;
     cout << "Total tests: " << passedTests +  failedTests << endl;
@@ -1103,6 +1110,55 @@ bool matrix_array_container_divide_not_in_place_by_scalar(){
     ok =    ok &&
             m2.retrieveAt(0, 0) == 0.0f &&      m2.retrieveAt(0, 1) == 0.0f &&      m2.retrieveAt(0, 2) == 1.75 &&
             m2.retrieveAt(1, 0) == 1.0f &&     m2.retrieveAt(1, 1) == -1.5f &&    m2.retrieveAt(1, 2) == 1.75f;
+
+    return ok;
+}
+
+bool matrix_array_container_print_operator_matrix_2_rows_1_column(){
+    bool ok = true;
+    Matrix<float,2,1> mat;
+    mat.insertValueAtRowColumn(1.2f,0,0);
+
+    stringstream ss;
+    ss << mat;
+
+    stringstream expectedOutput;
+    expectedOutput << "["<<endl;
+    expectedOutput << " [ 1.2 ]"<<endl;
+    expectedOutput << " [ 0 ]"<<endl;
+    expectedOutput << "]"<<endl;
+
+    ok = ss.str() == expectedOutput.str();
+
+    ok = ok && mat.retrieveAt(0,0) == 1.2f && mat.retrieveAt(1,0) == 0.0f && mat.storedElementsCount() == 2;
+
+    return ok;
+}
+
+bool matrix_array_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column(){
+    bool ok = true;
+    Matrix<float,2,1> mat1;
+    mat1.insertValueAtRowColumn(1.2f,0,0);
+
+    Matrix<float,1,2,map<size_t,float>> mat2;
+    mat2.insertValueAtRowColumn(1.2f,0,1);
+
+    stringstream ss;
+    ss << mat1 << mat2;
+
+    stringstream expectedOutput;
+    expectedOutput << "["<<endl;
+    expectedOutput << " [ 1.2 ]"<<endl;
+    expectedOutput << " [ 0 ]"<<endl;
+    expectedOutput << "]"<<endl;
+    expectedOutput << "["<<endl;
+    expectedOutput << " [ 0 1.2 ]"<<endl;
+    expectedOutput << "]"<<endl;
+
+    ok = ss.str() == expectedOutput.str();
+
+    ok = ok &&  mat1.retrieveAt(0,0) == 1.2f && mat1.retrieveAt(1,0) == 0.0f && mat1.storedElementsCount() == 2 &&
+                mat2.retrieveAt(0,0) == 0.0f && mat2.retrieveAt(0,1) == 1.2f && mat2.storedElementsCount() == 1;
 
     return ok;
 }
@@ -2125,6 +2181,55 @@ bool matrix_map_container_divide_not_in_place_by_scalar(){
     ok =    ok &&
             m2.retrieveAt(0, 0) == 0.0f &&      m2.retrieveAt(0, 1) == 0.0f &&      m2.retrieveAt(0, 2) == 1.75 &&
             m2.retrieveAt(1, 0) == 1.0f &&     m2.retrieveAt(1, 1) == -1.5f &&    m2.retrieveAt(1, 2) == 1.75f;
+
+    return ok;
+}
+
+bool matrix_map_container_print_operator_matrix_2_rows_1_column(){
+    bool ok = true;
+    Matrix<float,2,1,map<size_t,float>> mat;
+    mat.insertValueAtRowColumn(1.2f,0,0);
+
+    stringstream ss;
+    ss << mat;
+
+    stringstream expectedOutput;
+    expectedOutput << "["<<endl;
+    expectedOutput << " [ 1.2 ]"<<endl;
+    expectedOutput << " [ 0 ]"<<endl;
+    expectedOutput << "]"<<endl;
+
+    ok = ss.str() == expectedOutput.str();
+
+    ok = ok && mat.retrieveAt(0,0) == 1.2f && mat.retrieveAt(1,0) == 0.0f && mat.storedElementsCount() == 1;
+
+    return ok;
+}
+
+bool matrix_map_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column(){
+    bool ok = true;
+    Matrix<float,2,1,map<size_t,float>> mat1;
+    mat1.insertValueAtRowColumn(1.2f,0,0);
+
+    Matrix<float,1,2> mat2;
+    mat2.insertValueAtRowColumn(1.2f,0,1);
+
+    stringstream ss;
+    ss << mat1 << mat2;
+
+    stringstream expectedOutput;
+    expectedOutput << "["<<endl;
+    expectedOutput << " [ 1.2 ]"<<endl;
+    expectedOutput << " [ 0 ]"<<endl;
+    expectedOutput << "]"<<endl;
+    expectedOutput << "["<<endl;
+    expectedOutput << " [ 0 1.2 ]"<<endl;
+    expectedOutput << "]"<<endl;
+
+    ok = ss.str() == expectedOutput.str();
+
+    ok = ok &&  mat1.retrieveAt(0,0) == 1.2f && mat1.retrieveAt(1,0) == 0.0f && mat1.storedElementsCount() == 1 &&
+                mat2.retrieveAt(0,0) == 0.0f && mat2.retrieveAt(0,1) == 1.2f && mat2.storedElementsCount() == 2;
 
     return ok;
 }

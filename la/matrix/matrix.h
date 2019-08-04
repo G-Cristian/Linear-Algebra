@@ -1,6 +1,7 @@
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
 
+#include <iostream>
 #include <map>
 #include <utility>
 #include <vector>
@@ -10,6 +11,11 @@
 template<typename , size_t, size_t, typename> class Matrix;
 template<typename, size_t, typename> class RowIterator;
 template<typename, size_t, typename> class ConstRowIterator;
+
+/* ----- PRINT OPERATOR ----- */
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+std::ostream& operator<<(std::ostream&, const Matrix<T,RowsN,ColumnsN,Container>&);
 
 /* ----- OPERATORS ----- */
 
@@ -479,6 +485,22 @@ void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowIndex(const T &value
         // or assign the value to the existing position.
         row[index] = value;
     }
+}
+
+/* ----- FUNCTIONS ----- */
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+std::ostream& operator<<(std::ostream &op, const Matrix<T,RowsN,ColumnsN,Container> &mat){
+    op << "[" << std::endl;
+    for(size_t row = 0; row < mat.rows(); ++row){
+        op << " [";
+        for(size_t column = 0; column < mat.columns(); ++column){
+            op << " " << mat.retrieveAt(row,column);
+        }
+        op << " ]" << std::endl;
+    }
+    op << "]" << std::endl;
+    return op;
 }
 
 template<typename U, size_t RowsN_1, size_t ColumnsN_1, size_t ColumnsN_2, typename Container_2>
