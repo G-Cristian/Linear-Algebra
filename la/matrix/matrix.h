@@ -487,6 +487,59 @@ void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowIndex(const T &value
     }
 }
 
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+template<typename Container2>
+Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::operator+=(const Matrix<T,RowsN,ColumnsN,Container2> &m2){
+    for(size_t row = 0; row < RowsN; ++row){
+        auto endIt = m2.rowIteratorEnd(row);
+        for(auto it = m2.rowIteratorBegin(row); it != endIt; ++it){
+            T sum = this->at(row, (*it).first) + (*it).second;
+            this->insertValueAtRowColumn(sum, row, (*it).first);
+        }
+    }
+
+    return *this;
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::operator*=(const T &scalar){
+    if(scalar == T())
+    {
+        // if multiplying by 0
+        for(auto rowIt = std::begin(_mat); rowIt != std::end(_mat); ++rowIt){
+            // reset each row
+            resetRow(*rowIt);
+        }
+    }
+    else{
+        //if multiplying by scalar not equal 0
+        for(size_t row = 0; row < RowsN; ++row){
+            //update each row
+            auto endIt = this->rowIteratorEnd(row);
+            for(auto it = this->rowIteratorBegin(row); it != endIt; ++it){
+                //multiplying only stored values
+                (*it).second*=scalar;
+            }
+        }
+    }
+
+    return *this;
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::operator/=(const T &scalar){
+    for(size_t row = 0; row < RowsN; ++row){
+        //update each row
+        auto endIt = this->rowIteratorEnd(row);
+        for(auto it = this->rowIteratorBegin(row); it != endIt; ++it){
+            //dividing only stored values
+            (*it).second/=scalar;
+        }
+    }
+
+    return *this;
+}
+
 /* ----- FUNCTIONS ----- */
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
@@ -549,59 +602,6 @@ Matrix<U, RowsN_1, ColumnsN_2, Container_1> operator*(const Matrix<U, RowsN_1, C
     }
 
     return ret;
-}
-
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-template<typename Container2>
-Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::operator+=(const Matrix<T,RowsN,ColumnsN,Container2> &m2){
-    for(size_t row = 0; row < RowsN; ++row){
-        auto endIt = m2.rowIteratorEnd(row);
-        for(auto it = m2.rowIteratorBegin(row); it != endIt; ++it){
-            T sum = this->at(row, (*it).first) + (*it).second;
-            this->insertValueAtRowColumn(sum, row, (*it).first);
-        }
-    }
-
-    return *this;
-}
-
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::operator*=(const T &scalar){
-    if(scalar == T())
-    {
-        // if multiplying by 0
-        for(auto rowIt = std::begin(_mat); rowIt != std::end(_mat); ++rowIt){
-            // reset each row
-            resetRow(*rowIt);
-        }
-    }
-    else{
-        //if multiplying by scalar not equal 0
-        for(size_t row = 0; row < RowsN; ++row){
-            //update each row
-            auto endIt = this->rowIteratorEnd(row);
-            for(auto it = this->rowIteratorBegin(row); it != endIt; ++it){
-                //multiplying only stored values
-                (*it).second*=scalar;
-            }
-        }
-    }
-
-    return *this;
-}
-
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::operator/=(const T &scalar){
-    for(size_t row = 0; row < RowsN; ++row){
-        //update each row
-        auto endIt = this->rowIteratorEnd(row);
-        for(auto it = this->rowIteratorBegin(row); it != endIt; ++it){
-            //dividing only stored values
-            (*it).second/=scalar;
-        }
-    }
-
-    return *this;
 }
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
