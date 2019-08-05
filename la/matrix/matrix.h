@@ -146,6 +146,9 @@ public:
     template<typename Container2>
     Matrix<T, RowsN, ColumnsN, Container>& operator+=(const Matrix<T,RowsN,ColumnsN,Container2>&);
 
+    template<typename Container2>
+    Matrix<T, RowsN, ColumnsN, Container>& operator-=(const Matrix<T,RowsN,ColumnsN,Container2>&);
+
     Matrix<T, RowsN, ColumnsN, Container>& operator*=(const T&);
     Matrix<T, RowsN, ColumnsN, Container>& operator/=(const T&);
 
@@ -512,6 +515,20 @@ Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::op
         auto endIt = m2.rowIteratorEnd(row);
         for(auto it = m2.rowIteratorBegin(row); it != endIt; ++it){
             T sum = this->at(row, (*it).first) + (*it).second;
+            this->insertValueAtRowColumn(sum, row, (*it).first);
+        }
+    }
+
+    return *this;
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+template<typename Container2>
+Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::operator-=(const Matrix<T,RowsN,ColumnsN,Container2> &m2){
+    for(size_t row = 0; row < RowsN; ++row){
+        auto endIt = m2.rowIteratorEnd(row);
+        for(auto it = m2.rowIteratorBegin(row); it != endIt; ++it){
+            T sum = this->at(row, (*it).first) - (*it).second;
             this->insertValueAtRowColumn(sum, row, (*it).first);
         }
     }

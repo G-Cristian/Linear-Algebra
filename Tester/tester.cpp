@@ -75,6 +75,7 @@ bool matrix_array_container_print_operator_matrix_2_rows_1_column();
 bool matrix_array_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column();
 bool matrix_array_container_contructor_with_complete_initializer_list();
 bool matrix_array_container_contructor_with_incomplete_initializer_list();
+bool matrix_array_container_subtract_in_place();
 
 /* ------------ Map container tests --------------- */
 
@@ -130,6 +131,7 @@ bool matrix_map_container_print_operator_matrix_2_rows_1_column();
 bool matrix_map_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column();
 bool matrix_map_container_contructor_with_complete_initializer_list();
 bool matrix_map_container_contructor_with_incomplete_initializer_list();
+bool matrix_map_container_subtract_in_place();
 
 int main(){
     int passedTests = 0;
@@ -182,6 +184,7 @@ int main(){
     RUN_TEST(matrix_array_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column, passedTests, failedTests);
     RUN_TEST(matrix_array_container_contructor_with_complete_initializer_list, passedTests, failedTests);
     RUN_TEST(matrix_array_container_contructor_with_incomplete_initializer_list, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_subtract_in_place, passedTests, failedTests);
 
     /* ------------ Map container tests --------------- */
     RUN_TEST(matrix_map_container_Creation, passedTests, failedTests);
@@ -236,6 +239,7 @@ int main(){
     RUN_TEST(matrix_map_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column, passedTests, failedTests);
     RUN_TEST(matrix_map_container_contructor_with_complete_initializer_list, passedTests, failedTests);
     RUN_TEST(matrix_map_container_contructor_with_incomplete_initializer_list, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_subtract_in_place, passedTests, failedTests);
     
     cout << endl << "-----------------" << endl;
     cout << "Total tests: " << passedTests +  failedTests << endl;
@@ -1184,6 +1188,7 @@ bool matrix_array_container_contructor_with_complete_initializer_list(){
 
     return ok;
 }
+
 bool matrix_array_container_contructor_with_incomplete_initializer_list(){
     bool ok = true;
     Matrix<float,3,3> mat=  {   
@@ -1196,6 +1201,44 @@ bool matrix_array_container_contructor_with_incomplete_initializer_list(){
             mat.retrieveAt(2,0) == 0.0f && mat.retrieveAt(2,1) == 0.0f && mat.retrieveAt(2,2) == 0.0f && 
             mat.storedElementsCount() == 9;
 
+    return ok;
+}
+
+bool matrix_array_container_subtract_in_place(){
+    bool ok = true;
+    Matrix<float,2,3> m1;
+    /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
+    m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
+
+    Matrix<float,2,3> m2;
+    /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(-1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
+    m2.insertValueAtRowColumn(2.0f, 1, 0);     m2.insertValueAtRowColumn(3.0f, 1, 1);     m2.insertValueAtRowColumn(3.5f, 1, 2);
+
+    ok =    m1.storedElementsCount() == 6 &&
+            m2.storedElementsCount() == 6;
+
+    ok =    ok &&
+            m1.retrieveAt(0, 0) == 0.0f &&  m1.retrieveAt(0, 1) == 0.0f &&      m1.retrieveAt(0, 2) == 3.5f &&
+            m1.retrieveAt(1, 0) == 2.0f &&  m1.retrieveAt(1, 1) == -3.0f &&     m1.retrieveAt(1, 2) == 3.5f;
+
+    ok =    ok &&
+            m2.retrieveAt(0, 0) == 0.0f &&  m2.retrieveAt(0, 1) == -1.3f &&      m2.retrieveAt(0, 2) == 0.0f &&
+            m2.retrieveAt(1, 0) == 2.0f && m2.retrieveAt(1, 1) == 3.0f &&      m2.retrieveAt(1, 2) == 3.5f;
+    
+    m1-=m2;
+
+    ok =    ok &&
+            m1.storedElementsCount() == 6 &&
+            m2.storedElementsCount() == 6;
+
+    ok =    ok &&
+            m1.retrieveAt(0, 0) == 0.0f &&  m1.retrieveAt(0, 1) == 1.3f &&      m1.retrieveAt(0, 2) == 3.5f &&
+            m1.retrieveAt(1, 0) == 0.0f &&  m1.retrieveAt(1, 1) == -6.0f &&     m1.retrieveAt(1, 2) == 0.0f;
+
+    ok =    ok &&
+            m2.retrieveAt(0, 0) == 0.0f &&  m2.retrieveAt(0, 1) == -1.3f &&      m2.retrieveAt(0, 2) == 0.0f &&
+            m2.retrieveAt(1, 0) == 2.0f && m2.retrieveAt(1, 1) == 3.0f &&      m2.retrieveAt(1, 2) == 3.5f;
+    
     return ok;
 }
 
@@ -2283,6 +2326,7 @@ bool matrix_map_container_contructor_with_complete_initializer_list(){
 
     return ok;
 }
+
 bool matrix_map_container_contructor_with_incomplete_initializer_list(){
     bool ok = true;
     Matrix<float,3,3,map<size_t,float>> mat=  {   
@@ -2295,5 +2339,43 @@ bool matrix_map_container_contructor_with_incomplete_initializer_list(){
             mat.retrieveAt(2,0) == 0.0f && mat.retrieveAt(2,1) == 0.0f && mat.retrieveAt(2,2) == 0.0f && 
             mat.storedElementsCount() == 3;
 
+    return ok;
+}
+
+bool matrix_map_container_subtract_in_place(){
+    bool ok = true;
+    Matrix<float,2,3,map<size_t, float>> m1;
+    /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
+    m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
+
+    Matrix<float,2,3,map<size_t, float>> m2;
+    /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(-1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
+    m2.insertValueAtRowColumn(2.0f, 1, 0);     m2.insertValueAtRowColumn(3.0f, 1, 1);     m2.insertValueAtRowColumn(3.5f, 1, 2);
+
+    ok =    m1.storedElementsCount() == 4 &&
+            m2.storedElementsCount() == 4;
+
+    ok =    ok &&
+            m1.retrieveAt(0, 0) == 0.0f &&  m1.retrieveAt(0, 1) == 0.0f &&      m1.retrieveAt(0, 2) == 3.5f &&
+            m1.retrieveAt(1, 0) == 2.0f &&  m1.retrieveAt(1, 1) == -3.0f &&     m1.retrieveAt(1, 2) == 3.5f;
+
+    ok =    ok &&
+            m2.retrieveAt(0, 0) == 0.0f &&  m2.retrieveAt(0, 1) == -1.3f &&      m2.retrieveAt(0, 2) == 0.0f &&
+            m2.retrieveAt(1, 0) == 2.0f && m2.retrieveAt(1, 1) == 3.0f &&      m2.retrieveAt(1, 2) == 3.5f;
+    
+    m1-=m2;
+
+    ok =    ok &&
+            m1.storedElementsCount() == 3 &&
+            m2.storedElementsCount() == 4;
+
+    ok =    ok &&
+            m1.retrieveAt(0, 0) == 0.0f &&  m1.retrieveAt(0, 1) == 1.3f &&      m1.retrieveAt(0, 2) == 3.5f &&
+            m1.retrieveAt(1, 0) == 0.0f &&  m1.retrieveAt(1, 1) == -6.0f &&     m1.retrieveAt(1, 2) == 0.0f;
+
+    ok =    ok &&
+            m2.retrieveAt(0, 0) == 0.0f &&  m2.retrieveAt(0, 1) == -1.3f &&      m2.retrieveAt(0, 2) == 0.0f &&
+            m2.retrieveAt(1, 0) == 2.0f && m2.retrieveAt(1, 1) == 3.0f &&      m2.retrieveAt(1, 2) == 3.5f;
+    
     return ok;
 }
