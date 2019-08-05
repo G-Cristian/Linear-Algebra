@@ -24,10 +24,17 @@ std::ostream& operator<<(std::ostream&, const Matrix<T,RowsN,ColumnsN,Container>
 // The container type used for the returned matrix is is an array.
 template<typename T, size_t RowsN_1, size_t ColumnsN_1, size_t ColumnsN_2, typename Container_2>
 Matrix<T, RowsN_1, ColumnsN_2, T[ColumnsN_2]> operator*(const Matrix<T, RowsN_1, ColumnsN_1, T[ColumnsN_1]>&, const Matrix<T, ColumnsN_1, ColumnsN_2, Container_2>&);
+
 // return the matrix multiplication.
 // The container type used for the returned matrix is the same type as the one used for the first matrix.
 template<typename T, size_t RowsN_1, size_t ColumnsN_1, typename Container_1, size_t ColumnsN_2, typename Container_2>
 Matrix<T, RowsN_1, ColumnsN_2, Container_1> operator*(const Matrix<T, RowsN_1, ColumnsN_1, Container_1>&, const Matrix<T, ColumnsN_1, ColumnsN_2, Container_2>&);
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container_1, typename Container_2>
+Matrix<T, RowsN, ColumnsN, Container_1> operator+(const Matrix<T, RowsN, ColumnsN, Container_1>&, const Matrix<T, RowsN, ColumnsN, Container_2>&);
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container_1, typename Container_2>
+Matrix<T, RowsN, ColumnsN, Container_1> operator-(const Matrix<T, RowsN, ColumnsN, Container_1>&, const Matrix<T, RowsN, ColumnsN, Container_2>&);
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 Matrix<T, RowsN, ColumnsN, Container> operator*(const Matrix<T, RowsN, ColumnsN, Container>&, T);
@@ -589,6 +596,22 @@ std::ostream& operator<<(std::ostream &op, const Matrix<T,RowsN,ColumnsN,Contain
     }
     op << "]" << std::endl;
     return op;
+}
+
+// return the matrix addition.
+// The container type used for the returned matrix is the same type as the one used for the left hand matrix.
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container_1, typename Container_2>
+Matrix<T, RowsN, ColumnsN, Container_1> operator+(const Matrix<T, RowsN, ColumnsN, Container_1> &lh, const Matrix<T, RowsN, ColumnsN, Container_2> &rh){
+    Matrix<T, RowsN, ColumnsN, Container_1> ret(lh);
+    return ret+=rh;
+}
+
+// return the matrix subtraction.
+// The container type used for the returned matrix is the same type as the one used for the left hand matrix.
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container_1, typename Container_2>
+Matrix<T, RowsN, ColumnsN, Container_1> operator-(const Matrix<T, RowsN, ColumnsN, Container_1> &lh, const Matrix<T, RowsN, ColumnsN, Container_2> &rh){
+    Matrix<T, RowsN, ColumnsN, Container_1> ret(lh);
+    return ret-=rh;
 }
 
 template<typename U, size_t RowsN_1, size_t ColumnsN_1, size_t ColumnsN_2, typename Container_2>
