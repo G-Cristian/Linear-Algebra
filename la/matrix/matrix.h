@@ -104,8 +104,12 @@ public:
 
     void insertValueAtRowColumn(const T& value, size_t row, size_t column);
 
-    Matrix<T,1,ColumnsN,Container> rowAtIndex(size_t index) const{
+    Matrix<T,1,ColumnsN,Container> copyRowAtIndex(size_t index) const{
         return Matrix<T,1,ColumnsN,Container>(_mat[index]);
+    }
+
+    Matrix<T,1,ColumnsN,Container*> rowAtIndex(size_t index) {
+        return Matrix<T,1,ColumnsN,Container*>(&(_mat[index]));
     }
 
     /* ----- HELPERS ----- */
@@ -191,6 +195,69 @@ private:
     /* ----- MEMBERS ----- */
 
     Container _mat[RowsN];
+};
+
+/* ----- MATRIX SPECIALIZATION ----- */
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+class Matrix<T, RowsN, ColumnsN, Container*>{
+public:
+    template<typename Container_row>
+    explicit Matrix(const Container_row &row);
+
+    /* ----- DIMENTIONS ----- */
+
+    //gets total size.
+    size_t size() const{
+        return RowsN*ColumnsN;
+    }
+
+    //gets number of rows.
+    size_t rows() const{
+        return RowsN;
+    }
+
+    //gets number of columns.
+    size_t columns() const{
+        return ColumnsN;
+    }
+
+    /* ----- GETTERS & SETTERS ----- */
+
+    // returns a copy of the element in row 'row', column 'column'.
+    // if the Container is a structure like a 'map',
+    // this method will not create an element in position (row,column) if there isn't one in that position.
+    // This is usefull for sparce matrix implementations.
+    T retrieveAt(size_t row, size_t column) const;
+
+    void insertValueAtRowColumn(const T& value, size_t row, size_t column);
+
+    /* ----- HELPERS ----- */
+
+    // returns the number of actually stored elements
+    // usefull for testing when implementing sparce matrix using 'map' as container.
+    size_t storedElementsCount() const{
+        size_t elements = 0;
+
+        for(auto rowsIt = std::begin(_mat); rowsIt != std::end(_mat); ++rowsIt){
+            for(auto columnsIt = std::begin(**rowsIt); columnsIt != std::end(**rowsIt); ++columnsIt){
+                ++elements;
+            }
+        }
+
+        return elements;
+    }
+private:
+    /* ----- UTILITIES ----- */
+
+    T getValueAtIndex(const T(&)[ColumnsN], size_t) const;
+    T getValueAtIndex(const std::map<size_t,T>&, size_t) const;
+    void insertValueAtRowIndex(const T&, T(&)[ColumnsN], size_t);
+    void insertValueAtRowIndex(const T&, std::map<size_t, T>&, size_t);
+
+    /* ----- MEMBERS ----- */
+
+    Container* _mat[RowsN];
 };
 
 /* ----- ROWITERATOR (array) ----- */
@@ -425,6 +492,15 @@ Matrix<T, RowsN, ColumnsN, Container>::Matrix(const Container_row &srcRow){
 }
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+template<typename Container_row>
+Matrix<T, RowsN, ColumnsN, Container*>::Matrix(const Container_row &srcRow){
+    using namespace std;
+    for(auto rowIt=begin(_mat); rowIt != end(_mat); rowIt++){
+        (*rowIt) = srcRow;
+    }
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 void Matrix<T, RowsN, ColumnsN, Container>::resetRow(T(&row)[ColumnsN]){
     for(auto it = std::begin(row); it != std::end(row); ++it){
         *it = T();
@@ -473,7 +549,17 @@ T Matrix<T, RowsN, ColumnsN, Container>::retrieveAt(size_t row, size_t column) c
 }
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+T Matrix<T, RowsN, ColumnsN, Container*>::retrieveAt(size_t row, size_t column) const{
+    return getValueAtIndex(*_mat[row], column);
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 T Matrix<T, RowsN, ColumnsN, Container>::getValueAtIndex(const T (&row)[ColumnsN], size_t index) const{
+    return row[index];
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+T Matrix<T, RowsN, ColumnsN, Container*>::getValueAtIndex(const T (&row)[ColumnsN], size_t index) const{
     return row[index];
 }
 
@@ -489,8 +575,24 @@ T Matrix<T, RowsN, ColumnsN, Container>::getValueAtIndex(const std::map<size_t,T
 }
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+T Matrix<T, RowsN, ColumnsN, Container*>::getValueAtIndex(const std::map<size_t,T> &row, size_t index) const{
+    auto colIt = row.find(index);
+    if(colIt != row.end()){
+        return colIt->second;
+    }
+    else{
+        return T();
+    }
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowColumn(const T& value, size_t row, size_t column){
     insertValueAtRowIndex(value, _mat[row], column);
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+void Matrix<T, RowsN, ColumnsN, Container*>::insertValueAtRowColumn(const T& value, size_t row, size_t column){
+    insertValueAtRowIndex(value, *_mat[row], column);
 }
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
@@ -499,7 +601,29 @@ void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowIndex(const T& value
 }
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+void Matrix<T, RowsN, ColumnsN, Container*>::insertValueAtRowIndex(const T& value, T (&row)[ColumnsN], size_t index){
+    row[index] = value;
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowIndex(const T &value, std::map<size_t, T> &row, size_t index){
+    if(value == T()){
+        // if '0' is trying to be inserted, we must remove the position if it exists.
+        auto colIt = row.find(index);
+        if(colIt != row.end()){
+            //if position exists, remove it.
+            row.erase(colIt);
+        }
+    }
+    else{
+        // A value other than '0' is trying to be inserted so we either create the position and assigns the value
+        // or assign the value to the existing position.
+        row[index] = value;
+    }
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+void Matrix<T, RowsN, ColumnsN, Container*>::insertValueAtRowIndex(const T &value, std::map<size_t, T> &row, size_t index){
     if(value == T()){
         // if '0' is trying to be inserted, we must remove the position if it exists.
         auto colIt = row.find(index);

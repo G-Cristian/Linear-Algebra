@@ -66,7 +66,7 @@ bool matrix_array_container_multiply_in_place_by_scalar_not_equal_zero();
 bool matrix_array_container_multiply_in_place_by_scalar_equal_zero();
 bool matrix_array_container_unary_minus_operator_on_rvalue();
 bool matrix_array_container_unary_minus_operator_on_lvalue();
-bool matrix_array_container_rowAtIndex_array_container();
+bool matrix_array_container_copyRowAtIndex_array_container();
 bool matrix_array_container_divide_in_place_by_scalar();
 bool matrix_array_container_multiply_not_in_place_by_scalar_not_equal_zero();
 bool matrix_array_container_multiply_not_in_place_by_scalar_equal_zero();
@@ -80,6 +80,7 @@ bool matrix_array_container_add_not_in_place();
 bool matrix_array_container_subtract_not_in_place();
 bool matrix_array_container_add_not_in_place_does_not_change_original_matrices();
 bool matrix_array_container_subtract_not_in_place_does_not_change_original_matrices();
+bool matrix_array_container_rowAtIndex_array_container();
 
 /* ------------ Map container tests --------------- */
 
@@ -126,7 +127,7 @@ bool matrix_map_container_multiply_in_place_by_scalar_not_equal_zero();
 bool matrix_map_container_multiply_in_place_by_scalar_equal_zero();
 bool matrix_map_container_unary_minus_operator_on_rvalue();
 bool matrix_map_container_unary_minus_operator_on_lvalue();
-bool matrix_map_container_rowAtIndex_map_container();
+bool matrix_map_container_copyRowAtIndex_map_container();
 bool matrix_map_container_divide_in_place_by_scalar();
 bool matrix_map_container_multiply_not_in_place_by_scalar_not_equal_zero();
 bool matrix_map_container_multiply_not_in_place_by_scalar_equal_zero();
@@ -140,6 +141,13 @@ bool matrix_map_container_add_not_in_place();
 bool matrix_map_container_subtract_not_in_place();
 bool matrix_map_container_add_not_in_place_does_not_change_original_matrices();
 bool matrix_map_container_subtract_not_in_place_does_not_change_original_matrices();
+bool matrix_map_container_rowAtIndex_map_container();
+
+/* ------------ Array pointer container tests --------------- */
+
+bool matrix_array_pointer_container_Get_Size();
+bool matrix_array_pointer_container_Get_Number_Of_Rows();
+bool matrix_array_pointer_container_Get_Number_Of_Columns();
 
 int main(){
     int passedTests = 0;
@@ -183,7 +191,7 @@ int main(){
     RUN_TEST(matrix_array_container_multiply_in_place_by_scalar_equal_zero, passedTests, failedTests);
     RUN_TEST(matrix_array_container_unary_minus_operator_on_rvalue, passedTests, failedTests);
     RUN_TEST(matrix_array_container_unary_minus_operator_on_lvalue, passedTests, failedTests);
-    RUN_TEST(matrix_array_container_rowAtIndex_array_container, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_copyRowAtIndex_array_container, passedTests, failedTests);
     RUN_TEST(matrix_array_container_divide_in_place_by_scalar, passedTests, failedTests);
     RUN_TEST(matrix_array_container_multiply_not_in_place_by_scalar_not_equal_zero, passedTests, failedTests);
     RUN_TEST(matrix_array_container_multiply_not_in_place_by_scalar_equal_zero, passedTests, failedTests);
@@ -197,6 +205,7 @@ int main(){
     RUN_TEST(matrix_array_container_subtract_not_in_place, passedTests, failedTests);
     RUN_TEST(matrix_array_container_add_not_in_place_does_not_change_original_matrices, passedTests, failedTests);
     RUN_TEST(matrix_array_container_subtract_not_in_place_does_not_change_original_matrices, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_rowAtIndex_array_container, passedTests, failedTests);
 
     /* ------------ Map container tests --------------- */
     RUN_TEST(matrix_map_container_Creation, passedTests, failedTests);
@@ -242,7 +251,7 @@ int main(){
     RUN_TEST(matrix_map_container_multiply_in_place_by_scalar_equal_zero, passedTests, failedTests);
     RUN_TEST(matrix_map_container_unary_minus_operator_on_rvalue, passedTests, failedTests);
     RUN_TEST(matrix_map_container_unary_minus_operator_on_lvalue, passedTests, failedTests);
-    RUN_TEST(matrix_map_container_rowAtIndex_map_container, passedTests, failedTests);
+    RUN_TEST(matrix_map_container_copyRowAtIndex_map_container, passedTests, failedTests);
     RUN_TEST(matrix_map_container_divide_in_place_by_scalar, passedTests, failedTests);
     RUN_TEST(matrix_map_container_multiply_not_in_place_by_scalar_not_equal_zero, passedTests, failedTests);
     RUN_TEST(matrix_map_container_multiply_not_in_place_by_scalar_equal_zero, passedTests, failedTests);
@@ -256,7 +265,13 @@ int main(){
     RUN_TEST(matrix_map_container_subtract_not_in_place, passedTests, failedTests);
     RUN_TEST(matrix_map_container_add_not_in_place_does_not_change_original_matrices, passedTests, failedTests);
     RUN_TEST(matrix_map_container_subtract_not_in_place_does_not_change_original_matrices, passedTests, failedTests);
-    
+    RUN_TEST(matrix_map_container_rowAtIndex_map_container, passedTests, failedTests);
+
+    /* ------------ Array pointer container tests --------------- */
+    RUN_TEST(matrix_array_pointer_container_Get_Size, passedTests, failedTests);
+    RUN_TEST(matrix_array_pointer_container_Get_Number_Of_Rows, passedTests, failedTests);
+    RUN_TEST(matrix_array_pointer_container_Get_Number_Of_Columns, passedTests, failedTests);
+
     cout << endl << "-----------------" << endl;
     cout << "Total tests: " << passedTests +  failedTests << endl;
     cout << "Passed tests: " << passedTests << endl;
@@ -984,11 +999,11 @@ bool matrix_array_container_unary_minus_operator_on_lvalue(){
             m2.storedElementsCount() == 6;
 }
 
-bool matrix_array_container_rowAtIndex_array_container(){
+bool matrix_array_container_copyRowAtIndex_array_container(){
     bool ok = true;
     Matrix<float,2,3> mat;
     mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
-    Matrix<float,1,3>row = mat.rowAtIndex(1);
+    Matrix<float,1,3>row = mat.copyRowAtIndex(1);
     
     ok =    row.retrieveAt(0,0) == 1.0f && row.retrieveAt(0,1) == 0.0f && row.retrieveAt(0,2) == 3.0f &&
             row.storedElementsCount() == 3;
@@ -1387,6 +1402,27 @@ bool matrix_array_container_subtract_not_in_place_does_not_change_original_matri
             m3.retrieveAt(0, 0) == 8.0f &&  m3.retrieveAt(0, 1) == 1.3f &&      m3.retrieveAt(0, 2) == 3.5f &&
             m3.retrieveAt(1, 0) == 0.0f && m3.retrieveAt(1, 1) == 4.0f &&      m3.retrieveAt(1, 2) == 0.0f;
     
+    return ok;
+}
+
+bool matrix_array_container_rowAtIndex_array_container(){
+    bool ok = true;
+    Matrix<float,2,3> mat;
+    mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
+    Matrix<float,1,3, float(*)[3]>row = mat.rowAtIndex(1);
+    
+    ok =    row.retrieveAt(0,0) == 1.0f && row.retrieveAt(0,1) == 0.0f && row.retrieveAt(0,2) == 3.0f &&
+            row.storedElementsCount() == 3;
+
+    row.insertValueAtRowColumn(0.0f,0,0);
+
+    ok =    ok &&
+            mat.retrieveAt(0,0) == 0.0f && mat.retrieveAt(0,1) == 0.0f && mat.retrieveAt(0,2) == 0.0f &&
+            mat.retrieveAt(1,0) == 0.0f && mat.retrieveAt(1,1) == 0.0f && mat.retrieveAt(1,2) == 3.0f &&
+            mat.storedElementsCount() == 6 &&
+            row.retrieveAt(0,0) == 0.0f && row.retrieveAt(0,1) == 0.0f && row.retrieveAt(0,2) == 3.0f &&
+            row.storedElementsCount() == 3;
+
     return ok;
 }
 
@@ -2254,11 +2290,11 @@ bool matrix_map_container_unary_minus_operator_on_lvalue(){
             m2.storedElementsCount() == 3;
 }
 
-bool matrix_map_container_rowAtIndex_map_container(){
+bool matrix_map_container_copyRowAtIndex_map_container(){
     bool ok = true;
     Matrix<float,2,3,map<size_t, float>> mat;
     mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
-    Matrix<float,1,3,map<size_t, float>>row = mat.rowAtIndex(1);
+    Matrix<float,1,3,map<size_t, float>>row = mat.copyRowAtIndex(1);
     
     ok =    row.retrieveAt(0,0) == 1.0f && row.retrieveAt(0,1) == 0.0f && row.retrieveAt(0,2) == 3.0f &&
             row.storedElementsCount() == 2;
@@ -2658,4 +2694,49 @@ bool matrix_map_container_subtract_not_in_place_does_not_change_original_matrice
             m3.retrieveAt(1, 0) == 0.0f && m3.retrieveAt(1, 1) == 4.0f &&      m3.retrieveAt(1, 2) == 0.0f;
     
     return ok;
+}
+
+bool matrix_map_container_rowAtIndex_map_container(){
+    bool ok = true;
+    Matrix<float,2,3,map<size_t, float>> mat;
+    mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
+    Matrix<float,1,3,map<size_t, float>*>row = mat.rowAtIndex(1);
+    
+    ok =    row.retrieveAt(0,0) == 1.0f && row.retrieveAt(0,1) == 0.0f && row.retrieveAt(0,2) == 3.0f &&
+            row.storedElementsCount() == 2;
+
+    row.insertValueAtRowColumn(0.0f,0,0);
+
+    ok =    ok &&
+            mat.retrieveAt(0,0) == 0.0f && mat.retrieveAt(0,1) == 0.0f && mat.retrieveAt(0,2) == 0.0f &&
+            mat.retrieveAt(1,0) == 0.0f && mat.retrieveAt(1,1) == 0.0f && mat.retrieveAt(1,2) == 3.0f &&
+            mat.storedElementsCount() == 1 &&
+            row.retrieveAt(0,0) == 0.0f && row.retrieveAt(0,1) == 0.0f && row.retrieveAt(0,2) == 3.0f &&
+            row.storedElementsCount() == 1;
+
+    return ok;
+}
+
+/* ------------ Array pointer container tests --------------- */
+
+bool matrix_array_pointer_container_Get_Size(){
+    Matrix<float,2,3> mat;
+    mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
+    Matrix<float,1,3, float(*)[3]>row = mat.rowAtIndex(1);
+
+    return row.size()==3;
+}
+
+bool matrix_array_pointer_container_Get_Number_Of_Rows(){
+    Matrix<float,2,3> mat;
+    mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
+    Matrix<float,1,3, float(*)[3]>row = mat.rowAtIndex(1);
+    return row.rows() == 1;
+}
+
+bool matrix_array_pointer_container_Get_Number_Of_Columns(){
+    Matrix<float,2,3> mat;
+    mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
+    Matrix<float,1,3, float(*)[3]>row = mat.rowAtIndex(1);
+    return row.columns() == 3;
 }
