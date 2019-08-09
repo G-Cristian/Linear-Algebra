@@ -104,10 +104,14 @@ public:
 
     void insertValueAtRowColumn(const T& value, size_t row, size_t column);
 
+    // returns a matrix representing a copy of the row in the specified index.
+    // The container of the returned matrix is the same as the one used in the original one.
     Matrix<T,1,ColumnsN,Container> copyRowAtIndex(size_t index) const{
         return Matrix<T,1,ColumnsN,Container>(_mat[index]);
     }
 
+    // returns a matrix representing a 'reference' to the row in the specified index.
+    // The container of the returned matrix is a pointer to the container used in the original one.
     Matrix<T,1,ColumnsN,Container*> rowAtIndex(size_t index) {
         return Matrix<T,1,ColumnsN,Container*>(&(_mat[index]));
     }
@@ -203,7 +207,7 @@ template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 class Matrix<T, RowsN, ColumnsN, Container*>{
 public:
     template<typename Container_row>
-    explicit Matrix(const Container_row &row);
+    explicit Matrix(Container_row row);
 
     /* ----- DIMENTIONS ----- */
 
@@ -493,7 +497,7 @@ Matrix<T, RowsN, ColumnsN, Container>::Matrix(const Container_row &srcRow){
 
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 template<typename Container_row>
-Matrix<T, RowsN, ColumnsN, Container*>::Matrix(const Container_row &srcRow){
+Matrix<T, RowsN, ColumnsN, Container*>::Matrix(Container_row srcRow){
     using namespace std;
     for(auto rowIt=begin(_mat); rowIt != end(_mat); rowIt++){
         (*rowIt) = srcRow;
