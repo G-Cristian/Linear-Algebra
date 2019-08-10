@@ -148,6 +148,9 @@ bool matrix_map_container_rowAtIndex_map_container();
 bool matrix_array_pointer_container_Get_Size();
 bool matrix_array_pointer_container_Get_Number_Of_Rows();
 bool matrix_array_pointer_container_Get_Number_Of_Columns();
+bool matrix_array_pointer_container_set_value_at_and_check();
+bool matrix_array_pointer_container_retrieveAt();
+bool matrix_array_pointer_container_insertAt_and_check();
 
 int main(){
     int passedTests = 0;
@@ -271,6 +274,9 @@ int main(){
     RUN_TEST(matrix_array_pointer_container_Get_Size, passedTests, failedTests);
     RUN_TEST(matrix_array_pointer_container_Get_Number_Of_Rows, passedTests, failedTests);
     RUN_TEST(matrix_array_pointer_container_Get_Number_Of_Columns, passedTests, failedTests);
+    RUN_TEST(matrix_array_pointer_container_set_value_at_and_check, passedTests, failedTests);
+    RUN_TEST(matrix_array_pointer_container_retrieveAt, passedTests, failedTests);
+    RUN_TEST(matrix_array_pointer_container_insertAt_and_check, passedTests, failedTests);
 
     cout << endl << "-----------------" << endl;
     cout << "Total tests: " << passedTests +  failedTests << endl;
@@ -2739,4 +2745,58 @@ bool matrix_array_pointer_container_Get_Number_Of_Columns(){
     mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
     Matrix<float,1,3, float(*)[3]>row = mat.rowAtIndex(1);
     return row.columns() == 3;
+}
+
+bool matrix_array_pointer_container_set_value_at_and_check(){
+    bool ok =true;
+    Matrix<float,3,2> mat;
+
+    Matrix<float,1,2, float(*)[2]>row = mat.rowAtIndex(1);
+
+    row.at(0,0)= 10.0f;
+
+    ok = mat.retrieveAt(0,0) == 0.0f && mat.retrieveAt(0,1) == 0.0f &&
+         mat.retrieveAt(1,0) == 10.0f && mat.retrieveAt(1,1) == 0.0f &&
+         mat.retrieveAt(2,0) == 0.0f && mat.retrieveAt(2,1) == 0.0f &&
+         mat.storedElementsCount() == 6 &&
+         row.retrieveAt(0,0) == 10.0f && row.retrieveAt(0,1) == 0.0f &&
+         row.storedElementsCount() == 2;
+
+    return ok;
+}
+
+bool matrix_array_pointer_container_retrieveAt(){
+    bool ok =true;
+    Matrix<float,3,2> mat;
+
+    Matrix<float,1,2, float(*)[2]>row = mat.rowAtIndex(1);
+
+    row.at(0,0)= 10.0f;
+
+    ok = mat.retrieveAt(0,0) == 0.0f && mat.retrieveAt(0,1) == 0.0f &&
+         mat.retrieveAt(1,0) == 10.0f && mat.retrieveAt(1,1) == 0.0f &&
+         mat.retrieveAt(2,0) == 0.0f && mat.retrieveAt(2,1) == 0.0f &&
+         mat.storedElementsCount() == 6 &&
+         row.retrieveAt(0,0) == 10.0f && row.retrieveAt(0,1) == 0.0f &&
+         row.storedElementsCount() == 2;
+
+    return ok;
+}
+
+bool matrix_array_pointer_container_insertAt_and_check(){
+    bool ok =true;
+    Matrix<float,3,2> mat;
+
+    Matrix<float,1,2, float(*)[2]>row = mat.rowAtIndex(1);
+
+    row.insertValueAtRowColumn(10.0f,0,0);
+    
+    ok = mat.retrieveAt(0,0) == 0.0f && mat.retrieveAt(0,1) == 0.0f &&
+         mat.retrieveAt(1,0) == 10.0f && mat.retrieveAt(1,1) == 0.0f &&
+         mat.retrieveAt(2,0) == 0.0f && mat.retrieveAt(2,1) == 0.0f &&
+         mat.storedElementsCount() == 6 &&
+         row.retrieveAt(0,0) == 10.0f && row.retrieveAt(0,1) == 0.0f &&
+         row.storedElementsCount() == 2;
+
+    return ok;
 }

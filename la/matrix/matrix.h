@@ -87,7 +87,7 @@ public:
 
     // returns a reference to the element in row 'row', column 'column'.
     // if the element does not exist it may be created depending of the Container used for the row.
-    // For example, of the container is a 'map', and the value at row,column does not exist, it will be created.
+    // For example, if the container is a 'map', and the value at row,column does not exist, it will be created.
     // if you are using a 'map' container and you want to retrieve a copy of the value but you don't want to create it if it does not exist
     // use 'retrieveAt' instead.
     T& at(size_t row, size_t column){
@@ -228,8 +228,17 @@ public:
 
     /* ----- GETTERS & SETTERS ----- */
 
+    // returns a reference to the element in row 'row', column 'column'.
+    // if the element does not exist it may be created depending of the Container used for the row.
+    // For example, if the container is a 'map*', and the value at row,column does not exist, it will be created.
+    // if you are using a 'map*' container and you want to retrieve a copy of the value but you don't want to create it if it does not exist
+    // use 'retrieveAt' instead.
+    T& at(size_t row, size_t column){
+        return (*_mat[row])[column];
+    }
+
     // returns a copy of the element in row 'row', column 'column'.
-    // if the Container is a structure like a 'map',
+    // if the Container is a structure like a 'map*',
     // this method will not create an element in position (row,column) if there isn't one in that position.
     // This is usefull for sparce matrix implementations.
     T retrieveAt(size_t row, size_t column) const;
