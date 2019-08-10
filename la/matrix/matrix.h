@@ -261,6 +261,7 @@ public:
         return elements;
     }
 private:
+    Matrix() = delete;
     /* ----- UTILITIES ----- */
 
     T getValueAtIndex(const T(&)[ColumnsN], size_t) const;
