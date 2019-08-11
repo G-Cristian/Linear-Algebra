@@ -151,6 +151,12 @@ bool matrix_array_pointer_container_Get_Number_Of_Columns();
 bool matrix_array_pointer_container_set_value_at_and_check();
 bool matrix_array_pointer_container_retrieveAt();
 bool matrix_array_pointer_container_insertAt_and_check();
+bool matrix_array_pointer_container_copy_constructor_copies_all();
+bool matrix_array_pointer_container_assign_operator_copies_all();
+bool matrix_array_pointer_container_copy_constructor_can_modify_original_elements();
+bool matrix_array_pointer_container_assign_operator_can_modify_original_elements();
+bool matrix_array_pointer_container_storedElementsCount();
+
 
 /* ------------ Map pointer container tests --------------- */
 
@@ -160,6 +166,11 @@ bool matrix_map_pointer_container_Get_Number_Of_Columns();
 bool matrix_map_pointer_container_set_value_at_and_check();
 bool matrix_map_pointer_container_retrieveAt();
 bool matrix_map_pointer_container_insertAt_and_check();
+bool matrix_map_pointer_container_copy_constructor_copies_all();
+bool matrix_map_pointer_container_assign_operator_copies_all();
+bool matrix_map_pointer_container_copy_constructor_can_modify_original_elements();
+bool matrix_map_pointer_container_assign_operator_can_modify_original_elements();
+bool matrix_map_pointer_container_storedElementsCount();
 
 int main(){
     int passedTests = 0;
@@ -286,6 +297,11 @@ int main(){
     RUN_TEST(matrix_array_pointer_container_set_value_at_and_check, passedTests, failedTests);
     RUN_TEST(matrix_array_pointer_container_retrieveAt, passedTests, failedTests);
     RUN_TEST(matrix_array_pointer_container_insertAt_and_check, passedTests, failedTests);
+    RUN_TEST(matrix_array_pointer_container_copy_constructor_copies_all, passedTests, failedTests);
+    RUN_TEST(matrix_array_pointer_container_assign_operator_copies_all, passedTests, failedTests);
+    RUN_TEST(matrix_array_pointer_container_copy_constructor_can_modify_original_elements, passedTests, failedTests);
+    RUN_TEST(matrix_array_pointer_container_assign_operator_can_modify_original_elements, passedTests, failedTests);
+    RUN_TEST(matrix_array_pointer_container_storedElementsCount, passedTests, failedTests);
 
     /* ------------ Map pointer container tests --------------- */
     RUN_TEST(matrix_map_pointer_container_Get_Size, passedTests, failedTests);
@@ -294,6 +310,11 @@ int main(){
     RUN_TEST(matrix_map_pointer_container_set_value_at_and_check, passedTests, failedTests);
     RUN_TEST(matrix_map_pointer_container_retrieveAt, passedTests, failedTests);
     RUN_TEST(matrix_map_pointer_container_insertAt_and_check, passedTests, failedTests);
+    RUN_TEST(matrix_map_pointer_container_copy_constructor_copies_all, passedTests, failedTests);
+    RUN_TEST(matrix_map_pointer_container_assign_operator_copies_all, passedTests, failedTests);
+    RUN_TEST(matrix_map_pointer_container_copy_constructor_can_modify_original_elements, passedTests, failedTests);
+    RUN_TEST(matrix_map_pointer_container_assign_operator_can_modify_original_elements, passedTests, failedTests);
+    RUN_TEST(matrix_map_pointer_container_storedElementsCount, passedTests, failedTests);
 
     cout << endl << "-----------------" << endl;
     cout << "Total tests: " << passedTests +  failedTests << endl;
@@ -2818,7 +2839,181 @@ bool matrix_array_pointer_container_insertAt_and_check(){
     return ok;
 }
 
-/* ------------ Array pointer container tests --------------- */
+bool matrix_array_pointer_container_copy_constructor_copies_all(){
+    bool ok =true;
+    Matrix<float,4,5> mat;
+    mat.at(0,0) = 1.0f;
+    mat.insertValueAtRowColumn(34.0f,3,4);
+
+    Matrix<float,1,5, float(*)[5]>row = mat.rowAtIndex(3);
+    row.at(0,0) = 30.0f;
+    row.insertValueAtRowColumn(32.0f,0,2);
+    
+    Matrix<float,1,5, float(*)[5]> rowCopy(row);
+
+    ok =    (row.size() == rowCopy.size()) &&
+            (row.rows() == rowCopy.rows()) &&
+            (row.columns() == rowCopy.columns());
+    
+    ok =    ok &&
+            row.retrieveAt(0,0) == 30.0f && row.retrieveAt(0,1) == 0.0f &&  row.retrieveAt(0,2) == 32.0f && row.retrieveAt(0,3) == 0.0f &&  row.retrieveAt(0,4) == 34.0f &&
+            rowCopy.retrieveAt(0,0) == 30.0f && rowCopy.retrieveAt(0,1) == 0.0f &&  rowCopy.retrieveAt(0,2) == 32.0f && rowCopy.retrieveAt(0,3) == 0.0f &&  rowCopy.retrieveAt(0,4) == 34.0f;
+    
+
+    ok = ok && row.storedElementsCount() == 5;
+    ok = ok && rowCopy.storedElementsCount() == 5;
+
+    return ok;
+}
+
+bool matrix_array_pointer_container_assign_operator_copies_all(){
+    bool ok =true;
+    Matrix<float,3,2> mat1;
+    mat1.at(0,0) = 100.0f;
+    mat1.insertValueAtRowColumn(121.0f,2,1);
+
+    Matrix<float,2,2> mat2;
+    mat2.at(0,0) = 200.0f;
+    mat2.insertValueAtRowColumn(211.0f,1,1);
+
+    Matrix<float,1,2, float(*)[2]>row1 = mat1.rowAtIndex(2);
+    row1.at(0,0) = 120.0f;
+    row1.insertValueAtRowColumn(121.0f,0,1);
+
+    Matrix<float,1,2, float(*)[2]>row2 = mat2.rowAtIndex(1);
+    row2.at(0,0) = 210.0f;
+    row2.insertValueAtRowColumn(211.0f,0,1);
+
+    ok =    mat1.retrieveAt(0,0) == 100.0f &&   mat1.retrieveAt(0,1) == 0.0f &&
+            mat1.retrieveAt(1,0) == 0.0f &&     mat1.retrieveAt(1,1) == 0.0f &&
+            mat1.retrieveAt(2,0) == 120.0f &&   mat1.retrieveAt(2,1) == 121.0f &&
+            mat2.retrieveAt(0,0) == 200.0f &&   mat2.retrieveAt(0,1) == 0.0f &&
+            mat2.retrieveAt(1,0) == 210.0f &&   mat2.retrieveAt(1,1) == 211.0f &&
+            row1.retrieveAt(0,0) == 120.0f &&   row1.retrieveAt(0,1) == 121.0f &&
+            row2.retrieveAt(0,0) == 210.0f &&   row2.retrieveAt(0,1) == 211.0f;
+
+    row1 = row2;
+
+    ok =    ok &&
+            (row1.size() == row2.size()) &&
+            (row1.rows() == row2.rows()) &&
+            (row1.columns() == row2.columns());
+    
+    ok =    ok &&
+            mat1.retrieveAt(0,0) == 100.0f &&   mat1.retrieveAt(0,1) == 0.0f &&
+            mat1.retrieveAt(1,0) == 0.0f &&     mat1.retrieveAt(1,1) == 0.0f &&
+            mat1.retrieveAt(2,0) == 120.0f &&   mat1.retrieveAt(2,1) == 121.0f &&
+            mat2.retrieveAt(0,0) == 200.0f &&   mat2.retrieveAt(0,1) == 0.0f &&
+            mat2.retrieveAt(1,0) == 210.0f &&    mat2.retrieveAt(1,1) == 211.0f &&
+            row1.retrieveAt(0,0) == 210.0f &&    row1.retrieveAt(0,1) == 211.0f &&
+            row2.retrieveAt(0,0) == 210.0f &&    row2.retrieveAt(0,1) == 211.0f;
+    
+
+    ok = ok && row1.storedElementsCount() == 2;
+    ok = ok && row2.storedElementsCount() == 2;
+
+    return ok;
+}
+
+bool matrix_array_pointer_container_copy_constructor_can_modify_original_elements(){
+    bool ok =true;
+    Matrix<float,3,2> mat1;
+    mat1.at(0,0) = 100.0f;
+    mat1.insertValueAtRowColumn(121.0f,2,1);
+
+    Matrix<float,1,2, float(*)[2]>row1 = mat1.rowAtIndex(2);
+    row1.at(0,0) = 120.0f;
+    row1.insertValueAtRowColumn(121.0f,0,1);
+
+    ok =    mat1.retrieveAt(0,0) == 100.0f &&   mat1.retrieveAt(0,1) == 0.0f &&
+            mat1.retrieveAt(1,0) == 0.0f &&     mat1.retrieveAt(1,1) == 0.0f &&
+            mat1.retrieveAt(2,0) == 120.0f &&   mat1.retrieveAt(2,1) == 121.0f &&
+            row1.retrieveAt(0,0) == 120.0f &&   row1.retrieveAt(0,1) == 121.0f;
+
+    Matrix<float,1,2, float(*)[2]>row2(row1);
+    row2.at(0,0) = 210.0f;
+    row2.insertValueAtRowColumn(211.0f,0,1);
+
+    ok =    ok &&
+            mat1.retrieveAt(0,0) == 100.0f &&   mat1.retrieveAt(0,1) == 0.0f &&
+            mat1.retrieveAt(1,0) == 0.0f &&     mat1.retrieveAt(1,1) == 0.0f &&
+            mat1.retrieveAt(2,0) == 210.0f &&   mat1.retrieveAt(2,1) == 211.0f &&
+            row1.retrieveAt(0,0) == 210.0f &&   row1.retrieveAt(0,1) == 211.0f &&
+            row2.retrieveAt(0,0) == 210.0f &&   row2.retrieveAt(0,1) == 211.0f;
+
+    ok =    ok &&
+            (row1.size() == row2.size()) &&
+            (row1.rows() == row2.rows()) &&
+            (row1.columns() == row2.columns());
+
+    ok = ok && mat1.storedElementsCount() == 6;
+    ok = ok && row1.storedElementsCount() == 2;
+    ok = ok && row2.storedElementsCount() == 2;
+
+    return ok;
+}
+
+bool matrix_array_pointer_container_assign_operator_can_modify_original_elements(){
+    bool ok =true;
+    Matrix<float,3,2> mat1;
+    mat1.at(0,0) = 100.0f;
+    mat1.insertValueAtRowColumn(121.0f,2,1);
+
+    Matrix<float,2,2> mat2;
+    mat2.at(0,0) = 200.0f;
+    mat2.insertValueAtRowColumn(211.0f,1,1);
+
+    Matrix<float,1,2, float(*)[2]>row1 = mat1.rowAtIndex(2);
+    row1.at(0,0) = 120.0f;
+    row1.insertValueAtRowColumn(121.0f,0,1);
+
+    Matrix<float,1,2, float(*)[2]>row2 = mat2.rowAtIndex(1);
+    row2.at(0,0) = 210.0f;
+    row2.insertValueAtRowColumn(211.0f,0,1);
+
+    ok =    mat1.retrieveAt(0,0) == 100.0f &&   mat1.retrieveAt(0,1) == 0.0f &&
+            mat1.retrieveAt(1,0) == 0.0f &&     mat1.retrieveAt(1,1) == 0.0f &&
+            mat1.retrieveAt(2,0) == 120.0f &&   mat1.retrieveAt(2,1) == 121.0f &&
+            mat2.retrieveAt(0,0) == 200.0f &&   mat2.retrieveAt(0,1) == 0.0f &&
+            mat2.retrieveAt(1,0) == 210.0f &&   mat2.retrieveAt(1,1) == 211.0f &&
+            row1.retrieveAt(0,0) == 120.0f &&   row1.retrieveAt(0,1) == 121.0f &&
+            row2.retrieveAt(0,0) == 210.0f &&   row2.retrieveAt(0,1) == 211.0f;
+
+    row1 = row2;
+
+    ok =    ok &&
+            (row1.size() == row2.size()) &&
+            (row1.rows() == row2.rows()) &&
+            (row1.columns() == row2.columns());
+    
+    row1.at(0,0) = 88.0f;
+    row1.insertValueAtRowColumn(99.0f,0,1);
+    
+    ok =    ok &&
+            mat1.retrieveAt(0,0) == 100.0f &&   mat1.retrieveAt(0,1) == 0.0f &&
+            mat1.retrieveAt(1,0) == 0.0f &&     mat1.retrieveAt(1,1) == 0.0f &&
+            mat1.retrieveAt(2,0) == 120.0f &&   mat1.retrieveAt(2,1) == 121.0f &&
+            mat2.retrieveAt(0,0) == 200.0f &&   mat2.retrieveAt(0,1) == 0.0f &&
+            mat2.retrieveAt(1,0) == 88.0f &&    mat2.retrieveAt(1,1) == 99.0f &&
+            row1.retrieveAt(0,0) == 88.0f &&    row1.retrieveAt(0,1) == 99.0f &&
+            row2.retrieveAt(0,0) == 88.0f &&    row2.retrieveAt(0,1) == 99.0f;
+    
+    ok = ok && mat1.storedElementsCount() == 6;
+    ok = ok && mat2.storedElementsCount() == 4;
+    ok = ok && row1.storedElementsCount() == 2;
+    ok = ok && row2.storedElementsCount() == 2;
+
+    return ok;
+}
+
+bool matrix_array_pointer_container_storedElementsCount(){
+    Matrix<float,3,2> mat1;
+    Matrix<float,1,2,float(*)[2]>row1 = mat1.rowAtIndex(1);
+
+    return mat1.storedElementsCount() == 6 && row1.storedElementsCount() == 2;
+}
+
+/* ------------ Map pointer container tests --------------- */
 
 bool matrix_map_pointer_container_Get_Size(){
     Matrix<float,2,3, map<size_t, float>> mat;
@@ -2894,4 +3089,178 @@ bool matrix_map_pointer_container_insertAt_and_check(){
          row.storedElementsCount() == 1;
 
     return ok;
+}
+
+bool matrix_map_pointer_container_copy_constructor_copies_all(){
+    bool ok =true;
+    Matrix<float,4,5,map<size_t,float>> mat;
+    mat.at(0,0) = 1.0f;
+    mat.insertValueAtRowColumn(34.0f,3,4);
+
+    Matrix<float,1,5,map<size_t,float>*>row = mat.rowAtIndex(3);
+    row.at(0,0) = 30.0f;
+    row.insertValueAtRowColumn(32.0f,0,2);
+    
+    Matrix<float,1,5,map<size_t,float>*> rowCopy(row);
+
+    ok =    (row.size() == rowCopy.size()) &&
+            (row.rows() == rowCopy.rows()) &&
+            (row.columns() == rowCopy.columns());
+    
+    ok =    ok &&
+            row.retrieveAt(0,0) == 30.0f && row.retrieveAt(0,1) == 0.0f &&  row.retrieveAt(0,2) == 32.0f && row.retrieveAt(0,3) == 0.0f &&  row.retrieveAt(0,4) == 34.0f &&
+            rowCopy.retrieveAt(0,0) == 30.0f && rowCopy.retrieveAt(0,1) == 0.0f &&  rowCopy.retrieveAt(0,2) == 32.0f && rowCopy.retrieveAt(0,3) == 0.0f &&  rowCopy.retrieveAt(0,4) == 34.0f;
+    
+
+    ok = ok && row.storedElementsCount() == 3;
+    ok = ok && rowCopy.storedElementsCount() == 3;
+
+    return ok;
+}
+
+bool matrix_map_pointer_container_assign_operator_copies_all(){
+    bool ok =true;
+    Matrix<float,3,2,map<size_t,float>> mat1;
+    mat1.at(0,0) = 100.0f;
+    mat1.insertValueAtRowColumn(121.0f,2,1);
+
+    Matrix<float,2,2,map<size_t,float>> mat2;
+    mat2.at(0,0) = 200.0f;
+    mat2.insertValueAtRowColumn(211.0f,1,1);
+
+    Matrix<float,1,2,map<size_t,float>*>row1 = mat1.rowAtIndex(2);
+    row1.at(0,0) = 120.0f;
+    row1.insertValueAtRowColumn(121.0f,0,1);
+
+    Matrix<float,1,2,map<size_t,float>*>row2 = mat2.rowAtIndex(1);
+    row2.at(0,0) = 210.0f;
+    row2.insertValueAtRowColumn(211.0f,0,1);
+
+    ok =    mat1.retrieveAt(0,0) == 100.0f &&   mat1.retrieveAt(0,1) == 0.0f &&
+            mat1.retrieveAt(1,0) == 0.0f &&     mat1.retrieveAt(1,1) == 0.0f &&
+            mat1.retrieveAt(2,0) == 120.0f &&   mat1.retrieveAt(2,1) == 121.0f &&
+            mat2.retrieveAt(0,0) == 200.0f &&   mat2.retrieveAt(0,1) == 0.0f &&
+            mat2.retrieveAt(1,0) == 210.0f &&   mat2.retrieveAt(1,1) == 211.0f &&
+            row1.retrieveAt(0,0) == 120.0f &&   row1.retrieveAt(0,1) == 121.0f &&
+            row2.retrieveAt(0,0) == 210.0f &&   row2.retrieveAt(0,1) == 211.0f;
+
+    row1 = row2;
+
+    ok =    ok &&
+            (row1.size() == row2.size()) &&
+            (row1.rows() == row2.rows()) &&
+            (row1.columns() == row2.columns());
+    
+    ok =    ok &&
+            mat1.retrieveAt(0,0) == 100.0f &&   mat1.retrieveAt(0,1) == 0.0f &&
+            mat1.retrieveAt(1,0) == 0.0f &&     mat1.retrieveAt(1,1) == 0.0f &&
+            mat1.retrieveAt(2,0) == 120.0f &&   mat1.retrieveAt(2,1) == 121.0f &&
+            mat2.retrieveAt(0,0) == 200.0f &&   mat2.retrieveAt(0,1) == 0.0f &&
+            mat2.retrieveAt(1,0) == 210.0f &&    mat2.retrieveAt(1,1) == 211.0f &&
+            row1.retrieveAt(0,0) == 210.0f &&    row1.retrieveAt(0,1) == 211.0f &&
+            row2.retrieveAt(0,0) == 210.0f &&    row2.retrieveAt(0,1) == 211.0f;
+    
+
+    ok = ok && row1.storedElementsCount() == 2;
+    ok = ok && row2.storedElementsCount() == 2;
+
+    return ok;
+}
+
+bool matrix_map_pointer_container_copy_constructor_can_modify_original_elements(){
+    bool ok =true;
+    Matrix<float,3,2,map<size_t,float>> mat1;
+    mat1.at(0,0) = 100.0f;
+    mat1.insertValueAtRowColumn(121.0f,2,1);
+
+    Matrix<float,1,2,map<size_t,float>*>row1 = mat1.rowAtIndex(2);
+    row1.at(0,0) = 120.0f;
+    row1.insertValueAtRowColumn(121.0f,0,1);
+
+    ok =    mat1.retrieveAt(0,0) == 100.0f &&   mat1.retrieveAt(0,1) == 0.0f &&
+            mat1.retrieveAt(1,0) == 0.0f &&     mat1.retrieveAt(1,1) == 0.0f &&
+            mat1.retrieveAt(2,0) == 120.0f &&   mat1.retrieveAt(2,1) == 121.0f &&
+            row1.retrieveAt(0,0) == 120.0f &&   row1.retrieveAt(0,1) == 121.0f;
+
+    Matrix<float,1,2,map<size_t,float>*>row2(row1);
+    row2.at(0,0) = 210.0f;
+    row2.insertValueAtRowColumn(0.0f,0,1);
+
+    ok =    ok &&
+            mat1.retrieveAt(0,0) == 100.0f &&   mat1.retrieveAt(0,1) == 0.0f &&
+            mat1.retrieveAt(1,0) == 0.0f &&     mat1.retrieveAt(1,1) == 0.0f &&
+            mat1.retrieveAt(2,0) == 210.0f &&   mat1.retrieveAt(2,1) == 0.0f &&
+            row1.retrieveAt(0,0) == 210.0f &&   row1.retrieveAt(0,1) == 0.0f &&
+            row2.retrieveAt(0,0) == 210.0f &&   row2.retrieveAt(0,1) == 0.0f;
+
+    ok =    ok &&
+            (row1.size() == row2.size()) &&
+            (row1.rows() == row2.rows()) &&
+            (row1.columns() == row2.columns());
+
+    ok = ok && mat1.storedElementsCount() == 2;
+    ok = ok && row1.storedElementsCount() == 1;
+    ok = ok && row2.storedElementsCount() == 1;
+
+    return ok;
+}
+
+bool matrix_map_pointer_container_assign_operator_can_modify_original_elements(){
+    bool ok =true;
+    Matrix<float,3,2,map<size_t,float>> mat1;
+    mat1.at(0,0) = 100.0f;
+    mat1.insertValueAtRowColumn(121.0f,2,1);
+
+    Matrix<float,2,2,map<size_t,float>> mat2;
+    mat2.at(0,0) = 200.0f;
+    mat2.insertValueAtRowColumn(211.0f,1,1);
+
+    Matrix<float,1,2,map<size_t,float>*>row1 = mat1.rowAtIndex(2);
+    row1.at(0,0) = 120.0f;
+    row1.insertValueAtRowColumn(121.0f,0,1);
+
+    Matrix<float,1,2,map<size_t,float>*>row2 = mat2.rowAtIndex(1);
+    row2.at(0,0) = 210.0f;
+    row2.insertValueAtRowColumn(211.0f,0,1);
+
+    ok =    mat1.retrieveAt(0,0) == 100.0f &&   mat1.retrieveAt(0,1) == 0.0f &&
+            mat1.retrieveAt(1,0) == 0.0f &&     mat1.retrieveAt(1,1) == 0.0f &&
+            mat1.retrieveAt(2,0) == 120.0f &&   mat1.retrieveAt(2,1) == 121.0f &&
+            mat2.retrieveAt(0,0) == 200.0f &&   mat2.retrieveAt(0,1) == 0.0f &&
+            mat2.retrieveAt(1,0) == 210.0f &&   mat2.retrieveAt(1,1) == 211.0f &&
+            row1.retrieveAt(0,0) == 120.0f &&   row1.retrieveAt(0,1) == 121.0f &&
+            row2.retrieveAt(0,0) == 210.0f &&   row2.retrieveAt(0,1) == 211.0f;
+
+    row1 = row2;
+
+    ok =    ok &&
+            (row1.size() == row2.size()) &&
+            (row1.rows() == row2.rows()) &&
+            (row1.columns() == row2.columns());
+    
+    row1.at(0,0) = 88.0f;
+    row1.insertValueAtRowColumn(0.0f,0,1);
+    
+    ok =    ok &&
+            mat1.retrieveAt(0,0) == 100.0f &&   mat1.retrieveAt(0,1) == 0.0f &&
+            mat1.retrieveAt(1,0) == 0.0f &&     mat1.retrieveAt(1,1) == 0.0f &&
+            mat1.retrieveAt(2,0) == 120.0f &&   mat1.retrieveAt(2,1) == 121.0f &&
+            mat2.retrieveAt(0,0) == 200.0f &&   mat2.retrieveAt(0,1) == 0.0f &&
+            mat2.retrieveAt(1,0) == 88.0f &&    mat2.retrieveAt(1,1) == 0.0f &&
+            row1.retrieveAt(0,0) == 88.0f &&    row1.retrieveAt(0,1) == 0.0f &&
+            row2.retrieveAt(0,0) == 88.0f &&    row2.retrieveAt(0,1) == 0.0f;
+    
+    ok = ok && mat1.storedElementsCount() == 3;
+    ok = ok && mat2.storedElementsCount() == 2;
+    ok = ok && row1.storedElementsCount() == 1;
+    ok = ok && row2.storedElementsCount() == 1;
+
+    return ok;
+}
+
+bool matrix_map_pointer_container_storedElementsCount(){
+    Matrix<float,3,2,map<size_t,float>> mat1;
+    Matrix<float,1,2,map<size_t,float>*>row1 = mat1.rowAtIndex(1);
+
+    return mat1.storedElementsCount() == 0 && row1.storedElementsCount() == 0;
 }
