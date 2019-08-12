@@ -260,6 +260,28 @@ public:
 
         return elements;
     }
+
+    /* ----- ITERATORS OPERATIONS ----- */
+
+    //returns a ConstRowIterator for the begining of the row at 'rowIndex'
+    ConstRowIterator<T, ColumnsN, Container> rowIteratorBegin(size_t rowIndex) const{
+        return ConstRowIterator<T,ColumnsN, Container>::begin(_mat[rowIndex]);
+    }
+
+    //returns a RowIterator for the begining of the row at 'rowIndex'
+    RowIterator<T, ColumnsN, Container> rowIteratorBegin(size_t rowIndex){
+        return RowIterator<T,ColumnsN, Container>::begin(_mat[rowIndex]);
+    }
+
+    //returns a ConstRowIterator for the ending of the row at 'rowIndex'
+    ConstRowIterator<T, ColumnsN, Container> rowIteratorEnd(size_t rowIndex) const{
+        return ConstRowIterator<T,ColumnsN, Container>::end(_mat[rowIndex]);
+    }
+
+    //returns a RowIterator for the ending of the row at 'rowIndex'
+    RowIterator<T, ColumnsN, Container> rowIteratorEnd(size_t rowIndex){
+        return RowIterator<T,ColumnsN, Container>::end(_mat[rowIndex]);
+    }
 private:
     Matrix() = delete;
     /* ----- UTILITIES ----- */

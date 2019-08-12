@@ -156,6 +156,8 @@ bool matrix_array_pointer_container_assign_operator_copies_all();
 bool matrix_array_pointer_container_copy_constructor_can_modify_original_elements();
 bool matrix_array_pointer_container_assign_operator_can_modify_original_elements();
 bool matrix_array_pointer_container_storedElementsCount();
+bool matrix_array_pointer_container_RowIterator();
+bool matrix_array_pointer_container_ConstRowIterator();
 
 
 /* ------------ Map pointer container tests --------------- */
@@ -171,6 +173,8 @@ bool matrix_map_pointer_container_assign_operator_copies_all();
 bool matrix_map_pointer_container_copy_constructor_can_modify_original_elements();
 bool matrix_map_pointer_container_assign_operator_can_modify_original_elements();
 bool matrix_map_pointer_container_storedElementsCount();
+bool matrix_map_pointer_container_RowIterator();
+bool matrix_map_pointer_container_ConstRowIterator();
 
 int main(){
     int passedTests = 0;
@@ -302,6 +306,8 @@ int main(){
     RUN_TEST(matrix_array_pointer_container_copy_constructor_can_modify_original_elements, passedTests, failedTests);
     RUN_TEST(matrix_array_pointer_container_assign_operator_can_modify_original_elements, passedTests, failedTests);
     RUN_TEST(matrix_array_pointer_container_storedElementsCount, passedTests, failedTests);
+    RUN_TEST(matrix_array_pointer_container_RowIterator, passedTests, failedTests);
+    RUN_TEST(matrix_array_pointer_container_ConstRowIterator, passedTests, failedTests);
 
     /* ------------ Map pointer container tests --------------- */
     RUN_TEST(matrix_map_pointer_container_Get_Size, passedTests, failedTests);
@@ -315,6 +321,8 @@ int main(){
     RUN_TEST(matrix_map_pointer_container_copy_constructor_can_modify_original_elements, passedTests, failedTests);
     RUN_TEST(matrix_map_pointer_container_assign_operator_can_modify_original_elements, passedTests, failedTests);
     RUN_TEST(matrix_map_pointer_container_storedElementsCount, passedTests, failedTests);
+    RUN_TEST(matrix_map_pointer_container_RowIterator, passedTests, failedTests);
+    RUN_TEST(matrix_map_pointer_container_ConstRowIterator, passedTests, failedTests);
 
     cout << endl << "-----------------" << endl;
     cout << "Total tests: " << passedTests +  failedTests << endl;
@@ -915,7 +923,7 @@ bool matrix_array_container_ConstRowIterator(){
                 (((*it).first == 0 && (*it).second == 2.0f) ||
                  ((*it).first == 1 && (*it).second == 3.0f) ||
                  ((*it).first == 2 && (*it).second == 4.0f));
-        // not allowed because it's a const iterator (*it).second += 3.0f;
+        // (*it).second += 3.0f not allowed because it's a const iterator
         ++cantIt;
     }
 
@@ -2206,7 +2214,7 @@ bool matrix_map_container_ConstRowIterator(){
                 (((*it).first == 0 && (*it).second == 2.0f) ||
                  ((*it).first == 2 && (*it).second == 4.0f));
         
-        // not allowed because it's a const iterator (*it).second += 3.0f;
+        // (*it).second += 3.0f not allowed because it's a const iterator
         ++cantIt;
     }
 
@@ -3013,6 +3021,62 @@ bool matrix_array_pointer_container_storedElementsCount(){
     return mat1.storedElementsCount() == 6 && row1.storedElementsCount() == 2;
 }
 
+bool matrix_array_pointer_container_RowIterator(){
+    bool ok =true;
+    Matrix<float,2,3> mat1;
+    mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; mat1.at(0,2) = 4.0f;
+    mat1.at(1,0) = 8.0f; mat1.insertValueAtRowColumn(0.0f,1,1); mat1.at(1,2) = 10.0f;
+
+    Matrix<float,1,3, float(*)[3]>row1 = mat1.rowAtIndex(1);
+
+    auto end = row1.rowIteratorEnd(0);
+
+    size_t cantIt = 0;
+    for(auto it = row1.rowIteratorBegin(0); it != end; ++it){
+        ok =    ok &&
+                (((*it).first == 0 && (*it).second == 8.0f) ||
+                 ((*it).first == 1 && (*it).second == 0.0f) ||
+                 ((*it).first == 2 && (*it).second == 10.0f));
+        (*it).second += 3.0f;
+        ++cantIt;
+    }
+
+    ok =    ok &&
+            mat1.retrieveAt(0,0) == 2.0f && mat1.retrieveAt(0,1) == 3.0f && mat1.retrieveAt(0,2) == 4.0f &&
+            mat1.retrieveAt(1,0) == 11.0f && mat1.retrieveAt(1,1) == 3.0f && mat1.retrieveAt(1,2) == 13.0f &&
+            row1.retrieveAt(0,0) == 11.0f && row1.retrieveAt(0,1) == 3.0f && row1.retrieveAt(0,2) == 13.0f;
+
+    return ok && cantIt == 3;
+}
+
+bool matrix_array_pointer_container_ConstRowIterator(){
+    bool ok =true;
+    Matrix<float,2,3> mat1;
+    mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; mat1.at(0,2) = 4.0f;
+    mat1.at(1,0) = 8.0f; mat1.insertValueAtRowColumn(0.0f,1,1); mat1.at(1,2) = 10.0f;
+
+    const Matrix<float,1,3, float(*)[3]>row1 = mat1.rowAtIndex(1);
+
+    auto end = row1.rowIteratorEnd(0);
+
+    size_t cantIt = 0;
+    for(auto it = row1.rowIteratorBegin(0); it != end; ++it){
+        ok =    ok &&
+                (((*it).first == 0 && (*it).second == 8.0f) ||
+                 ((*it).first == 1 && (*it).second == 0.0f) ||
+                 ((*it).first == 2 && (*it).second == 10.0f));
+        // (*it).second += 3.0f not allowed because it's a const iterator
+        ++cantIt;
+    }
+
+    ok =    ok &&
+            mat1.retrieveAt(0,0) == 2.0f && mat1.retrieveAt(0,1) == 3.0f && mat1.retrieveAt(0,2) == 4.0f &&
+            mat1.retrieveAt(1,0) == 8.0f && mat1.retrieveAt(1,1) == 0.0f && mat1.retrieveAt(1,2) == 10.0f &&
+            row1.retrieveAt(0,0) == 8.0f && row1.retrieveAt(0,1) == 0.0f && row1.retrieveAt(0,2) == 10.0f;
+
+    return ok && cantIt == 3;
+}
+
 /* ------------ Map pointer container tests --------------- */
 
 bool matrix_map_pointer_container_Get_Size(){
@@ -3263,4 +3327,60 @@ bool matrix_map_pointer_container_storedElementsCount(){
     Matrix<float,1,2,map<size_t,float>*>row1 = mat1.rowAtIndex(1);
 
     return mat1.storedElementsCount() == 0 && row1.storedElementsCount() == 0;
+}
+
+bool matrix_map_pointer_container_RowIterator(){
+    bool ok =true;
+    Matrix<float,2,3,map<size_t,float>> mat1;
+    mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; mat1.at(0,2) = 4.0f;
+    mat1.at(1,0) = 8.0f; mat1.insertValueAtRowColumn(0.0f,1,1); mat1.at(1,2) = 10.0f;
+
+    Matrix<float,1,3,map<size_t,float>*>row1 = mat1.rowAtIndex(1);
+
+    auto end = row1.rowIteratorEnd(0);
+
+    size_t cantIt = 0;
+    for(auto it = row1.rowIteratorBegin(0); it != end; ++it){
+        ok =    ok &&
+                (((*it).first == 0 && (*it).second == 8.0f) ||
+                 ((*it).first == 1 && (*it).second == 0.0f) ||
+                 ((*it).first == 2 && (*it).second == 10.0f));
+        (*it).second += 3.0f;
+        ++cantIt;
+    }
+
+    ok =    ok &&
+            mat1.retrieveAt(0,0) == 2.0f && mat1.retrieveAt(0,1) == 3.0f && mat1.retrieveAt(0,2) == 4.0f &&
+            mat1.retrieveAt(1,0) == 11.0f && mat1.retrieveAt(1,1) == 0.0f && mat1.retrieveAt(1,2) == 13.0f &&
+            row1.retrieveAt(0,0) == 11.0f && row1.retrieveAt(0,1) == 0.0f && row1.retrieveAt(0,2) == 13.0f;
+
+    return ok && cantIt == 2;
+}
+
+bool matrix_map_pointer_container_ConstRowIterator(){
+    bool ok =true;
+    Matrix<float,2,3,map<size_t,float>> mat1;
+    mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; mat1.at(0,2) = 4.0f;
+    mat1.at(1,0) = 8.0f; mat1.insertValueAtRowColumn(0.0f,1,1); mat1.at(1,2) = 10.0f;
+
+    const Matrix<float,1,3,map<size_t,float>*>row1 = mat1.rowAtIndex(1);
+
+    auto end = row1.rowIteratorEnd(0);
+
+    size_t cantIt = 0;
+    for(auto it = row1.rowIteratorBegin(0); it != end; ++it){
+        ok =    ok &&
+                (((*it).first == 0 && (*it).second == 8.0f) ||
+                 ((*it).first == 1 && (*it).second == 0.0f) ||
+                 ((*it).first == 2 && (*it).second == 10.0f));
+        // (*it).second += 3.0f not allowed because it's a const iterator
+        ++cantIt;
+    }
+
+    ok =    ok &&
+            mat1.retrieveAt(0,0) == 2.0f && mat1.retrieveAt(0,1) == 3.0f && mat1.retrieveAt(0,2) == 4.0f &&
+            mat1.retrieveAt(1,0) == 8.0f && mat1.retrieveAt(1,1) == 0.0f && mat1.retrieveAt(1,2) == 10.0f &&
+            row1.retrieveAt(0,0) == 8.0f && row1.retrieveAt(0,1) == 0.0f && row1.retrieveAt(0,2) == 10.0f;
+
+    return ok && cantIt == 2;
 }
