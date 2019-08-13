@@ -158,6 +158,8 @@ bool matrix_array_pointer_container_assign_operator_can_modify_original_elements
 bool matrix_array_pointer_container_storedElementsCount();
 bool matrix_array_pointer_container_RowIterator();
 bool matrix_array_pointer_container_ConstRowIterator();
+bool matrix_array_pointer_container_array_pointer_container_dot();
+bool matrix_array_pointer_container_array_pointer_container_dot_doesnt_change_vectors_values();
 
 
 /* ------------ Map pointer container tests --------------- */
@@ -175,6 +177,12 @@ bool matrix_map_pointer_container_assign_operator_can_modify_original_elements()
 bool matrix_map_pointer_container_storedElementsCount();
 bool matrix_map_pointer_container_RowIterator();
 bool matrix_map_pointer_container_ConstRowIterator();
+bool matrix_map_pointer_container_map_pointer_container_dot();
+bool matrix_map_pointer_container_map_pointer_container_dot_doesnt_change_vectors_values();
+bool matrix_array_container_map_pointer_container_dot();
+bool matrix_array_container_map_pointer_container_dot_doesnt_change_vectors_values();
+bool matrix_map_pointer_container_array_container_dot();
+bool matrix_map_pointer_container_array_container_dot_doesnt_change_vectors_values();
 
 int main(){
     int passedTests = 0;
@@ -308,6 +316,8 @@ int main(){
     RUN_TEST(matrix_array_pointer_container_storedElementsCount, passedTests, failedTests);
     RUN_TEST(matrix_array_pointer_container_RowIterator, passedTests, failedTests);
     RUN_TEST(matrix_array_pointer_container_ConstRowIterator, passedTests, failedTests);
+    RUN_TEST(matrix_array_pointer_container_array_pointer_container_dot, passedTests, failedTests);
+    RUN_TEST(matrix_array_pointer_container_array_pointer_container_dot_doesnt_change_vectors_values, passedTests, failedTests);
 
     /* ------------ Map pointer container tests --------------- */
     RUN_TEST(matrix_map_pointer_container_Get_Size, passedTests, failedTests);
@@ -323,6 +333,12 @@ int main(){
     RUN_TEST(matrix_map_pointer_container_storedElementsCount, passedTests, failedTests);
     RUN_TEST(matrix_map_pointer_container_RowIterator, passedTests, failedTests);
     RUN_TEST(matrix_map_pointer_container_ConstRowIterator, passedTests, failedTests);
+    RUN_TEST(matrix_map_pointer_container_map_pointer_container_dot, passedTests, failedTests);
+    RUN_TEST(matrix_map_pointer_container_map_pointer_container_dot_doesnt_change_vectors_values, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_map_pointer_container_dot, passedTests, failedTests);
+    RUN_TEST(matrix_array_container_map_pointer_container_dot_doesnt_change_vectors_values, passedTests, failedTests);
+    RUN_TEST(matrix_map_pointer_container_array_container_dot, passedTests, failedTests);
+    RUN_TEST(matrix_map_pointer_container_array_container_dot_doesnt_change_vectors_values, passedTests, failedTests);
 
     cout << endl << "-----------------" << endl;
     cout << "Total tests: " << passedTests +  failedTests << endl;
@@ -3077,6 +3093,79 @@ bool matrix_array_pointer_container_ConstRowIterator(){
     return ok && cantIt == 3;
 }
 
+bool matrix_array_pointer_container_array_pointer_container_dot(){
+    Matrix<float,1,5> mat1;
+    Matrix<float,1,5> mat2;
+
+    mat1.at(0,0) = 2.0f;
+    mat2.at(0,0) = 5.0f;
+
+    mat1.at(0,2) = 8.0f;
+
+    mat2.at(0,3) = 15.0f;
+
+    mat1.at(0,4) = 13.0f;
+    mat2.at(0,4) = 10.0f;
+
+    Matrix<float,1,5, float(*)[5]> row1 = mat1.rowAtIndex(0);
+    Matrix<float,1,5, float(*)[5]> row2 = mat2.rowAtIndex(0);
+
+    return dot(row1,row2) == 140.0f;
+}
+
+bool matrix_array_pointer_container_array_pointer_container_dot_doesnt_change_vectors_values(){
+    bool ok = true;
+    Matrix<float,1,5> mat1;
+    Matrix<float,1,5> mat2;
+
+    mat1.at(0,0) = 2.0f;
+    mat2.at(0,0) = 5.0f;
+
+    mat1.at(0,2) = 8.0f;
+
+    mat2.at(0,3) = 15.0f;
+
+    mat1.at(0,4) = 13.0f;
+    mat2.at(0,4) = 10.0f;
+
+    Matrix<float,1,5, float(*)[5]> row1 = mat1.rowAtIndex(0);
+    Matrix<float,1,5, float(*)[5]> row2 = mat2.rowAtIndex(0);
+
+    float dotVal = dot(row1,row2);
+
+    ok = (dotVal == 140.0f);
+
+    for(int j=0; j < 5 && ok; ++j){
+        if(j == 0){
+            ok = (mat1.retrieveAt(0,j) == 2.0f) && (mat2.retrieveAt(0,j) == 5.0f) &&
+                 (row1.retrieveAt(0,j) == 2.0f) && (row2.retrieveAt(0,j) == 5.0f);
+        }
+        else if(j == 2){
+            ok = (mat1.retrieveAt(0,j) == 8.0f) && (mat2.retrieveAt(0,j) == 0.0f) &&
+                 (row1.retrieveAt(0,j) == 8.0f) && (row2.retrieveAt(0,j) == 0.0f);
+        }
+        else if(j == 3){
+            ok = (mat1.retrieveAt(0,j) == 0.0f) && (mat2.retrieveAt(0,j) == 15.0f) &&
+                 (row1.retrieveAt(0,j) == 0.0f) && (row2.retrieveAt(0,j) == 15.0f);
+        }
+        else if(j == 4){
+            ok = (mat1.retrieveAt(0,j) == 13.0f) && (mat2.retrieveAt(0,j) == 10.0f) &&
+                 (row1.retrieveAt(0,j) == 13.0f) && (row2.retrieveAt(0,j) == 10.0f);
+        }
+        else{
+            ok = (mat1.retrieveAt(0,j) == 0.0f) && (mat2.retrieveAt(0,j) == 0.0f) &&
+                 (row1.retrieveAt(0,j) == 0.0f) && (row2.retrieveAt(0,j) == 0.0f);
+        }
+    }
+
+    ok = ok && mat1.storedElementsCount() == 5;
+    ok = ok && mat2.storedElementsCount() == 5;
+    ok = ok && row1.storedElementsCount() == 5;
+    ok = ok && row2.storedElementsCount() == 5;
+
+    return ok;
+}
+
 /* ------------ Map pointer container tests --------------- */
 
 bool matrix_map_pointer_container_Get_Size(){
@@ -3383,4 +3472,216 @@ bool matrix_map_pointer_container_ConstRowIterator(){
             row1.retrieveAt(0,0) == 8.0f && row1.retrieveAt(0,1) == 0.0f && row1.retrieveAt(0,2) == 10.0f;
 
     return ok && cantIt == 2;
+}
+
+bool matrix_map_pointer_container_map_pointer_container_dot(){
+    Matrix<float,1,5,map<size_t,float>> mat1;
+    Matrix<float,1,5,map<size_t,float>> mat2;
+
+    mat1.at(0,0) = 2.0f;
+    mat2.at(0,0) = 5.0f;
+
+    mat1.at(0,2) = 8.0f;
+
+    mat2.at(0,3) = 15.0f;
+
+    mat1.at(0,4) = 13.0f;
+    mat2.at(0,4) = 10.0f;
+
+    Matrix<float,1,5,map<size_t,float>*> row1 = mat1.rowAtIndex(0);
+    Matrix<float,1,5,map<size_t,float>*> row2 = mat2.rowAtIndex(0);
+
+    return dot(row1,row2) == 140.0f;
+}
+
+bool matrix_map_pointer_container_map_pointer_container_dot_doesnt_change_vectors_values(){
+    bool ok = true;
+    Matrix<float,1,5,map<size_t,float>> mat1;
+    Matrix<float,1,5,map<size_t,float>> mat2;
+
+    mat1.at(0,0) = 2.0f;
+    mat2.at(0,0) = 5.0f;
+
+    mat1.at(0,2) = 8.0f;
+
+    mat2.at(0,3) = 15.0f;
+
+    mat1.at(0,4) = 13.0f;
+    mat2.at(0,4) = 10.0f;
+
+    Matrix<float,1,5,map<size_t,float>*> row1 = mat1.rowAtIndex(0);
+    Matrix<float,1,5,map<size_t,float>*> row2 = mat2.rowAtIndex(0);
+
+    float dotVal = dot(row1,row2);
+
+    ok = (dotVal == 140.0f);
+
+    for(int j=0; j < 5 && ok; ++j){
+        if(j == 0){
+            ok = (mat1.retrieveAt(0,j) == 2.0f) && (mat2.retrieveAt(0,j) == 5.0f) &&
+                 (row1.retrieveAt(0,j) == 2.0f) && (row2.retrieveAt(0,j) == 5.0f);
+        }
+        else if(j == 2){
+            ok = (mat1.retrieveAt(0,j) == 8.0f) && (mat2.retrieveAt(0,j) == 0.0f) &&
+                 (row1.retrieveAt(0,j) == 8.0f) && (row2.retrieveAt(0,j) == 0.0f);
+        }
+        else if(j == 3){
+            ok = (mat1.retrieveAt(0,j) == 0.0f) && (mat2.retrieveAt(0,j) == 15.0f) &&
+                 (row1.retrieveAt(0,j) == 0.0f) && (row2.retrieveAt(0,j) == 15.0f);
+        }
+        else if(j == 4){
+            ok = (mat1.retrieveAt(0,j) == 13.0f) && (mat2.retrieveAt(0,j) == 10.0f) &&
+                 (row1.retrieveAt(0,j) == 13.0f) && (row2.retrieveAt(0,j) == 10.0f);
+        }
+        else{
+            ok = (mat1.retrieveAt(0,j) == 0.0f) && (mat2.retrieveAt(0,j) == 0.0f) &&
+                 (row1.retrieveAt(0,j) == 0.0f) && (row2.retrieveAt(0,j) == 0.0f);
+        }
+    }
+
+    ok = ok && mat1.storedElementsCount() == 3;
+    ok = ok && mat2.storedElementsCount() == 3;
+    ok = ok && row1.storedElementsCount() == 3;
+    ok = ok && row2.storedElementsCount() == 3;
+
+    return ok;
+}
+
+bool matrix_array_container_map_pointer_container_dot(){
+    Matrix<float,1,5> mat1;
+    Matrix<float,1,5,map<size_t,float>> mat2;
+
+    mat1.at(0,0) = 2.0f;
+    mat2.at(0,0) = 5.0f;
+
+    mat1.at(0,2) = 8.0f;
+
+    mat2.at(0,3) = 15.0f;
+
+    mat1.at(0,4) = 13.0f;
+    mat2.at(0,4) = 10.0f;
+
+    Matrix<float,1,5,map<size_t,float>*> row2 = mat2.rowAtIndex(0);
+
+    return dot(mat1,row2) == 140.0f;
+}
+
+bool matrix_array_container_map_pointer_container_dot_doesnt_change_vectors_values(){
+    bool ok = true;
+    Matrix<float,1,5> mat1;
+    Matrix<float,1,5,map<size_t,float>> mat2;
+
+    mat1.at(0,0) = 2.0f;
+    mat2.at(0,0) = 5.0f;
+
+    mat1.at(0,2) = 8.0f;
+
+    mat2.at(0,3) = 15.0f;
+
+    mat1.at(0,4) = 13.0f;
+    mat2.at(0,4) = 10.0f;
+
+    Matrix<float,1,5,map<size_t,float>*> row2 = mat2.rowAtIndex(0);
+
+    float dotVal = dot(mat1,row2);
+
+    ok = (dotVal == 140.0f);
+
+    for(int j=0; j < 5 && ok; ++j){
+        if(j == 0){
+            ok = (mat1.retrieveAt(0,j) == 2.0f) && (mat2.retrieveAt(0,j) == 5.0f) &&
+                 (row2.retrieveAt(0,j) == 5.0f);
+        }
+        else if(j == 2){
+            ok = (mat1.retrieveAt(0,j) == 8.0f) && (mat2.retrieveAt(0,j) == 0.0f) &&
+                 (row2.retrieveAt(0,j) == 0.0f);
+        }
+        else if(j == 3){
+            ok = (mat1.retrieveAt(0,j) == 0.0f) && (mat2.retrieveAt(0,j) == 15.0f) &&
+                 (row2.retrieveAt(0,j) == 15.0f);
+        }
+        else if(j == 4){
+            ok = (mat1.retrieveAt(0,j) == 13.0f) && (mat2.retrieveAt(0,j) == 10.0f) &&
+                 (row2.retrieveAt(0,j) == 10.0f);
+        }
+        else{
+            ok = (mat1.retrieveAt(0,j) == 0.0f) && (mat2.retrieveAt(0,j) == 0.0f) &&
+                 (row2.retrieveAt(0,j) == 0.0f);
+        }
+    }
+
+    ok = ok && mat1.storedElementsCount() == 5;
+    ok = ok && mat2.storedElementsCount() == 3;
+    ok = ok && row2.storedElementsCount() == 3;
+
+    return ok;
+}
+
+bool matrix_map_pointer_container_array_container_dot(){
+    Matrix<float,1,5,map<size_t,float>> mat1;
+    Matrix<float,1,5> mat2;
+
+    mat1.at(0,0) = 2.0f;
+    mat2.at(0,0) = 5.0f;
+
+    mat1.at(0,2) = 8.0f;
+
+    mat2.at(0,3) = 15.0f;
+
+    mat1.at(0,4) = 13.0f;
+    mat2.at(0,4) = 10.0f;
+
+    Matrix<float,1,5,map<size_t,float>*> row1 = mat1.rowAtIndex(0);
+
+    return dot(row1,mat2) == 140.0f;
+}
+
+bool matrix_map_pointer_container_array_container_dot_doesnt_change_vectors_values(){
+    bool ok = true;
+    Matrix<float,1,5,map<size_t,float>> mat1;
+    Matrix<float,1,5> mat2;
+
+    mat1.at(0,0) = 2.0f;
+    mat2.at(0,0) = 5.0f;
+
+    mat1.at(0,2) = 8.0f;
+
+    mat2.at(0,3) = 15.0f;
+
+    mat1.at(0,4) = 13.0f;
+    mat2.at(0,4) = 10.0f;
+
+    Matrix<float,1,5,map<size_t,float>*> row1 = mat1.rowAtIndex(0);
+
+    float dotVal = dot(row1,mat2);
+    ok = (dotVal == 140.0f);
+
+    for(int j=0; j < 5 && ok; ++j){
+        if(j == 0){
+            ok = (mat1.retrieveAt(0,j) == 2.0f) && (mat2.retrieveAt(0,j) == 5.0f) &&
+                 (row1.retrieveAt(0,j) == 2.0f);
+        }
+        else if(j == 2){
+            ok = (mat1.retrieveAt(0,j) == 8.0f) && (mat2.retrieveAt(0,j) == 0.0f) &&
+                 (row1.retrieveAt(0,j) == 8.0f);
+        }
+        else if(j == 3){
+            ok = (mat1.retrieveAt(0,j) == 0.0f) && (mat2.retrieveAt(0,j) == 15.0f) &&
+                 (row1.retrieveAt(0,j) == 0.0f);
+        }
+        else if(j == 4){
+            ok = (mat1.retrieveAt(0,j) == 13.0f) && (mat2.retrieveAt(0,j) == 10.0f) &&
+                 (row1.retrieveAt(0,j) == 13.0f);
+        }
+        else{
+            ok = (mat1.retrieveAt(0,j) == 0.0f) && (mat2.retrieveAt(0,j) == 0.0f) &&
+                 (row1.retrieveAt(0,j) == 0.0f);
+        }
+    }
+
+    ok = ok && mat1.storedElementsCount() == 3;
+    ok = ok && mat2.storedElementsCount() == 5;
+    ok = ok && row1.storedElementsCount() == 3;
+
+    return ok;
 }
