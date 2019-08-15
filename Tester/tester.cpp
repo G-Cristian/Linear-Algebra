@@ -162,6 +162,7 @@ bool matrix_array_pointer_container_array_pointer_container_dot();
 bool matrix_array_pointer_container_array_pointer_container_dot_doesnt_change_vectors_values();
 bool matrix_array_pointer_container_array_container_multiplication();
 bool matrix_array_pointer_container_array_container_multiplication_doesnt_change_matrices_values();
+bool matrix_array_pointer_container_add_in_place();
 
 /* ------------ Map pointer container tests --------------- */
 
@@ -186,6 +187,7 @@ bool matrix_map_pointer_container_array_container_dot();
 bool matrix_map_pointer_container_array_container_dot_doesnt_change_vectors_values();
 bool matrix_map_pointer_container_map_container_multiplication();
 bool matrix_map_pointer_container_map_container_multiplication_doesnt_change_matrices_values();
+bool matrix_map_pointer_container_add_in_place();
 
 int main(){
     int passedTests = 0;
@@ -323,6 +325,7 @@ int main(){
     RUN_TEST(matrix_array_pointer_container_array_pointer_container_dot_doesnt_change_vectors_values, passedTests, failedTests);
     RUN_TEST(matrix_array_pointer_container_array_container_multiplication, passedTests, failedTests);
     RUN_TEST(matrix_array_pointer_container_array_container_multiplication_doesnt_change_matrices_values, passedTests, failedTests);
+    RUN_TEST(matrix_array_pointer_container_add_in_place, passedTests, failedTests);
 
     /* ------------ Map pointer container tests --------------- */
     RUN_TEST(matrix_map_pointer_container_Get_Size, passedTests, failedTests);
@@ -346,6 +349,7 @@ int main(){
     RUN_TEST(matrix_map_pointer_container_array_container_dot_doesnt_change_vectors_values, passedTests, failedTests);
     RUN_TEST(matrix_map_pointer_container_map_container_multiplication, passedTests, failedTests);
     RUN_TEST(matrix_map_pointer_container_map_container_multiplication_doesnt_change_matrices_values, passedTests, failedTests);
+    RUN_TEST(matrix_map_pointer_container_add_in_place, passedTests, failedTests);
 
     cout << endl << "-----------------" << endl;
     cout << "Total tests: " << passedTests +  failedTests << endl;
@@ -3231,6 +3235,48 @@ bool matrix_array_pointer_container_array_container_multiplication_doesnt_change
     return ok;
 }
 
+bool matrix_array_pointer_container_add_in_place(){
+    bool ok = true;
+    Matrix<float,2,3> m1;
+    /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
+    m1.insertValueAtRowColumn(0.0f, 1, 0);      m1.insertValueAtRowColumn(-1.3f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
+
+    Matrix<float,1,3> m2;
+    /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
+
+    Matrix<float,1,3, float(*)[3]> r1 = m1.rowAtIndex(1);
+
+    ok =    m1.storedElementsCount() == 6 &&
+            m2.storedElementsCount() == 3 &&
+            r1.storedElementsCount() == 3;
+
+    ok =    ok &&
+            m1.retrieveAt(0, 0) == 0.0f &&  m1.retrieveAt(0, 1) == 0.0f &&      m1.retrieveAt(0, 2) == 3.5f &&
+            m1.retrieveAt(1, 0) == 0.0f &&  m1.retrieveAt(1, 1) == -1.3f &&     m1.retrieveAt(1, 2) == 3.5f &&
+            r1.retrieveAt(0, 0) == 0.0f &&  r1.retrieveAt(0, 1) == -1.3f &&     r1.retrieveAt(0, 2) == 3.5f;
+            
+
+    ok =    ok &&
+            m2.retrieveAt(0, 0) == 0.0f &&  m2.retrieveAt(0, 1) == 1.3f &&      m2.retrieveAt(0, 2) == 0.0f;
+
+    r1+=m2;
+
+    ok =    ok &&
+            m1.storedElementsCount() == 6 &&
+            m2.storedElementsCount() == 3 &&
+            r1.storedElementsCount() == 3;
+
+    ok =    ok &&
+            m1.retrieveAt(0, 0) == 0.0f &&  m1.retrieveAt(0, 1) == 0.0f &&      m1.retrieveAt(0, 2) == 3.5f &&
+            m1.retrieveAt(1, 0) == 0.0f &&  m1.retrieveAt(1, 1) == 0.0f &&     m1.retrieveAt(1, 2) == 3.5f &&
+            r1.retrieveAt(0, 0) == 0.0f &&  r1.retrieveAt(0, 1) == 0.0f &&     r1.retrieveAt(0, 2) == 3.5f;
+
+    ok =    ok &&
+            m2.retrieveAt(0, 0) == 0.0f &&  m2.retrieveAt(0, 1) == 1.3f &&      m2.retrieveAt(0, 2) == 0.0f;
+    
+    return ok;
+}
+
 /* ------------ Map pointer container tests --------------- */
 
 bool matrix_map_pointer_container_Get_Size(){
@@ -3806,5 +3852,47 @@ bool matrix_map_pointer_container_map_container_multiplication_doesnt_change_mat
     ok = ok && mat3.storedElementsCount() == 0;
     ok = ok && row1.storedElementsCount() == 3;
 
+    return ok;
+}
+
+bool matrix_map_pointer_container_add_in_place(){
+    bool ok = true;
+    Matrix<float,2,3,map<size_t,float>> m1;
+    /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
+    m1.insertValueAtRowColumn(0.0f, 1, 0);      m1.insertValueAtRowColumn(-1.3f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
+
+    Matrix<float,1,3,map<size_t,float>> m2;
+    /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
+
+    Matrix<float,1,3,map<size_t,float>*> r1 = m1.rowAtIndex(1);
+
+    ok =    m1.storedElementsCount() == 3 &&
+            m2.storedElementsCount() == 1 &&
+            r1.storedElementsCount() == 2;
+
+    ok =    ok &&
+            m1.retrieveAt(0, 0) == 0.0f &&  m1.retrieveAt(0, 1) == 0.0f &&      m1.retrieveAt(0, 2) == 3.5f &&
+            m1.retrieveAt(1, 0) == 0.0f &&  m1.retrieveAt(1, 1) == -1.3f &&     m1.retrieveAt(1, 2) == 3.5f &&
+            r1.retrieveAt(0, 0) == 0.0f &&  r1.retrieveAt(0, 1) == -1.3f &&     r1.retrieveAt(0, 2) == 3.5f;
+            
+
+    ok =    ok &&
+            m2.retrieveAt(0, 0) == 0.0f &&  m2.retrieveAt(0, 1) == 1.3f &&      m2.retrieveAt(0, 2) == 0.0f;
+    
+    r1+=m2;
+
+    ok =    ok &&
+            m1.storedElementsCount() == 2 &&
+            m2.storedElementsCount() == 1 &&
+            r1.storedElementsCount() == 1;
+
+    ok =    ok &&
+            m1.retrieveAt(0, 0) == 0.0f &&  m1.retrieveAt(0, 1) == 0.0f &&      m1.retrieveAt(0, 2) == 3.5f &&
+            m1.retrieveAt(1, 0) == 0.0f &&  m1.retrieveAt(1, 1) == 0.0f &&     m1.retrieveAt(1, 2) == 3.5f &&
+            r1.retrieveAt(0, 0) == 0.0f &&  r1.retrieveAt(0, 1) == 0.0f &&     r1.retrieveAt(0, 2) == 3.5f;
+
+    ok =    ok &&
+            m2.retrieveAt(0, 0) == 0.0f &&  m2.retrieveAt(0, 1) == 1.3f &&      m2.retrieveAt(0, 2) == 0.0f;
+    
     return ok;
 }

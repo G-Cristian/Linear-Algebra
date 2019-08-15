@@ -292,6 +292,12 @@ public:
     RowIterator<T, ColumnsN, Container> rowIteratorEnd(size_t rowIndex){
         return RowIterator<T,ColumnsN, Container>::end(_mat[rowIndex]);
     }
+
+    /* ----- OPERATORS ----- */
+
+    template<typename Container2>
+    Matrix<T, RowsN, ColumnsN, Container*>& operator+=(const Matrix<T,RowsN,ColumnsN,Container2>&);
+
 private:
     Matrix() = delete;
     /* ----- UTILITIES ----- */
@@ -688,6 +694,20 @@ void Matrix<T, RowsN, ColumnsN, Container*>::insertValueAtRowIndex(const T &valu
 template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
 template<typename Container2>
 Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::operator+=(const Matrix<T,RowsN,ColumnsN,Container2> &m2){
+    for(size_t row = 0; row < RowsN; ++row){
+        auto endIt = m2.rowIteratorEnd(row);
+        for(auto it = m2.rowIteratorBegin(row); it != endIt; ++it){
+            T sum = this->at(row, (*it).first) + (*it).second;
+            this->insertValueAtRowColumn(sum, row, (*it).first);
+        }
+    }
+
+    return *this;
+}
+
+template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+template<typename Container2>
+Matrix<T, RowsN, ColumnsN, Container*>& Matrix<T, RowsN, ColumnsN, Container*>::operator+=(const Matrix<T,RowsN,ColumnsN,Container2> &m2){
     for(size_t row = 0; row < RowsN; ++row){
         auto endIt = m2.rowIteratorEnd(row);
         for(auto it = m2.rowIteratorBegin(row); it != endIt; ++it){
