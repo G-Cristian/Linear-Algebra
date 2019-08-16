@@ -122,7 +122,7 @@ public:
 
     // returns a matrix representing a 'reference' to the row in the specified index.
     // The container of the returned matrix is a pointer to the container used in the original one.
-    Matrix<T,1,ColumnsN,Container*> rowAtIndex(size_t index) {
+    Matrix<T,1,ColumnsN,Container*> rowAtIndex(size_t index) & {
         return Matrix<T,1,ColumnsN,Container*>(&(_mat[index]));
     }
 
