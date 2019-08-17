@@ -4,94 +4,98 @@
 #include <initializer_list>
 #include <iostream>
 #include <map>
+#include <memory>
 #include <utility>
 #include <vector>
 
 /* ----- FORWARD DECLARETIONS ----- */
 
-template<typename , size_t, size_t, typename> class Matrix;
-template<typename, size_t, typename> class RowIterator;
-template<typename, size_t, typename> class ConstRowIterator;
+template<typename, typename> class Matrix;
+template<typename, typename> class RowIterator;
+template<typename, typename> class ConstRowIterator;
 
 /* ----- PRINT OPERATOR ----- */
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-std::ostream& operator<<(std::ostream&, const Matrix<T,RowsN,ColumnsN,Container>&);
+template<typename T, typename Container>
+std::ostream& operator<<(std::ostream&, const Matrix<T,Container>&);
 
 /* ----- OPERATORS ----- */
 
 // return the matrix multiplication.
-// The container type used for the returned matrix is an array.
-template<typename T, size_t RowsN_1, size_t ColumnsN_1, size_t ColumnsN_2, typename Container_2>
-Matrix<T, RowsN_1, ColumnsN_2, T[ColumnsN_2]> operator*(const Matrix<T, RowsN_1, ColumnsN_1, T[ColumnsN_1]>&, const Matrix<T, ColumnsN_1, ColumnsN_2, Container_2>&);
+// The container type used for the returned matrix is a shared_ptr.
+template<typename T, typename Container_2>
+Matrix<T, std::shared_ptr<T>> operator*(const Matrix<T, std::shared_ptr<T>>&, const Matrix<T, Container_2>&);
 
-// return the matrix multiplication.
-// The container type used for the returned matrix is an array.
-template<typename T, size_t RowsN_1, size_t ColumnsN_1, size_t ColumnsN_2, typename Container_2>
-Matrix<T, RowsN_1, ColumnsN_2, T[ColumnsN_2]> operator*(const Matrix<T, RowsN_1, ColumnsN_1, T(*)[ColumnsN_1]>&, const Matrix<T, ColumnsN_1, ColumnsN_2, Container_2>&);
 
 // return the matrix multiplication.
 // The container type used for the returned matrix is the same type as the one used for the first matrix.
-template<typename T, size_t RowsN_1, size_t ColumnsN_1, typename Container_1, size_t ColumnsN_2, typename Container_2>
-Matrix<T, RowsN_1, ColumnsN_2, Container_1> operator*(const Matrix<T, RowsN_1, ColumnsN_1, Container_1>&, const Matrix<T, ColumnsN_1, ColumnsN_2, Container_2>&);
+template<typename T, typename Container_1, typename Container_2>
+Matrix<T, Container_1> operator*(const Matrix<T, Container_1>&, const Matrix<T, Container_2>&);
 
 // return the matrix multiplication.
 // The container type used for the returned matrix is the same type as the one used for the first matrix but non pointer.
-template<typename T, size_t RowsN_1, size_t ColumnsN_1, typename Container_1, size_t ColumnsN_2, typename Container_2>
-Matrix<T, RowsN_1, ColumnsN_2, Container_1> operator*(const Matrix<T, RowsN_1, ColumnsN_1, Container_1*>&, const Matrix<T, ColumnsN_1, ColumnsN_2, Container_2>&);
+template<typename T, typename Container_1, typename Container_2>
+Matrix<T, Container_1> operator*(const Matrix<T, Container_1*>&, const Matrix<T, Container_2>&);
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container_1, typename Container_2>
-Matrix<T, RowsN, ColumnsN, Container_1> operator+(const Matrix<T, RowsN, ColumnsN, Container_1>&, const Matrix<T, RowsN, ColumnsN, Container_2>&);
+template<typename T, typename Container_1, typename Container_2>
+Matrix<T, Container_1> operator+(const Matrix<T, Container_1>&, const Matrix<T, Container_2>&);
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container_1, typename Container_2>
-Matrix<T, RowsN, ColumnsN, Container_1> operator-(const Matrix<T, RowsN, ColumnsN, Container_1>&, const Matrix<T, RowsN, ColumnsN, Container_2>&);
+template<typename T, typename Container_1, typename Container_2>
+Matrix<T, Container_1> operator-(const Matrix<T, Container_1>&, const Matrix<T, Container_2>&);
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-Matrix<T, RowsN, ColumnsN, Container> operator*(const Matrix<T, RowsN, ColumnsN, Container>&, T);
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-Matrix<T, RowsN, ColumnsN, Container> operator*(T, const Matrix<T, RowsN, ColumnsN, Container>&);
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-Matrix<T, RowsN, ColumnsN, Container> operator/(const Matrix<T, RowsN, ColumnsN, Container>&, T);
+template<typename T, typename Container>
+Matrix<T, Container> operator*(const Matrix<T, Container>&, T);
+template<typename T, typename Container>
+Matrix<T, Container> operator*(T, const Matrix<T, Container>&);
+template<typename T, typename Container>
+Matrix<T, Container> operator/(const Matrix<T, Container>&, T);
 
 /* ----- OTHER OPERATIONS ----- */
 
-template<typename T, size_t ColumnsN, typename Container1, typename Container2>
-T dot(const Matrix<T, 1, ColumnsN, Container1>&, const Matrix<T, 1, ColumnsN, Container2>&);
+template<typename T, typename Container1, typename Container2>
+T dot(const Matrix<T, Container1>&, const Matrix<T, Container2>&);
 
 /* ----- MATRIX ----- */
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container=T[ColumnsN]>
+template<typename T, typename Container=std::shared_ptr<T>>
 class Matrix{
 public:
-    Matrix();
+    Matrix(size_t, size_t);
     Matrix(std::initializer_list<std::initializer_list<T>>);
-    
+
     template<typename Container_row>
-    explicit Matrix(const Container_row &row);
+    explicit Matrix(size_t rows, size_t columns, const Container_row &row);
+
+    ~Matrix();
+
+    Matrix(const Matrix&);
+    Matrix(Matrix&&) noexcept;
+
+    Matrix& operator=(const Matrix &);
+//    Matrix& operator=(Matrix&&) noexcept;
 
     /* ----- DIMENTIONS ----- */
 
     //gets total size.
     size_t size() const{
-        return RowsN*ColumnsN;
+        return _rows*_columns;
     }
 
     //gets number of rows.
     size_t rows() const{
         //return (_isTransposed^1) *RowsN + (_isTransposed) *ColumnsN;
-        return RowsN;
+        return _rows;
     }
 
     //gets number of columns.
     size_t columns() const{
         //return (_isTransposed^1) *ColumnsN + (_isTransposed) *RowsN;
-        return ColumnsN;
+        return _columns;
     }
 
     /* ----- TRANSPOSE ----- */
 
-    template<typename Container_Ret>
-    Matrix<T,ColumnsN,RowsN,Container_Ret> transposed() const;
+    Matrix<T,Container> transposed() const;
 
     /* ----- GETTERS & SETTERS ----- */
 
@@ -102,8 +106,8 @@ public:
     // use 'retrieveAt' instead.
     T& at(size_t row, size_t column){
         //auto actualRowColumn = actualRowColumnIndex(row, column);
-        //return _mat[actualRowColumn.first][actualRowColumn.second];
-        return _mat[row][column];
+        //return _mat.get()[actualRowColumn.first][actualRowColumn.second];
+        return atRowIndex(_mat.get()[row],column);
     }
 
     // returns a copy of the element in row 'row', column 'column'.
@@ -116,14 +120,14 @@ public:
 
     // returns a matrix representing a copy of the row in the specified index.
     // The container of the returned matrix is the same as the one used in the original one.
-    Matrix<T,1,ColumnsN,Container> copyRowAtIndex(size_t index) const{
-        return Matrix<T,1,ColumnsN,Container>(_mat[index]);
+    Matrix<T,Container> copyRowAtIndex(size_t index) const{
+        return Matrix<T,Container>(1,_columns,_mat.get()[index]);
     }
 
     // returns a matrix representing a 'reference' to the row in the specified index.
     // The container of the returned matrix is a pointer to the container used in the original one.
-    Matrix<T,1,ColumnsN,Container*> rowAtIndex(size_t index) & {
-        return Matrix<T,1,ColumnsN,Container*>(&(_mat[index]));
+    Matrix<T,Container*> rowAtIndex(size_t index) & {
+        return Matrix<T,Container*>(1,_columns,&(_mat.get()[index]));
     }
 
     /* ----- HELPERS ----- */
@@ -133,10 +137,13 @@ public:
     size_t storedElementsCount() const{
         size_t elements = 0;
 
-        for(auto rowsIt = std::begin(_mat); rowsIt != std::end(_mat); ++rowsIt){
-            for(auto columnsIt = std::begin(*rowsIt); columnsIt != std::end(*rowsIt); ++columnsIt){
+        auto end = _mat.get() + _rows;
+        size_t row = 0;
+        for(auto rowsIt = _mat.get(); rowsIt != end; ++rowsIt){
+            for(auto columnsIt = rowIteratorBegin(row); columnsIt != rowIteratorEnd(row); ++columnsIt){
                 ++elements;
             }
+            ++row;
         }
 
         return elements;
@@ -145,23 +152,23 @@ public:
     /* ----- ITERATORS OPERATIONS ----- */
 
     //returns a ConstRowIterator for the begining of the row at 'rowIndex'
-    ConstRowIterator<T, ColumnsN, Container> rowIteratorBegin(size_t rowIndex) const{
-        return ConstRowIterator<T,ColumnsN, Container>::begin(&(_mat[rowIndex]));
+    ConstRowIterator<T, Container> rowIteratorBegin(size_t rowIndex) const{
+        return ConstRowIterator<T, Container>::begin(&(_mat.get()[rowIndex]));
     }
 
     //returns a RowIterator for the begining of the row at 'rowIndex'
-    RowIterator<T, ColumnsN, Container> rowIteratorBegin(size_t rowIndex){
-        return RowIterator<T,ColumnsN, Container>::begin(&(_mat[rowIndex]));
+    RowIterator<T, Container> rowIteratorBegin(size_t rowIndex){
+        return RowIterator<T, Container>::begin(&(_mat.get()[rowIndex]));
     }
 
     //returns a ConstRowIterator for the ending of the row at 'rowIndex'
-    ConstRowIterator<T, ColumnsN, Container> rowIteratorEnd(size_t rowIndex) const{
-        return ConstRowIterator<T,ColumnsN, Container>::end(&(_mat[rowIndex]));
+    ConstRowIterator<T, Container> rowIteratorEnd(size_t rowIndex) const{
+        return ConstRowIterator<T, Container>::end(&(_mat.get()[rowIndex]), _columns);
     }
 
     //returns a RowIterator for the ending of the row at 'rowIndex'
-    RowIterator<T, ColumnsN, Container> rowIteratorEnd(size_t rowIndex){
-        return RowIterator<T,ColumnsN, Container>::end(&(_mat[rowIndex]));
+    RowIterator<T, Container> rowIteratorEnd(size_t rowIndex){
+        return RowIterator<T, Container>::end(&(_mat.get()[rowIndex]), _columns);
     }
 
     /* ----- FRIENDS ----- */
@@ -169,71 +176,84 @@ public:
     /* ----- OPERATORS ----- */
 
     template<typename Container2>
-    Matrix<T, RowsN, ColumnsN, Container>& operator+=(const Matrix<T,RowsN,ColumnsN,Container2>&);
+    Matrix<T, Container>& operator+=(const Matrix<T,Container2>&);
 
     template<typename Container2>
-    Matrix<T, RowsN, ColumnsN, Container>& operator-=(const Matrix<T,RowsN,ColumnsN,Container2>&);
+    Matrix<T, Container>& operator-=(const Matrix<T,Container2>&);
 
-    Matrix<T, RowsN, ColumnsN, Container>& operator*=(const T&);
-    Matrix<T, RowsN, ColumnsN, Container>& operator/=(const T&);
+    Matrix<T, Container>& operator*=(const T&);
+    Matrix<T, Container>& operator/=(const T&);
 
     // returns a reference to this matrix with the negative of each element
     // used for rvalues
-    Matrix<T, RowsN, ColumnsN, Container>& operator-() &&{
+    Matrix<T, Container>& operator-() &&{
         return (*this)*=(-1);
     }
 
     // returns a copy of the matrix with the negative of each element
     // used for lvalues
-    Matrix<T, RowsN, ColumnsN, Container> operator-() const &{
-        Matrix<T, RowsN, ColumnsN, Container>ret(*this);
+    Matrix<T, Container> operator-() const &{
+        Matrix<T, Container>ret(*this);
         return ret*=(-1);
     }
 
     //Vector operations
 
 private:
+    Matrix() = delete;
     /* ----- UTILITIES ----- */
 
-    T getValueAtIndex(const T(&)[ColumnsN], size_t) const;
+    T& atRowIndex(std::shared_ptr<T> &row , size_t index){
+        return row.get()[index];
+    }
+    T& atRowIndex(std::map<size_t,T>& row, size_t index){
+        return row[index];
+    }
+    T getValueAtIndex(const std::shared_ptr<const T>, size_t) const;
     T getValueAtIndex(const std::map<size_t,T>&, size_t) const;
-    void insertValueAtRowIndex(const T&, T(&)[ColumnsN], size_t);
+    void insertValueAtRowIndex(const T&, std::shared_ptr<T>, size_t);
     void insertValueAtRowIndex(const T&, std::map<size_t, T>&, size_t);
 
-    void resetRow(T(&)[ColumnsN]);
-    void resetRow(std::map<size_t, T>&);
+    void resetRow(std::shared_ptr<T>&, size_t);
+    void resetRow(std::map<size_t, T>&, size_t);
 
-    void copyRow(Container &dest, const T(&src)[ColumnsN]);
-    void copyRow(Container &dest, const std::map<size_t, T> &src);
+    void copyRow(Container &dest, const std::shared_ptr<const T> src, size_t);
+    void copyRow(Container &dest, const std::map<size_t, T> &src, size_t);
 
     /* ----- MEMBERS ----- */
 
-    Container _mat[RowsN];
+    size_t _rows;
+    size_t _columns;
+    std::unique_ptr<Container[]> _mat;
 };
 
 /* ----- MATRIX SPECIALIZATION ----- */
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-class Matrix<T, RowsN, ColumnsN, Container*>{
+template<typename T, typename Container>
+class Matrix<T, Container*>{
 public:
+
     template<typename Container_row>
-    explicit Matrix(Container_row row);
+    explicit Matrix(size_t rows, size_t columns, Container_row row);
+
+    Matrix(Matrix &&) noexcept;
+    Matrix& operator=(Matrix &&) noexcept;
 
     /* ----- DIMENTIONS ----- */
 
     //gets total size.
     size_t size() const{
-        return RowsN*ColumnsN;
+        return _rows*_columns;
     }
 
     //gets number of rows.
     size_t rows() const{
-        return RowsN;
+        return _rows;
     }
 
     //gets number of columns.
     size_t columns() const{
-        return ColumnsN;
+        return _columns;
     }
 
     /* ----- GETTERS & SETTERS ----- */
@@ -244,7 +264,7 @@ public:
     // if you are using a 'map*' container and you want to retrieve a copy of the value but you don't want to create it if it does not exist
     // use 'retrieveAt' instead.
     T& at(size_t row, size_t column){
-        return (*_mat[row])[column];
+        return atRowIndex(*(_mat.get()[row]),column);
     }
 
     // returns a copy of the element in row 'row', column 'column'.
@@ -262,10 +282,13 @@ public:
     size_t storedElementsCount() const{
         size_t elements = 0;
 
-        for(auto rowsIt = std::begin(_mat); rowsIt != std::end(_mat); ++rowsIt){
-            for(auto columnsIt = std::begin(**rowsIt); columnsIt != std::end(**rowsIt); ++columnsIt){
+        auto end = _mat.get() + _rows;
+        size_t row = 0;
+        for(auto rowsIt = _mat.get(); rowsIt != end; ++rowsIt){
+            for(auto columnsIt = rowIteratorBegin(row); columnsIt != rowIteratorEnd(row); ++columnsIt){
                 ++elements;
             }
+            ++row;
         }
 
         return elements;
@@ -274,63 +297,74 @@ public:
     /* ----- ITERATORS OPERATIONS ----- */
 
     //returns a ConstRowIterator for the begining of the row at 'rowIndex'
-    ConstRowIterator<T, ColumnsN, Container> rowIteratorBegin(size_t rowIndex) const{
-        return ConstRowIterator<T,ColumnsN, Container>::begin(_mat[rowIndex]);
+    ConstRowIterator<T, Container> rowIteratorBegin(size_t rowIndex) const{
+        return ConstRowIterator<T, Container>::begin(_mat.get()[rowIndex]);
     }
 
     //returns a RowIterator for the begining of the row at 'rowIndex'
-    RowIterator<T, ColumnsN, Container> rowIteratorBegin(size_t rowIndex){
-        return RowIterator<T,ColumnsN, Container>::begin(_mat[rowIndex]);
+    RowIterator<T, Container> rowIteratorBegin(size_t rowIndex){
+        return RowIterator<T, Container>::begin(_mat.get()[rowIndex]);
     }
 
     //returns a ConstRowIterator for the ending of the row at 'rowIndex'
-    ConstRowIterator<T, ColumnsN, Container> rowIteratorEnd(size_t rowIndex) const{
-        return ConstRowIterator<T,ColumnsN, Container>::end(_mat[rowIndex]);
+    ConstRowIterator<T, Container> rowIteratorEnd(size_t rowIndex) const{
+        return ConstRowIterator<T, Container>::end(_mat.get()[rowIndex], _columns);
     }
 
     //returns a RowIterator for the ending of the row at 'rowIndex'
-    RowIterator<T, ColumnsN, Container> rowIteratorEnd(size_t rowIndex){
-        return RowIterator<T,ColumnsN, Container>::end(_mat[rowIndex]);
+    RowIterator<T, Container> rowIteratorEnd(size_t rowIndex){
+        return RowIterator<T, Container>::end(_mat.get()[rowIndex], _columns);
     }
 
     /* ----- OPERATORS ----- */
 
     template<typename Container2>
-    Matrix<T, RowsN, ColumnsN, Container*>& operator+=(const Matrix<T,RowsN,ColumnsN,Container2>&);
+    Matrix<T, Container*>& operator+=(const Matrix<T,Container2>&);
     template<typename Container2>
-    Matrix<T, RowsN, ColumnsN, Container*>& operator-=(const Matrix<T,RowsN,ColumnsN,Container2>&);
-    Matrix<T, RowsN, ColumnsN, Container*>& operator*=(const T&);
-    Matrix<T, RowsN, ColumnsN, Container*>& operator/=(const T&);
+    Matrix<T, Container*>& operator-=(const Matrix<T,Container2>&);
+    Matrix<T, Container*>& operator*=(const T&);
+    Matrix<T, Container*>& operator/=(const T&);
 
 private:
     Matrix() = delete;
+    Matrix(const Matrix &) = delete;
+    Matrix& operator=(const Matrix &) = delete;
     /* ----- UTILITIES ----- */
 
-    T getValueAtIndex(const T(&)[ColumnsN], size_t) const;
+    T& atRowIndex(std::shared_ptr<T> &row , size_t index){
+        return row.get()[index];
+    }
+    T& atRowIndex(std::map<size_t,T>& row, size_t index){
+        return row[index];
+    }
+    T getValueAtIndex(const std::shared_ptr<const T>, size_t) const;
     T getValueAtIndex(const std::map<size_t,T>&, size_t) const;
-    void insertValueAtRowIndex(const T&, T(&)[ColumnsN], size_t);
+    void insertValueAtRowIndex(const T&, std::shared_ptr<T>, size_t);
     void insertValueAtRowIndex(const T&, std::map<size_t, T>&, size_t);
-    void resetRow(T(&)[ColumnsN]);
-    void resetRow(std::map<size_t, T>&);
+
+    void resetRow(std::shared_ptr<T>&, size_t);
+    void resetRow(std::map<size_t, T>&, size_t);
 
     /* ----- MEMBERS ----- */
 
-    Container* _mat[RowsN];
+    size_t _rows;
+    size_t _columns;
+    std::unique_ptr<Container*[]> _mat;
 };
 
 /* ----- ROWITERATOR (array) ----- */
 
-template<typename T, size_t ColumnsN>
-class RowIterator<T, ColumnsN, T[ColumnsN]>{
+template<typename T>
+class RowIterator<T, std::shared_ptr<T>>{
 public:
-    typedef T Container[ColumnsN];
+    typedef std::shared_ptr<T> Container;
 
     static RowIterator begin(Container *row){
         return RowIterator(row, 0);
     }
 
-    static RowIterator end(Container *row){
-        return RowIterator(row, ColumnsN);
+    static RowIterator end(Container *row, size_t columns){
+        return RowIterator(row, columns);
     }
 
     RowIterator(const RowIterator &ri):
@@ -344,7 +378,7 @@ public:
     }
 
     std::pair<size_t, T&> operator*(){
-        return {_index, (*_row)[_index]};
+        return {_index, (*_row).get()[_index]};
     }
 
     bool operator==(const RowIterator &rho)const{
@@ -369,17 +403,17 @@ private:
 
 /* ----- CONSTROWITERATOR (array) ----- */
 
-template<typename T, size_t ColumnsN>
-class ConstRowIterator<T, ColumnsN, T[ColumnsN]>{
+template<typename T>
+class ConstRowIterator<T,std::shared_ptr<T>>{
 public:
-    typedef T Container[ColumnsN];
+    typedef std::shared_ptr<T> Container;
 
     static ConstRowIterator begin(const Container *row){
         return ConstRowIterator(row, 0);
     }
 
-    static ConstRowIterator end(const Container *row){
-        return ConstRowIterator(row, ColumnsN);
+    static ConstRowIterator end(const Container *row, size_t columns){
+        return ConstRowIterator(row, columns);
     }
 
     ConstRowIterator(const ConstRowIterator &ri):
@@ -393,7 +427,7 @@ public:
     }
 
     std::pair<size_t, const T&> operator*(){
-        return {_index, (*_row)[_index]};
+        return {_index, (*_row).get()[_index]};
     }
 
     bool operator==(const ConstRowIterator &rho)const{
@@ -418,8 +452,8 @@ private:
 
 /* ----- ROWITERATOR (map) ----- */
 
-template<typename T, size_t ColumnsN>
-class RowIterator<T, ColumnsN, std::map<size_t, T>>{
+template<typename T>
+class RowIterator<T, std::map<size_t, T>>{
 public:
     typedef std::map<size_t, T> Container;
     typedef typename std::map<size_t, T>::iterator iterator;
@@ -428,7 +462,7 @@ public:
         return RowIterator(row->begin());
     }
 
-    static RowIterator end(Container *row){
+    static RowIterator end(Container *row, size_t columns){
         return RowIterator(row->end());
     }
 
@@ -465,8 +499,8 @@ private:
 
 /* ----- CONSTROWITERATOR (map) ----- */
 
-template<typename T, size_t ColumnsN>
-class ConstRowIterator<T, ColumnsN, std::map<size_t, T>>{
+template<typename T>
+class ConstRowIterator<T, std::map<size_t, T>>{
 public:
     typedef std::map<size_t, T> Container;
     typedef typename std::map<size_t, T>::const_iterator constIterator;
@@ -475,7 +509,7 @@ public:
         return ConstRowIterator(row->begin());
     }
 
-    static ConstRowIterator end(const Container *row){
+    static ConstRowIterator end(const Container *row, size_t columns){
         return ConstRowIterator(row->end());
     }
 
@@ -516,20 +550,29 @@ private:
 
 /* ----- MATRIX DEFINITIONS ----- */
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-Matrix<T, RowsN, ColumnsN, Container>::Matrix(){
-    using namespace std;
-    for(auto rowIt=begin(_mat); rowIt != end(_mat); rowIt++){
-        resetRow(*rowIt);
+template<typename T, typename Container>
+Matrix<T, Container>::Matrix(size_t rows, size_t columns):
+    _rows(rows),
+    _columns(columns),
+    _mat(std::unique_ptr<Container[]>(new Container[rows])){
+    auto end = _mat.get()+_rows;
+    for(auto rowIt=_mat.get(); rowIt != end; rowIt++){
+        resetRow(*rowIt,_columns);
     }
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-Matrix<T, RowsN, ColumnsN, Container>::Matrix(std::initializer_list<std::initializer_list<T>> il):Matrix(){
+template<typename T, typename Container>
+Matrix<T, Container>::Matrix(std::initializer_list<std::initializer_list<T>> il):
+    _rows(il.size()),
+    _columns(0),
+    _mat(std::unique_ptr<Container[]>(new Container[il.size()])){
+
     size_t row = 0;
     size_t column = 0;
     auto endIL = il.end();
     for(auto rowIt = il.begin(); rowIt != endIL; ++rowIt){
+        _columns=std::max(rowIt->size(), _columns);
+        resetRow(_mat.get()[row], _columns);
         column = 0;
         auto endInnerIL = rowIt->end();
         for(auto columnIt = rowIt->begin(); columnIt != endInnerIL; ++columnIt){
@@ -540,72 +583,150 @@ Matrix<T, RowsN, ColumnsN, Container>::Matrix(std::initializer_list<std::initial
     }
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+template<typename T, typename Container>
 template<typename Container_row>
-Matrix<T, RowsN, ColumnsN, Container>::Matrix(const Container_row &srcRow){
-    using namespace std;
-    for(auto rowIt=begin(_mat); rowIt != end(_mat); rowIt++){
-        copyRow(*rowIt, srcRow);
+Matrix<T, Container>::Matrix(size_t rows, size_t columns, const Container_row &srcRow):
+    Matrix(rows,columns){
+    auto end = _mat.get()+_rows;
+    for(auto rowIt=_mat.get(); rowIt != end; rowIt++){
+        copyRow(*rowIt, srcRow,_columns);
     }
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+template<typename T, typename Container>
 template<typename Container_row>
-Matrix<T, RowsN, ColumnsN, Container*>::Matrix(Container_row srcRow){
-    using namespace std;
-    for(auto rowIt=begin(_mat); rowIt != end(_mat); rowIt++){
-        (*rowIt) = srcRow;
+Matrix<T, Container*>::Matrix(size_t rows, size_t columns, Container_row srcRow):
+    _rows(rows),
+    _columns(columns),
+    _mat(std::unique_ptr<Container*[]>(new Container*[rows])){
+    auto end = _mat.get()+_rows;
+    for(auto rowIt=_mat.get(); rowIt != end; rowIt++){
+        *rowIt = srcRow;
     }
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-void Matrix<T, RowsN, ColumnsN, Container>::resetRow(T(&row)[ColumnsN]){
-    for(auto it = std::begin(row); it != std::end(row); ++it){
+template<typename T, typename Container>
+Matrix<T, Container>::~Matrix(){
+    auto end = _mat.get()+_rows;
+    for(auto rowIt=_mat.get(); rowIt != end; rowIt++){
+        *rowIt = Container();
+    }
+    _mat.reset();
+}
+
+template<typename T, typename Container>
+Matrix<T, Container>::Matrix(const Matrix<T, Container>&oth):
+    _rows(oth._rows),
+    _columns(oth._columns),
+    _mat(std::unique_ptr<Container[]>(new Container[oth._rows])){
+    
+    for(size_t row = 0; row < _rows; ++row){
+        resetRow(_mat.get()[row],_columns);
+        copyRow(_mat.get()[row], oth._mat.get()[row], _columns);
+    }
+}
+
+template<typename T, typename Container>
+Matrix<T, Container>::Matrix(Matrix<T, Container> &&oth) noexcept:
+    _rows(oth._rows),
+    _columns(oth._columns),
+    _mat(oth._mat.release()){
+}
+
+template<typename T, typename Container>
+Matrix<T, Container*>::Matrix(Matrix<T, Container*> &&oth) noexcept:
+    _columns(oth._columns),
+    _rows(oth._rows),
+    _mat(oth._mat.release()){
+}
+
+template<typename T, typename Container>
+Matrix<T, Container>& Matrix<T, Container>::operator=(const Matrix<T, Container> &rho){
+    std::unique_ptr<Container[]> aux=std::unique_ptr<Container[]>(new Container[rho._rows]);
+    for(size_t row = 0; row < rho._rows; ++row){
+        resetRow(aux[row],rho._columns);
+        copyRow(aux[row], rho._mat.get()[row], rho._columns);
+    }
+
+    _columns = rho._columns;
+    _rows = rho._rows;
+    _mat.reset(aux.release());
+
+    return *this;
+}
+/*
+template<typename T, typename Container>
+Matrix<T, Container>& Matrix<T, Container>::operator=(Matrix<T, Container> &&rho) noexcept {
+    if(&rho != this){
+        _columns = rho._columns;
+        _rows = rho._rows;
+        _mat.reset(rho._mat.release());
+    }
+    return *this;
+}
+*/
+template<typename T, typename Container>
+Matrix<T, Container*>& Matrix<T, Container*>::operator=(Matrix<T, Container*> &&rho) noexcept {
+    if(&rho != this){
+        _columns = rho._columns;
+        _rows = rho._rows;
+        _mat.reset(rho._mat.release());
+    }
+    return *this;
+}
+
+template<typename T, typename Container>
+void Matrix<T, Container>::resetRow(std::shared_ptr<T>& row, size_t columns){
+    row = std::shared_ptr<T>(new T[columns], std::default_delete<T[]>());
+    auto end = row.get()+columns;
+    for(auto it = row.get(); it != end; ++it){
         *it = T();
     }
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-void Matrix<T, RowsN, ColumnsN, Container>::resetRow(std::map<size_t, T> &row){
+template<typename T, typename Container>
+void Matrix<T, Container>::resetRow(std::map<size_t, T> &row, size_t columns){
     row=std::map<size_t, T>();
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-void Matrix<T, RowsN, ColumnsN, Container*>::resetRow(T(&row)[ColumnsN]){
-    for(auto it = std::begin(row); it != std::end(row); ++it){
+template<typename T, typename Container>
+void Matrix<T, Container*>::resetRow(std::shared_ptr<T>& row, size_t columns){
+    row = std::shared_ptr<T>(new T[columns], std::default_delete<T[]>());
+    auto end = row.get()+columns;
+    for(auto it = row.get(); it != end; ++it){
         *it = T();
     }
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-void Matrix<T, RowsN, ColumnsN, Container*>::resetRow(std::map<size_t, T> &row){
+template<typename T, typename Container>
+void Matrix<T, Container*>::resetRow(std::map<size_t, T> &row, size_t columns){
     row=std::map<size_t, T>();
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-void Matrix<T, RowsN, ColumnsN, Container>::copyRow(Container &dest, const T(&src)[ColumnsN]){
+template<typename T, typename Container>
+void Matrix<T, Container>::copyRow(Container &dest, const std::shared_ptr<const T> src, size_t columns){
     size_t i=0;
-    for(auto c:src){
-        dest[i]=c;
+    auto end = src.get()+columns;
+    for(auto it = src.get(); it != end; ++it){
+        dest.get()[i]=*it;
         ++i;
     }
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-void Matrix<T, RowsN, ColumnsN, Container>::copyRow(Container &dest, const std::map<size_t, T> &src){
-    resetRow(dest);
+template<typename T, typename Container>
+void Matrix<T, Container>::copyRow(Container &dest, const std::map<size_t, T> &src, size_t columns){
+    resetRow(dest,columns);
     for(auto it = src.begin(); it != src.end(); ++it){
         dest[it->first]=it->second;
     }
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-template<typename Container_Ret>
-Matrix<T,ColumnsN,RowsN,Container_Ret> Matrix<T, RowsN, ColumnsN, Container>::transposed() const{
-    Matrix<T,ColumnsN,RowsN,Container_Ret> mat;
+template<typename T, typename Container>
+Matrix<T,Container> Matrix<T, Container>::transposed() const{
+    Matrix<T,Container> mat(_columns, _rows);
 
-    for(size_t r = 0; r < RowsN; ++r){
-        for(size_t c = 0; c < ColumnsN; ++c){
+    for(size_t r = 0; r < _rows; ++r){
+        for(size_t c = 0; c < _columns; ++c){
             mat.insertValueAtRowColumn(this->retrieveAt(r,c), c, r);
         }
     }
@@ -613,28 +734,28 @@ Matrix<T,ColumnsN,RowsN,Container_Ret> Matrix<T, RowsN, ColumnsN, Container>::tr
     return mat;
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-T Matrix<T, RowsN, ColumnsN, Container>::retrieveAt(size_t row, size_t column) const{
-    return getValueAtIndex(_mat[row], column);
+template<typename T, typename Container>
+T Matrix<T, Container>::retrieveAt(size_t row, size_t column) const{
+    return getValueAtIndex(_mat.get()[row], column);
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-T Matrix<T, RowsN, ColumnsN, Container*>::retrieveAt(size_t row, size_t column) const{
-    return getValueAtIndex(*(_mat[row]), column);
+template<typename T, typename Container>
+T Matrix<T, Container*>::retrieveAt(size_t row, size_t column) const{
+    return getValueAtIndex(*(_mat.get()[row]), column);
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-T Matrix<T, RowsN, ColumnsN, Container>::getValueAtIndex(const T (&row)[ColumnsN], size_t index) const{
-    return row[index];
+template<typename T, typename Container>
+T Matrix<T, Container>::getValueAtIndex(const std::shared_ptr<const T> row, size_t index) const{
+    return row.get()[index];
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-T Matrix<T, RowsN, ColumnsN, Container*>::getValueAtIndex(const T (&row)[ColumnsN], size_t index) const{
-    return row[index];
+template<typename T, typename Container>
+T Matrix<T, Container*>::getValueAtIndex(const std::shared_ptr<const T> row, size_t index) const{
+    return row.get()[index];
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-T Matrix<T, RowsN, ColumnsN, Container>::getValueAtIndex(const std::map<size_t,T> &row, size_t index) const{
+template<typename T, typename Container>
+T Matrix<T, Container>::getValueAtIndex(const std::map<size_t,T> &row, size_t index) const{
     auto colIt = row.find(index);
     if(colIt != row.end()){
         return colIt->second;
@@ -644,8 +765,8 @@ T Matrix<T, RowsN, ColumnsN, Container>::getValueAtIndex(const std::map<size_t,T
     }
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-T Matrix<T, RowsN, ColumnsN, Container*>::getValueAtIndex(const std::map<size_t,T> &row, size_t index) const{
+template<typename T, typename Container>
+T Matrix<T, Container*>::getValueAtIndex(const std::map<size_t,T> &row, size_t index) const{
     auto colIt = row.find(index);
     if(colIt != row.end()){
         return colIt->second;
@@ -655,28 +776,28 @@ T Matrix<T, RowsN, ColumnsN, Container*>::getValueAtIndex(const std::map<size_t,
     }
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowColumn(const T& value, size_t row, size_t column){
-    insertValueAtRowIndex(value, _mat[row], column);
+template<typename T, typename Container>
+void Matrix<T, Container>::insertValueAtRowColumn(const T& value, size_t row, size_t column){
+    insertValueAtRowIndex(value, _mat.get()[row], column);
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-void Matrix<T, RowsN, ColumnsN, Container*>::insertValueAtRowColumn(const T& value, size_t row, size_t column){
-    insertValueAtRowIndex(value, *_mat[row], column);
+template<typename T, typename Container>
+void Matrix<T, Container*>::insertValueAtRowColumn(const T& value, size_t row, size_t column){
+    insertValueAtRowIndex(value, *_mat.get()[row], column);
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowIndex(const T& value, T (&row)[ColumnsN], size_t index){
-    row[index] = value;
+template<typename T, typename Container>
+void Matrix<T, Container>::insertValueAtRowIndex(const T& value, std::shared_ptr<T> row, size_t index){
+    row.get()[index] = value;
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-void Matrix<T, RowsN, ColumnsN, Container*>::insertValueAtRowIndex(const T& value, T (&row)[ColumnsN], size_t index){
-    row[index] = value;
+template<typename T, typename Container>
+void Matrix<T, Container*>::insertValueAtRowIndex(const T& value, std::shared_ptr<T> row, size_t index){
+    row.get()[index] = value;
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowIndex(const T &value, std::map<size_t, T> &row, size_t index){
+template<typename T, typename Container>
+void Matrix<T, Container>::insertValueAtRowIndex(const T &value, std::map<size_t, T> &row, size_t index){
     if(value == T()){
         // if '0' is trying to be inserted, we must remove the position if it exists.
         auto colIt = row.find(index);
@@ -692,8 +813,8 @@ void Matrix<T, RowsN, ColumnsN, Container>::insertValueAtRowIndex(const T &value
     }
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-void Matrix<T, RowsN, ColumnsN, Container*>::insertValueAtRowIndex(const T &value, std::map<size_t, T> &row, size_t index){
+template<typename T, typename Container>
+void Matrix<T, Container*>::insertValueAtRowIndex(const T &value, std::map<size_t, T> &row, size_t index){
     if(value == T()){
         // if '0' is trying to be inserted, we must remove the position if it exists.
         auto colIt = row.find(index);
@@ -709,10 +830,10 @@ void Matrix<T, RowsN, ColumnsN, Container*>::insertValueAtRowIndex(const T &valu
     }
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+template<typename T, typename Container>
 template<typename Container2>
-Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::operator+=(const Matrix<T,RowsN,ColumnsN,Container2> &m2){
-    for(size_t row = 0; row < RowsN; ++row){
+Matrix<T, Container>& Matrix<T, Container>::operator+=(const Matrix<T,Container2> &m2){
+    for(size_t row = 0; row < _rows; ++row){
         auto endIt = m2.rowIteratorEnd(row);
         for(auto it = m2.rowIteratorBegin(row); it != endIt; ++it){
             T sum = this->at(row, (*it).first) + (*it).second;
@@ -723,10 +844,10 @@ Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::op
     return *this;
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+template<typename T, typename Container>
 template<typename Container2>
-Matrix<T, RowsN, ColumnsN, Container*>& Matrix<T, RowsN, ColumnsN, Container*>::operator+=(const Matrix<T,RowsN,ColumnsN,Container2> &m2){
-    for(size_t row = 0; row < RowsN; ++row){
+Matrix<T, Container*>& Matrix<T, Container*>::operator+=(const Matrix<T,Container2> &m2){
+    for(size_t row = 0; row < _rows; ++row){
         auto endIt = m2.rowIteratorEnd(row);
         for(auto it = m2.rowIteratorBegin(row); it != endIt; ++it){
             T sum = this->at(row, (*it).first) + (*it).second;
@@ -737,10 +858,10 @@ Matrix<T, RowsN, ColumnsN, Container*>& Matrix<T, RowsN, ColumnsN, Container*>::
     return *this;
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+template<typename T, typename Container>
 template<typename Container2>
-Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::operator-=(const Matrix<T,RowsN,ColumnsN,Container2> &m2){
-    for(size_t row = 0; row < RowsN; ++row){
+Matrix<T, Container>& Matrix<T, Container>::operator-=(const Matrix<T,Container2> &m2){
+    for(size_t row = 0; row < _rows; ++row){
         auto endIt = m2.rowIteratorEnd(row);
         for(auto it = m2.rowIteratorBegin(row); it != endIt; ++it){
             T sum = this->at(row, (*it).first) - (*it).second;
@@ -751,10 +872,10 @@ Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::op
     return *this;
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
+template<typename T, typename Container>
 template<typename Container2>
-Matrix<T, RowsN, ColumnsN, Container*>& Matrix<T, RowsN, ColumnsN, Container*>::operator-=(const Matrix<T,RowsN,ColumnsN,Container2> &m2){
-    for(size_t row = 0; row < RowsN; ++row){
+Matrix<T, Container*>& Matrix<T, Container*>::operator-=(const Matrix<T,Container2> &m2){
+    for(size_t row = 0; row < _rows; ++row){
         auto endIt = m2.rowIteratorEnd(row);
         for(auto it = m2.rowIteratorBegin(row); it != endIt; ++it){
             T sum = this->at(row, (*it).first) - (*it).second;
@@ -765,19 +886,20 @@ Matrix<T, RowsN, ColumnsN, Container*>& Matrix<T, RowsN, ColumnsN, Container*>::
     return *this;
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::operator*=(const T &scalar){
+template<typename T, typename Container>
+Matrix<T, Container>& Matrix<T, Container>::operator*=(const T &scalar){
     if(scalar == T())
     {
+        auto end = _mat.get() + _rows;
         // if multiplying by 0
-        for(auto rowIt = std::begin(_mat); rowIt != std::end(_mat); ++rowIt){
+        for(auto rowIt = _mat.get(); rowIt != end; ++rowIt){
             // reset each row
-            resetRow(*rowIt);
+            resetRow(*rowIt,_columns);
         }
     }
     else{
         //if multiplying by scalar not equal 0
-        for(size_t row = 0; row < RowsN; ++row){
+        for(size_t row = 0; row < _rows; ++row){
             //update each row
             auto endIt = this->rowIteratorEnd(row);
             for(auto it = this->rowIteratorBegin(row); it != endIt; ++it){
@@ -790,19 +912,20 @@ Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::op
     return *this;
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-Matrix<T, RowsN, ColumnsN, Container*>& Matrix<T, RowsN, ColumnsN, Container*>::operator*=(const T &scalar){
+template<typename T, typename Container>
+Matrix<T, Container*>& Matrix<T, Container*>::operator*=(const T &scalar){
     if(scalar == T())
     {
+        auto end = _mat.get() + _rows;
         // if multiplying by 0
-        for(auto rowIt = std::begin(_mat); rowIt != std::end(_mat); ++rowIt){
+        for(auto rowIt = _mat.get(); rowIt != end; ++rowIt){
             // reset each row
-            resetRow(**rowIt);
+            resetRow(**rowIt,_columns);
         }
     }
     else{
         //if multiplying by scalar not equal 0
-        for(size_t row = 0; row < RowsN; ++row){
+        for(size_t row = 0; row < _rows; ++row){
             //update each row
             auto endIt = this->rowIteratorEnd(row);
             for(auto it = this->rowIteratorBegin(row); it != endIt; ++it){
@@ -815,9 +938,9 @@ Matrix<T, RowsN, ColumnsN, Container*>& Matrix<T, RowsN, ColumnsN, Container*>::
     return *this;
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::operator/=(const T &scalar){
-    for(size_t row = 0; row < RowsN; ++row){
+template<typename T, typename Container>
+Matrix<T, Container>& Matrix<T, Container>::operator/=(const T &scalar){
+    for(size_t row = 0; row < _rows; ++row){
         //update each row
         auto endIt = this->rowIteratorEnd(row);
         for(auto it = this->rowIteratorBegin(row); it != endIt; ++it){
@@ -829,9 +952,9 @@ Matrix<T, RowsN, ColumnsN, Container>& Matrix<T, RowsN, ColumnsN, Container>::op
     return *this;
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-Matrix<T, RowsN, ColumnsN, Container*>& Matrix<T, RowsN, ColumnsN, Container*>::operator/=(const T &scalar){
-    for(size_t row = 0; row < RowsN; ++row){
+template<typename T, typename Container>
+Matrix<T, Container*>& Matrix<T, Container*>::operator/=(const T &scalar){
+    for(size_t row = 0; row < _rows; ++row){
         //update each row
         auto endIt = this->rowIteratorEnd(row);
         for(auto it = this->rowIteratorBegin(row); it != endIt; ++it){
@@ -845,8 +968,8 @@ Matrix<T, RowsN, ColumnsN, Container*>& Matrix<T, RowsN, ColumnsN, Container*>::
 
 /* ----- FUNCTIONS ----- */
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-std::ostream& operator<<(std::ostream &op, const Matrix<T,RowsN,ColumnsN,Container> &mat){
+template<typename T, typename Container>
+std::ostream& operator<<(std::ostream &op, const Matrix<T,Container> &mat){
     op << "[" << std::endl;
     for(size_t row = 0; row < mat.rows(); ++row){
         op << " [";
@@ -861,25 +984,26 @@ std::ostream& operator<<(std::ostream &op, const Matrix<T,RowsN,ColumnsN,Contain
 
 // return the matrix addition.
 // The container type used for the returned matrix is the same type as the one used for the left hand matrix.
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container_1, typename Container_2>
-Matrix<T, RowsN, ColumnsN, Container_1> operator+(const Matrix<T, RowsN, ColumnsN, Container_1> &lh, const Matrix<T, RowsN, ColumnsN, Container_2> &rh){
-    Matrix<T, RowsN, ColumnsN, Container_1> ret(lh);
+template<typename T, typename Container_1, typename Container_2>
+Matrix<T, Container_1> operator+(const Matrix<T, Container_1> &lh, const Matrix<T, Container_2> &rh){
+    Matrix<T, Container_1> ret(lh);
     return ret+=rh;
 }
 
 // return the matrix subtraction.
 // The container type used for the returned matrix is the same type as the one used for the left hand matrix.
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container_1, typename Container_2>
-Matrix<T, RowsN, ColumnsN, Container_1> operator-(const Matrix<T, RowsN, ColumnsN, Container_1> &lh, const Matrix<T, RowsN, ColumnsN, Container_2> &rh){
-    Matrix<T, RowsN, ColumnsN, Container_1> ret(lh);
+template<typename T, typename Container_1, typename Container_2>
+Matrix<T, Container_1> operator-(const Matrix<T, Container_1> &lh, const Matrix<T, Container_2> &rh){
+    Matrix<T, Container_1> ret(lh);
     return ret-=rh;
 }
 
-template<typename U, size_t RowsN_1, size_t ColumnsN_1, size_t ColumnsN_2, typename Container_2>
-Matrix<U, RowsN_1, ColumnsN_2, U[ColumnsN_2]> operator*(const Matrix<U, RowsN_1, ColumnsN_1, U[ColumnsN_1]> &mat1, const Matrix<U, ColumnsN_1, ColumnsN_2, Container_2> &mat2){
-    Matrix<U, RowsN_1, ColumnsN_2, U[ColumnsN_2]> ret;
+template<typename U, typename Container_2>
+Matrix<U, std::shared_ptr<U>> operator*(const Matrix<U, std::shared_ptr<U>> &mat1, const Matrix<U, Container_2> &mat2){
+    auto rows1=mat1.rows();
+    Matrix<U, std::shared_ptr<U>> ret(rows1,mat2.columns());
     // for each row in mat 1
-    for(size_t row1 = 0; row1 < RowsN_1; ++row1){    
+    for(size_t row1 = 0; row1 < rows1; ++row1){    
         auto endRow1It = mat1.rowIteratorEnd(row1);
         // grab stored values in current row of mat1
         for(auto row1It = mat1.rowIteratorBegin(row1); row1It != endRow1It; ++row1It){
@@ -896,11 +1020,12 @@ Matrix<U, RowsN_1, ColumnsN_2, U[ColumnsN_2]> operator*(const Matrix<U, RowsN_1,
     return ret;
 }
 
-template<typename U, size_t RowsN_1, size_t ColumnsN_1, size_t ColumnsN_2, typename Container_2>
-Matrix<U, RowsN_1, ColumnsN_2, U[ColumnsN_2]> operator*(const Matrix<U, RowsN_1, ColumnsN_1, U(*)[ColumnsN_1]> &mat1, const Matrix<U, ColumnsN_1, ColumnsN_2, Container_2> &mat2){
-    Matrix<U, RowsN_1, ColumnsN_2, U[ColumnsN_2]> ret;
+template<typename U, typename Container_2>
+Matrix<U, std::shared_ptr<U>> operator*(const Matrix<U, std::shared_ptr<U>*> &mat1, const Matrix<U, Container_2> &mat2){
+    auto rows1=mat1.rows();
+    Matrix<U, std::shared_ptr<U>> ret(rows1,mat2.columns());
     // for each row in mat 1
-    for(size_t row1 = 0; row1 < RowsN_1; ++row1){    
+    for(size_t row1 = 0; row1 < rows1; ++row1){    
         auto endRow1It = mat1.rowIteratorEnd(row1);
         // grab stored values in current row of mat1
         for(auto row1It = mat1.rowIteratorBegin(row1); row1It != endRow1It; ++row1It){
@@ -917,13 +1042,15 @@ Matrix<U, RowsN_1, ColumnsN_2, U[ColumnsN_2]> operator*(const Matrix<U, RowsN_1,
     return ret;
 }
 
-template<typename U, size_t RowsN_1, size_t ColumnsN_1, typename Container_1, size_t ColumnsN_2, typename Container_2>
-Matrix<U, RowsN_1, ColumnsN_2, Container_1> operator*(const Matrix<U, RowsN_1, ColumnsN_1, Container_1> &mat1, const Matrix<U, ColumnsN_1, ColumnsN_2, Container_2> &mat2){
-    Matrix<U, RowsN_1, ColumnsN_2, Container_1> ret;
+template<typename U, typename Container_1, typename Container_2>
+Matrix<U, Container_1> operator*(const Matrix<U, Container_1> &mat1, const Matrix<U, Container_2> &mat2){
+    auto rows1=mat1.rows();
+    auto columns2=mat2.columns();
+    Matrix<U, Container_1> ret(rows1,columns2);
     // for each row in mat 1
-    for(size_t row1 = 0; row1 < RowsN_1; ++row1){    
+    for(size_t row1 = 0; row1 < rows1; ++row1){    
         auto endRow1It = mat1.rowIteratorEnd(row1);
-        std::vector<U> tmpRow(ColumnsN_2, 0);
+        std::vector<U> tmpRow(columns2, 0);
         // grab stored values in current row of mat1
         for(auto row1It = mat1.rowIteratorBegin(row1); row1It != endRow1It; ++row1It){
             auto endRow2It = mat2.rowIteratorEnd((*row1It).first);
@@ -946,13 +1073,15 @@ Matrix<U, RowsN_1, ColumnsN_2, Container_1> operator*(const Matrix<U, RowsN_1, C
 
 // return the matrix multiplication.
 // The container type used for the returned matrix is the same type as the one used for the first matrix but non pointer.
-template<typename U, size_t RowsN_1, size_t ColumnsN_1, typename Container_1, size_t ColumnsN_2, typename Container_2>
-Matrix<U, RowsN_1, ColumnsN_2, Container_1> operator*(const Matrix<U, RowsN_1, ColumnsN_1, Container_1*> &mat1, const Matrix<U, ColumnsN_1, ColumnsN_2, Container_2> &mat2){
-    Matrix<U, RowsN_1, ColumnsN_2, Container_1> ret;
+template<typename U, typename Container_1, typename Container_2>
+Matrix<U, Container_1> operator*(const Matrix<U, Container_1*> &mat1, const Matrix<U, Container_2> &mat2){
+    auto rows1=mat1.rows();
+    auto columns2=mat2.columns();
+    Matrix<U, Container_1> ret(rows1,columns2);
     // for each row in mat 1
-    for(size_t row1 = 0; row1 < RowsN_1; ++row1){    
+    for(size_t row1 = 0; row1 < rows1; ++row1){    
         auto endRow1It = mat1.rowIteratorEnd(row1);
-        std::vector<U> tmpRow(ColumnsN_2, 0);
+        std::vector<U> tmpRow(columns2, 0);
         // grab stored values in current row of mat1
         for(auto row1It = mat1.rowIteratorBegin(row1); row1It != endRow1It; ++row1It){
             auto endRow2It = mat2.rowIteratorEnd((*row1It).first);
@@ -973,30 +1102,30 @@ Matrix<U, RowsN_1, ColumnsN_2, Container_1> operator*(const Matrix<U, RowsN_1, C
     return ret;
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-Matrix<T, RowsN, ColumnsN, Container> operator*(const Matrix<T, RowsN, ColumnsN, Container> &mat, T scalar){
-    Matrix<T, RowsN, ColumnsN, Container> ret(mat);
+template<typename T, typename Container>
+Matrix<T, Container> operator*(const Matrix<T, Container> &mat, T scalar){
+    Matrix<T, Container> ret(mat);
     return ret*=scalar;
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-Matrix<T, RowsN, ColumnsN, Container> operator*(T scalar, const Matrix<T, RowsN, ColumnsN, Container> &mat){
+template<typename T, typename Container>
+Matrix<T, Container> operator*(T scalar, const Matrix<T, Container> &mat){
     return mat*scalar;
 }
 
-template<typename T, size_t RowsN, size_t ColumnsN, typename Container>
-Matrix<T, RowsN, ColumnsN, Container> operator/(const Matrix<T, RowsN, ColumnsN, Container> &mat, T scalar){
-    Matrix<T, RowsN, ColumnsN, Container> ret(mat);
+template<typename T, typename Container>
+Matrix<T, Container> operator/(const Matrix<T, Container> &mat, T scalar){
+    Matrix<T, Container> ret(mat);
     return ret/=scalar;
 }
 
 //Vector operations
 
 // returns the dot product of two vectors
-// It will always return the dot product as long as you provide two matrix with RowsN == 1 and same ColumnsN
+// It will always return the dot product as long as you provide two matrix with rows == 1 and same columns
 // If what is intended is the matrix product use the matrix operator*
-template<typename T, size_t ColumnsN, typename Container1, typename Container2>
-T dot(const Matrix<T, 1, ColumnsN, Container1> &v1, const Matrix<T, 1, ColumnsN, Container2> &v2){
+template<typename T, typename Container1, typename Container2>
+T dot(const Matrix<T, Container1> &v1, const Matrix<T, Container2> &v2){
     T sum = T();
     auto endIt = v1.rowIteratorEnd(0);
 

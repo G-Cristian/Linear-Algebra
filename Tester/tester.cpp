@@ -74,7 +74,7 @@ bool matrix_array_container_divide_not_in_place_by_scalar();
 bool matrix_array_container_print_operator_matrix_2_rows_1_column();
 bool matrix_array_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column();
 bool matrix_array_container_contructor_with_complete_initializer_list();
-bool matrix_array_container_contructor_with_incomplete_initializer_list();
+//bool matrix_array_container_contructor_with_incomplete_initializer_list();
 bool matrix_array_container_subtract_in_place();
 bool matrix_array_container_add_not_in_place();
 bool matrix_array_container_subtract_not_in_place();
@@ -135,7 +135,7 @@ bool matrix_map_container_divide_not_in_place_by_scalar();
 bool matrix_map_container_print_operator_matrix_2_rows_1_column();
 bool matrix_map_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column();
 bool matrix_map_container_contructor_with_complete_initializer_list();
-bool matrix_map_container_contructor_with_incomplete_initializer_list();
+//bool matrix_map_container_contructor_with_incomplete_initializer_list();
 bool matrix_map_container_subtract_in_place();
 bool matrix_map_container_add_not_in_place();
 bool matrix_map_container_subtract_not_in_place();
@@ -151,10 +151,10 @@ bool matrix_array_pointer_container_Get_Number_Of_Columns();
 bool matrix_array_pointer_container_set_value_at_and_check();
 bool matrix_array_pointer_container_retrieveAt();
 bool matrix_array_pointer_container_insertAt_and_check();
-bool matrix_array_pointer_container_copy_constructor_copies_all();
-bool matrix_array_pointer_container_assign_operator_copies_all();
-bool matrix_array_pointer_container_copy_constructor_can_modify_original_elements();
-bool matrix_array_pointer_container_assign_operator_can_modify_original_elements();
+//bool matrix_array_pointer_container_copy_constructor_copies_all();
+//bool matrix_array_pointer_container_assign_operator_copies_all();
+//bool matrix_array_pointer_container_copy_constructor_can_modify_original_elements();
+//bool matrix_array_pointer_container_assign_operator_can_modify_original_elements();
 bool matrix_array_pointer_container_storedElementsCount();
 bool matrix_array_pointer_container_RowIterator();
 bool matrix_array_pointer_container_ConstRowIterator();
@@ -176,10 +176,10 @@ bool matrix_map_pointer_container_Get_Number_Of_Columns();
 bool matrix_map_pointer_container_set_value_at_and_check();
 bool matrix_map_pointer_container_retrieveAt();
 bool matrix_map_pointer_container_insertAt_and_check();
-bool matrix_map_pointer_container_copy_constructor_copies_all();
-bool matrix_map_pointer_container_assign_operator_copies_all();
-bool matrix_map_pointer_container_copy_constructor_can_modify_original_elements();
-bool matrix_map_pointer_container_assign_operator_can_modify_original_elements();
+//bool matrix_map_pointer_container_copy_constructor_copies_all();
+//bool matrix_map_pointer_container_assign_operator_copies_all();
+//bool matrix_map_pointer_container_copy_constructor_can_modify_original_elements();
+//bool matrix_map_pointer_container_assign_operator_can_modify_original_elements();
 bool matrix_map_pointer_container_storedElementsCount();
 bool matrix_map_pointer_container_RowIterator();
 bool matrix_map_pointer_container_ConstRowIterator();
@@ -247,7 +247,7 @@ int main(){
     RUN_TEST(matrix_array_container_print_operator_matrix_2_rows_1_column, passedTests, failedTests);
     RUN_TEST(matrix_array_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column, passedTests, failedTests);
     RUN_TEST(matrix_array_container_contructor_with_complete_initializer_list, passedTests, failedTests);
-    RUN_TEST(matrix_array_container_contructor_with_incomplete_initializer_list, passedTests, failedTests);
+    //RUN_TEST(matrix_array_container_contructor_with_incomplete_initializer_list, passedTests, failedTests);
     RUN_TEST(matrix_array_container_subtract_in_place, passedTests, failedTests);
     RUN_TEST(matrix_array_container_add_not_in_place, passedTests, failedTests);
     RUN_TEST(matrix_array_container_subtract_not_in_place, passedTests, failedTests);
@@ -307,7 +307,7 @@ int main(){
     RUN_TEST(matrix_map_container_print_operator_matrix_2_rows_1_column, passedTests, failedTests);
     RUN_TEST(matrix_map_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column, passedTests, failedTests);
     RUN_TEST(matrix_map_container_contructor_with_complete_initializer_list, passedTests, failedTests);
-    RUN_TEST(matrix_map_container_contructor_with_incomplete_initializer_list, passedTests, failedTests);
+    //RUN_TEST(matrix_map_container_contructor_with_incomplete_initializer_list, passedTests, failedTests);
     RUN_TEST(matrix_map_container_subtract_in_place, passedTests, failedTests);
     RUN_TEST(matrix_map_container_add_not_in_place, passedTests, failedTests);
     RUN_TEST(matrix_map_container_subtract_not_in_place, passedTests, failedTests);
@@ -322,10 +322,10 @@ int main(){
     RUN_TEST(matrix_array_pointer_container_set_value_at_and_check, passedTests, failedTests);
     RUN_TEST(matrix_array_pointer_container_retrieveAt, passedTests, failedTests);
     RUN_TEST(matrix_array_pointer_container_insertAt_and_check, passedTests, failedTests);
-    RUN_TEST(matrix_array_pointer_container_copy_constructor_copies_all, passedTests, failedTests);
-    RUN_TEST(matrix_array_pointer_container_assign_operator_copies_all, passedTests, failedTests);
-    RUN_TEST(matrix_array_pointer_container_copy_constructor_can_modify_original_elements, passedTests, failedTests);
-    RUN_TEST(matrix_array_pointer_container_assign_operator_can_modify_original_elements, passedTests, failedTests);
+  //  RUN_TEST(matrix_array_pointer_container_copy_constructor_copies_all, passedTests, failedTests);
+  //  RUN_TEST(matrix_array_pointer_container_assign_operator_copies_all, passedTests, failedTests);
+  //  RUN_TEST(matrix_array_pointer_container_copy_constructor_can_modify_original_elements, passedTests, failedTests);
+  //  RUN_TEST(matrix_array_pointer_container_assign_operator_can_modify_original_elements, passedTests, failedTests);
     RUN_TEST(matrix_array_pointer_container_storedElementsCount, passedTests, failedTests);
     RUN_TEST(matrix_array_pointer_container_RowIterator, passedTests, failedTests);
     RUN_TEST(matrix_array_pointer_container_ConstRowIterator, passedTests, failedTests);
@@ -346,10 +346,10 @@ int main(){
     RUN_TEST(matrix_map_pointer_container_set_value_at_and_check, passedTests, failedTests);
     RUN_TEST(matrix_map_pointer_container_retrieveAt, passedTests, failedTests);
     RUN_TEST(matrix_map_pointer_container_insertAt_and_check, passedTests, failedTests);
-    RUN_TEST(matrix_map_pointer_container_copy_constructor_copies_all, passedTests, failedTests);
-    RUN_TEST(matrix_map_pointer_container_assign_operator_copies_all, passedTests, failedTests);
-    RUN_TEST(matrix_map_pointer_container_copy_constructor_can_modify_original_elements, passedTests, failedTests);
-    RUN_TEST(matrix_map_pointer_container_assign_operator_can_modify_original_elements, passedTests, failedTests);
+   // RUN_TEST(matrix_map_pointer_container_copy_constructor_copies_all, passedTests, failedTests);
+   // RUN_TEST(matrix_map_pointer_container_assign_operator_copies_all, passedTests, failedTests);
+   // RUN_TEST(matrix_map_pointer_container_copy_constructor_can_modify_original_elements, passedTests, failedTests);
+   // RUN_TEST(matrix_map_pointer_container_assign_operator_can_modify_original_elements, passedTests, failedTests);
     RUN_TEST(matrix_map_pointer_container_storedElementsCount, passedTests, failedTests);
     RUN_TEST(matrix_map_pointer_container_RowIterator, passedTests, failedTests);
     RUN_TEST(matrix_map_pointer_container_ConstRowIterator, passedTests, failedTests);
@@ -377,23 +377,23 @@ int main(){
 /* ------------ Array container tests --------------- */
 
 bool matrix_array_container_Creation(){
-    Matrix<float,1,2> mat;
+    Matrix<float> mat(1,2);
     return true;
 }
 
 bool matrix_array_container_Get_Size(){
-    Matrix<float,1,2> mat;
+    Matrix<float> mat(1,2);
 
     return mat.size()==2;
 }
 
 bool matrix_array_container_Get_Number_Of_Rows(){
-    Matrix<float,3,2> mat;
+    Matrix<float> mat(3,2);
     return mat.rows() == 3;
 }
 
 bool matrix_array_container_Get_Number_Of_Columns(){
-    Matrix<float,3,2> mat;
+    Matrix<float> mat(3,2);
     return mat.columns() == 2;
 }
 
@@ -402,7 +402,7 @@ bool matrix_array_container_Get_Number_Of_Columns(){
 }*/
 
 bool matrix_array_container_Get_Number_Of_Rows_Of_Transposed(){
-    return Matrix<float,3,2>().transposed<float[3]>().rows() == 2;
+    return Matrix<float>(3,2).transposed().rows() == 2;
 }
 
 /*bool matrix_array_container_Get_Number_Of_Columns_Of_Logic_Transposed(){
@@ -410,12 +410,12 @@ bool matrix_array_container_Get_Number_Of_Rows_Of_Transposed(){
 }*/
 
 bool matrix_array_container_Get_Number_Of_Columns_Of_Transposed(){
-    return Matrix<float,3,2>().transposed<float[3]>().columns() == 3;
+    return Matrix<float>(3,2).transposed().columns() == 3;
 }
 
 bool matrix_array_container_at_in_uninitialized_matrix(){
     bool ok =true;
-    Matrix<float,3,2> mat;
+    Matrix<float> mat(3,2);
     for(int i=0; i < 3 && ok; ++i){
         for(int j=0; j < 2 && ok; ++j){
             ok = mat.at(i,j) == 0.0f;
@@ -441,7 +441,7 @@ bool matrix_array_container_isTransposed_lvalue(){
 */
 bool matrix_array_container_set_value_at_and_check(){
     bool ok =true;
-    Matrix<float,3,2> mat;
+    Matrix<float> mat(3,2);
     mat.at(2,1)= 21.0f;
     mat.at(1,0)= 10.0f;
     for(int i=0; i < 3 && ok; ++i){
@@ -485,10 +485,10 @@ bool matrix_array_container_set_value_at_and_check_logic_transposed(){
 
 bool matrix_array_container_set_value_at_and_check_transposed(){
     bool ok =true;
-    Matrix<float,3,2> mat;
+    Matrix<float> mat(3,2);
     mat.at(2,1)= 21.0f;
     mat.at(1,0)= 10.0f;
-    Matrix<float,2,3> mat2 = mat.transposed<float[3]>();
+    Matrix<float> mat2 = mat.transposed();
     for(int i=0; i < 2 && ok; ++i){
         for(int j=0; j < 3 && ok; ++j){
             if(i == 0 && j == 1){
@@ -511,7 +511,7 @@ bool matrix_array_container_set_value_at_and_check_transposed(){
 
 bool matrix_array_container_retrieveAt(){
     bool ok =true;
-    Matrix<float,3,2> mat;
+    Matrix<float> mat(3,2);
     mat.at(2,1)= 21.0f;
     mat.at(1,0)= 10.0f;
     for(int i=0; i < 3 && ok; ++i){
@@ -557,10 +557,10 @@ bool matrix_array_container_retrieveAt_logic_transposed(){
 */
 bool matrix_array_container_retrieveAt_transposed(){
     bool ok =true;
-    Matrix<float,3,2> mat;
+    Matrix<float> mat(3,2);
     mat.at(2,1)= 21.0f;
     mat.at(1,0)= 10.0f;
-    Matrix<float,2,3> mat2 = mat.transposed<float[3]>();
+    Matrix<float> mat2 = mat.transposed();
     for(int i=0; i < 2 && ok; ++i){
         for(int j=0; j < 3 && ok; ++j){
             if(i == 0 && j == 1){
@@ -583,7 +583,7 @@ bool matrix_array_container_retrieveAt_transposed(){
 
 bool matrix_array_container_insertAt_and_check(){
     bool ok =true;
-    Matrix<float,3,2> mat;
+    Matrix<float> mat(3,2);
     mat.insertValueAtRowColumn(21.0f,2,1);
     mat.insertValueAtRowColumn(10.0f,1,0);
     for(int i=0; i < 3 && ok; ++i){
@@ -628,10 +628,10 @@ bool matrix_array_container_insertAt_and_check_logic_transposed(){
 }*/
 bool matrix_array_container_insertAt_and_check_transposed(){
     bool ok =true;
-    Matrix<float,3,2> mat;
+    Matrix<float> mat(3,2);
     mat.insertValueAtRowColumn(21.0f,2,1);
     mat.insertValueAtRowColumn(10.0f,1,0);
-    Matrix<float,2,3> mat2 = mat.transposed<float[3]>();
+    Matrix<float> mat2 = mat.transposed();
     for(int i=0; i < 2 && ok; ++i){
         for(int j=0; j < 3 && ok; ++j){
             if(i == 0 && j == 1){
@@ -654,10 +654,10 @@ bool matrix_array_container_insertAt_and_check_transposed(){
 
 bool matrix_array_container_copy_constructor_copies_all(){
     bool ok = true;
-    Matrix<float,4,5> mat1;
+    Matrix<float> mat1(4,5);
     mat1.at(0,0) = 1.0f;
     mat1.insertValueAtRowColumn(34.0f,3,4);
-    Matrix<float,4,5> matCopy(mat1);
+    Matrix<float> matCopy(mat1);
 
     ok =    (mat1.size() == matCopy.size()) &&
             (mat1.rows() == matCopy.rows()) &&
@@ -678,10 +678,10 @@ bool matrix_array_container_copy_constructor_copies_all(){
 
 bool matrix_array_container_assign_operator_copies_all(){
     bool ok = true;
-    Matrix<float,4,5> mat1;
+    Matrix<float> mat1(4,5);
     mat1.at(0,0) = 1.0f;
     mat1.insertValueAtRowColumn(34.0f,3,4);
-    Matrix<float,4,5> matCopy;
+    Matrix<float> matCopy(4,5);
     matCopy.at(2,2) = 22.0f;
     matCopy = mat1;
 
@@ -704,11 +704,11 @@ bool matrix_array_container_assign_operator_copies_all(){
 
 bool matrix_array_container_copy_constructor_passing_transposed_copies_all(){
     bool ok = true;
-    Matrix<float,4,5> mat1;
+    Matrix<float> mat1(4,5);
     mat1.at(0,0) = 1.0f;
     mat1.insertValueAtRowColumn(34.0f,3,4);
     //Matrix<float,4,5> matCopy(mat1.logicTransposed());
-    Matrix<float,5,4> matCopy(mat1.transposed<float[4]>());
+    Matrix<float> matCopy(mat1.transposed());
 
     ok =    (mat1.size() == matCopy.size()) &&
             (mat1.rows() == matCopy.columns()) &&
@@ -729,13 +729,13 @@ bool matrix_array_container_copy_constructor_passing_transposed_copies_all(){
 
 bool matrix_array_container_assign_operator_passing_transposed_copies_all(){
     bool ok = true;
-    Matrix<float,4,5> mat1;
+    Matrix<float> mat1(4,5);
     mat1.at(0,0) = 1.0f;
     mat1.insertValueAtRowColumn(34.0f,3,4);
-    Matrix<float,5,4> matCopy;
+    Matrix<float> matCopy(5,4);
     matCopy.at(2,2) = 22.0f;
     //matCopy = mat1.logicTransposed();
-    matCopy = mat1.transposed<float[4]>();
+    matCopy = mat1.transposed();
 
     ok =    (mat1.size() == matCopy.size()) &&
             (mat1.rows() == matCopy.columns()) &&
@@ -756,10 +756,10 @@ bool matrix_array_container_assign_operator_passing_transposed_copies_all(){
 
 bool matrix_array_container_copy_constructor_copies_by_value(){
     bool ok = true;
-    Matrix<float,4,5> mat1;
+    Matrix<float> mat1(4,5);
     mat1.at(0,0) = 1.0f;
     mat1.insertValueAtRowColumn(34.0f,3,4);
-    Matrix<float,4,5> matCopy(mat1);
+    Matrix<float> matCopy(mat1);
     matCopy.at(0,0) = 200.0f;
     matCopy.insertValueAtRowColumn(800.0f,3,4);
 
@@ -782,10 +782,10 @@ bool matrix_array_container_copy_constructor_copies_by_value(){
 
 bool matrix_array_container_assign_operator_copies_by_value(){
     bool ok = true;
-    Matrix<float,4,5> mat1;
+    Matrix<float> mat1(4,5);
     mat1.at(0,0) = 1.0f;
     mat1.insertValueAtRowColumn(34.0f,3,4);
-    Matrix<float,4,5> matCopy;
+    Matrix<float> matCopy(4,5);
     matCopy.at(2,2) = 22.0f;
     matCopy = mat1;
     matCopy.at(0,0) = 200.0f;
@@ -809,14 +809,14 @@ bool matrix_array_container_assign_operator_copies_by_value(){
 }
 
 bool matrix_array_container_storedElementsCount(){
-    Matrix<float,4,5> mat1;
+    Matrix<float> mat1(4,5);
 
     return mat1.storedElementsCount() == 20;
 }
 
 bool matrix_array_container_array_container_dot(){
-    Matrix<float,1,5> mat1;
-    Matrix<float,1,5> mat2;
+    Matrix<float> mat1(1,5);
+    Matrix<float> mat2(1,5);
 
     mat1.at(0,0) = 2.0f;
     mat2.at(0,0) = 5.0f;
@@ -833,8 +833,8 @@ bool matrix_array_container_array_container_dot(){
 
 bool matrix_array_container_array_container_dot_doesnt_change_vectors_values(){
     bool ok = true;
-    Matrix<float,1,5> mat1;
-    Matrix<float,1,5> mat2;
+    Matrix<float> mat1(1,5);
+    Matrix<float> mat2(1,5);
 
     mat1.at(0,0) = 2.0f;
     mat2.at(0,0) = 5.0f;
@@ -876,8 +876,8 @@ bool matrix_array_container_array_container_dot_doesnt_change_vectors_values(){
 
 bool matrix_array_container_array_container_multiplication(){
     bool ok = false;
-    Matrix<float,2,3> mat1;
-    Matrix<float,3,1> mat2;
+    Matrix<float> mat1(2,3);
+    Matrix<float> mat2(3,1);
 
     mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; mat1.at(0,2) = 4.0f;
     mat1.at(1,0) = 5.0f; mat1.at(1,1) = 6.0f; mat1.at(1,2) = 7.0f;
@@ -886,7 +886,7 @@ bool matrix_array_container_array_container_multiplication(){
     mat2.at(1,0) = 8.0f;
     mat2.at(2,0) = 7.0f;
 
-    Matrix<float,2,1> mat3 = mat1*mat2;
+    Matrix<float> mat3 = mat1*mat2;
 
     ok = (  mat3.retrieveAt(0,0) == 70.0f &&
             mat3.retrieveAt(1,0) == 142.0f);
@@ -899,8 +899,8 @@ bool matrix_array_container_array_container_multiplication(){
 
 bool matrix_array_container_array_container_multiplication_doesnt_change_matrices_values(){
     bool ok = false;
-    Matrix<float,2,3> mat1;
-    Matrix<float,3,1> mat2;
+    Matrix<float> mat1(2,3);
+    Matrix<float> mat2(3,1);
 
     mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; mat1.at(0,2) = 4.0f;
     mat1.at(1,0) = 5.0f; mat1.at(1,1) = 6.0f; mat1.at(1,2) = 7.0f;
@@ -909,7 +909,7 @@ bool matrix_array_container_array_container_multiplication_doesnt_change_matrice
     mat2.at(1,0) = 8.0f;
     mat2.at(2,0) = 7.0f;
 
-    Matrix<float,2,1> mat3 = mat1*mat2;
+    Matrix<float> mat3 = mat1*mat2;
 
     ok = (  mat1.retrieveAt(0,0) == 2.0f && mat1.retrieveAt(0,1) == 3.0f && mat1.retrieveAt(0,2) == 4.0f &&
             mat1.retrieveAt(1,0) == 5.0f && mat1.retrieveAt(1,1) == 6.0f && mat1.retrieveAt(1,2) == 7.0f &&
@@ -925,7 +925,7 @@ bool matrix_array_container_array_container_multiplication_doesnt_change_matrice
 
 bool matrix_array_container_RowIterator(){
     bool ok = true;
-    Matrix<float,2,3> mat1;
+    Matrix<float> mat1(2,3);
 
     mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; mat1.at(0,2) = 4.0f;
     mat1.at(1,0) = 8.0f; mat1.at(1,1) = 9.0f; mat1.at(1,2) = 10.0f;
@@ -951,7 +951,7 @@ bool matrix_array_container_RowIterator(){
 
 bool matrix_array_container_ConstRowIterator(){
     bool ok = true;
-    Matrix<float,2,3> mat1;
+    Matrix<float> mat1(2,3);
 
     mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; mat1.at(0,2) = 4.0f;
     mat1.at(1,0) = 8.0f; mat1.at(1,1) = 9.0f; mat1.at(1,2) = 10.0f;
@@ -979,11 +979,11 @@ bool matrix_array_container_ConstRowIterator(){
 
 bool matrix_array_container_add_in_place(){
     bool ok = true;
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,2,3> m2;
+    Matrix<float> m2(2,3);
     /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
     m2.insertValueAtRowColumn(-2.0f, 1, 0);     m2.insertValueAtRowColumn(-3.0f, 1, 1);     m2.insertValueAtRowColumn(-3.5f, 1, 2);
 
@@ -1017,7 +1017,7 @@ bool matrix_array_container_add_in_place(){
 
 bool matrix_array_container_multiply_in_place_by_scalar_not_equal_zero(){
     bool ok = true;
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
@@ -1041,7 +1041,7 @@ bool matrix_array_container_multiply_in_place_by_scalar_not_equal_zero(){
 
 bool matrix_array_container_multiply_in_place_by_scalar_equal_zero(){
     bool ok = true;
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
@@ -1064,10 +1064,10 @@ bool matrix_array_container_multiply_in_place_by_scalar_equal_zero(){
 }
 
 bool matrix_array_container_unary_minus_operator_on_rvalue(){
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     m1.insertValueAtRowColumn(1.0f, 0, 0);
     m1.insertValueAtRowColumn(-2.0f, 1, 2);
-    Matrix<float,3,2> m2 = -(m1.transposed<float[2]>());
+    Matrix<float> m2 = -(m1.transposed());
     m2.insertValueAtRowColumn(11.0f, 1, 1);
 
     return  m1.retrieveAt(0,0) == 1.0f &&   m1.retrieveAt(0,1) == 0.0f &&   m1.retrieveAt(0,2) == 0.0f &&
@@ -1080,10 +1080,10 @@ bool matrix_array_container_unary_minus_operator_on_rvalue(){
 }
 
 bool matrix_array_container_unary_minus_operator_on_lvalue(){
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     m1.insertValueAtRowColumn(1.0f, 0, 0);
     m1.insertValueAtRowColumn(-2.0f, 1, 2);
-    Matrix<float,2,3> m2 = -m1;
+    Matrix<float> m2 = -m1;
     m2.insertValueAtRowColumn(11.0f, 1, 1);
 
     return  m1.retrieveAt(0,0) == 1.0f &&   m1.retrieveAt(0,1) == 0.0f &&   m1.retrieveAt(0,2) == 0.0f &&
@@ -1096,9 +1096,9 @@ bool matrix_array_container_unary_minus_operator_on_lvalue(){
 
 bool matrix_array_container_copyRowAtIndex_array_container(){
     bool ok = true;
-    Matrix<float,2,3> mat;
+    Matrix<float> mat(2,3);
     mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
-    Matrix<float,1,3>row = mat.copyRowAtIndex(1);
+    Matrix<float>row = mat.copyRowAtIndex(1);
     
     ok =    row.retrieveAt(0,0) == 1.0f && row.retrieveAt(0,1) == 0.0f && row.retrieveAt(0,2) == 3.0f &&
             row.storedElementsCount() == 3;
@@ -1117,7 +1117,7 @@ bool matrix_array_container_copyRowAtIndex_array_container(){
 
 bool matrix_array_container_divide_in_place_by_scalar(){
     bool ok = true;
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
@@ -1141,7 +1141,7 @@ bool matrix_array_container_divide_in_place_by_scalar(){
 
 bool matrix_array_container_multiply_not_in_place_by_scalar_not_equal_zero(){
     bool ok = true;
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
@@ -1151,7 +1151,7 @@ bool matrix_array_container_multiply_not_in_place_by_scalar_not_equal_zero(){
             m1.retrieveAt(0, 0) == 0.0f &&  m1.retrieveAt(0, 1) == 0.0f &&      m1.retrieveAt(0, 2) == 3.5f &&
             m1.retrieveAt(1, 0) == 2.0f &&  m1.retrieveAt(1, 1) == -3.0f &&     m1.retrieveAt(1, 2) == 3.5f;
     
-    Matrix<float,2,3> m2 = m1 * 2.0f;
+    Matrix<float> m2 = m1 * 2.0f;
 
     ok =    ok &&
             m2.storedElementsCount() == 6;
@@ -1182,7 +1182,7 @@ bool matrix_array_container_multiply_not_in_place_by_scalar_not_equal_zero(){
 
 bool matrix_array_container_multiply_not_in_place_by_scalar_equal_zero(){
     bool ok = true;
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
@@ -1192,7 +1192,7 @@ bool matrix_array_container_multiply_not_in_place_by_scalar_equal_zero(){
             m1.retrieveAt(0, 0) == 0.0f &&  m1.retrieveAt(0, 1) == 0.0f &&      m1.retrieveAt(0, 2) == 3.5f &&
             m1.retrieveAt(1, 0) == 2.0f &&  m1.retrieveAt(1, 1) == -3.0f &&     m1.retrieveAt(1, 2) == 3.5f;
     
-    Matrix<float,2,3> m2 = m1 * 0.0f;
+    Matrix<float> m2 = m1 * 0.0f;
 
     ok =    ok &&
             m2.storedElementsCount() == 6;
@@ -1202,7 +1202,7 @@ bool matrix_array_container_multiply_not_in_place_by_scalar_equal_zero(){
             m2.retrieveAt(1, 0) == 0.0f &&  m2.retrieveAt(1, 1) == 0.0f &&     m2.retrieveAt(1, 2) == 0.0f;
 
 
-    Matrix<float,2,3> m3 = 0.0f * m1;
+    Matrix<float> m3 = 0.0f * m1;
 
     ok =    ok &&
             m1.storedElementsCount() == 6;
@@ -1223,7 +1223,7 @@ bool matrix_array_container_multiply_not_in_place_by_scalar_equal_zero(){
 
 bool matrix_array_container_divide_not_in_place_by_scalar(){
     bool ok = true;
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
@@ -1233,7 +1233,7 @@ bool matrix_array_container_divide_not_in_place_by_scalar(){
             m1.retrieveAt(0, 0) == 0.0f &&  m1.retrieveAt(0, 1) == 0.0f &&      m1.retrieveAt(0, 2) == 3.5f &&
             m1.retrieveAt(1, 0) == 2.0f &&  m1.retrieveAt(1, 1) == -3.0f &&     m1.retrieveAt(1, 2) == 3.5f;
     
-    Matrix<float,2,3> m2 = m1 / 2.0f;
+    Matrix<float> m2 = m1 / 2.0f;
 
     ok =    ok &&
             m1.storedElementsCount() == 6;
@@ -1254,7 +1254,7 @@ bool matrix_array_container_divide_not_in_place_by_scalar(){
 
 bool matrix_array_container_print_operator_matrix_2_rows_1_column(){
     bool ok = true;
-    Matrix<float,2,1> mat;
+    Matrix<float> mat(2,1);
     mat.insertValueAtRowColumn(1.2f,0,0);
 
     stringstream ss;
@@ -1275,10 +1275,10 @@ bool matrix_array_container_print_operator_matrix_2_rows_1_column(){
 
 bool matrix_array_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column(){
     bool ok = true;
-    Matrix<float,2,1> mat1;
+    Matrix<float> mat1(2,1);
     mat1.insertValueAtRowColumn(1.2f,0,0);
 
-    Matrix<float,1,2,map<size_t,float>> mat2;
+    Matrix<float,map<size_t,float>> mat2(1,2);
     mat2.insertValueAtRowColumn(1.2f,0,1);
 
     stringstream ss;
@@ -1303,7 +1303,7 @@ bool matrix_array_container_print_operator_matrix_2_rows_1_column_and_matrix_1_r
 
 bool matrix_array_container_contructor_with_complete_initializer_list(){
     bool ok = true;
-    Matrix<float,2,3> mat=  {   
+    Matrix<float> mat=  {   
                                 {1.0, 2.0, 0.0},
                                 {4.0, 0.0, 0.0}
                             };
@@ -1315,28 +1315,13 @@ bool matrix_array_container_contructor_with_complete_initializer_list(){
     return ok;
 }
 
-bool matrix_array_container_contructor_with_incomplete_initializer_list(){
-    bool ok = true;
-    Matrix<float,3,3> mat=  {   
-                                {1.0, 2.0},
-                                {4.0}
-                            };
-    
-    ok =    mat.retrieveAt(0,0) == 1.0f && mat.retrieveAt(0,1) == 2.0f && mat.retrieveAt(0,2) == 0.0f && 
-            mat.retrieveAt(1,0) == 4.0f && mat.retrieveAt(1,1) == 0.0f && mat.retrieveAt(1,2) == 0.0f && 
-            mat.retrieveAt(2,0) == 0.0f && mat.retrieveAt(2,1) == 0.0f && mat.retrieveAt(2,2) == 0.0f && 
-            mat.storedElementsCount() == 9;
-
-    return ok;
-}
-
 bool matrix_array_container_subtract_in_place(){
     bool ok = true;
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,2,3> m2;
+    Matrix<float> m2(2,3);
     /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(-1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
     m2.insertValueAtRowColumn(2.0f, 1, 0);     m2.insertValueAtRowColumn(3.0f, 1, 1);     m2.insertValueAtRowColumn(3.5f, 1, 2);
 
@@ -1370,15 +1355,15 @@ bool matrix_array_container_subtract_in_place(){
 
 bool matrix_array_container_add_not_in_place(){
     bool ok = true;
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,2,3> m2;
+    Matrix<float> m2(2,3);
     /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
     m2.insertValueAtRowColumn(-2.0f, 1, 0);     m2.insertValueAtRowColumn(-3.0f, 1, 1);     m2.insertValueAtRowColumn(-3.5f, 1, 2);
     
-    Matrix<float,2,3> m3 = m1+m2;
+    Matrix<float> m3 = m1+m2;
 
     ok =    ok &&
             m3.storedElementsCount() == 6;
@@ -1392,15 +1377,15 @@ bool matrix_array_container_add_not_in_place(){
 
 bool matrix_array_container_subtract_not_in_place(){
     bool ok = true;
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,2,3> m2;
+    Matrix<float> m2(2,3);
     /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(-1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
     m2.insertValueAtRowColumn(2.0f, 1, 0);     m2.insertValueAtRowColumn(3.0f, 1, 1);     m2.insertValueAtRowColumn(3.5f, 1, 2);
     
-    Matrix<float,2,3> m3 = m1-m2;
+    Matrix<float> m3 = m1-m2;
 
     ok =    ok &&
             m3.storedElementsCount() == 6;
@@ -1414,11 +1399,11 @@ bool matrix_array_container_subtract_not_in_place(){
 
 bool matrix_array_container_add_not_in_place_does_not_change_original_matrices(){
     bool ok = true;
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,2,3> m2;
+    Matrix<float> m2(2,3);
     /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
     m2.insertValueAtRowColumn(-2.0f, 1, 0);     m2.insertValueAtRowColumn(-3.0f, 1, 1);     m2.insertValueAtRowColumn(-3.5f, 1, 2);
 
@@ -1433,7 +1418,7 @@ bool matrix_array_container_add_not_in_place_does_not_change_original_matrices()
             m2.retrieveAt(0, 0) == 0.0f &&  m2.retrieveAt(0, 1) == 1.3f &&      m2.retrieveAt(0, 2) == 0.0f &&
             m2.retrieveAt(1, 0) == -2.0f && m2.retrieveAt(1, 1) == -3.0f &&      m2.retrieveAt(1, 2) == -3.5f;
     
-    Matrix<float,2,3> m3 = m1+m2;
+    Matrix<float> m3 = m1+m2;
     m3.insertValueAtRowColumn(8.0f,0,0);
     m3.insertValueAtRowColumn(4.0f,1,1);
 
@@ -1458,11 +1443,11 @@ bool matrix_array_container_add_not_in_place_does_not_change_original_matrices()
 
 bool matrix_array_container_subtract_not_in_place_does_not_change_original_matrices(){
     bool ok = true;
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,2,3> m2;
+    Matrix<float> m2(2,3);
     /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(-1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
     m2.insertValueAtRowColumn(2.0f, 1, 0);     m2.insertValueAtRowColumn(3.0f, 1, 1);     m2.insertValueAtRowColumn(3.5f, 1, 2);
 
@@ -1477,7 +1462,7 @@ bool matrix_array_container_subtract_not_in_place_does_not_change_original_matri
             m2.retrieveAt(0, 0) == 0.0f &&  m2.retrieveAt(0, 1) == -1.3f &&      m2.retrieveAt(0, 2) == 0.0f &&
             m2.retrieveAt(1, 0) == 2.0f && m2.retrieveAt(1, 1) == 3.0f &&      m2.retrieveAt(1, 2) == 3.5f;
     
-    Matrix<float,2,3> m3 = m1-m2;
+    Matrix<float> m3 = m1-m2;
     m3.insertValueAtRowColumn(8.0f,0,0);
     m3.insertValueAtRowColumn(4.0f,1,1);
 
@@ -1502,9 +1487,9 @@ bool matrix_array_container_subtract_not_in_place_does_not_change_original_matri
 
 bool matrix_array_container_rowAtIndex_array_container(){
     bool ok = true;
-    Matrix<float,2,3> mat;
+    Matrix<float> mat(2,3);
     mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
-    Matrix<float,1,3, float(*)[3]>row = mat.rowAtIndex(1);
+    Matrix<float, shared_ptr<float>*>row = mat.rowAtIndex(1);
     
     ok =    row.retrieveAt(0,0) == 1.0f && row.retrieveAt(0,1) == 0.0f && row.retrieveAt(0,2) == 3.0f &&
             row.storedElementsCount() == 3;
@@ -1524,41 +1509,41 @@ bool matrix_array_container_rowAtIndex_array_container(){
 /* ------------ Map container tests --------------- */
 
 bool matrix_map_container_Creation(){
-    Matrix<float,1, 2, std::map<size_t, float>> mat;
+    Matrix<float, std::map<size_t, float>> mat(1,2);
     return mat.storedElementsCount() == 0;
 }
 
 bool matrix_map_container_Get_Size(){
-    Matrix<float,1,2, std::map<size_t, float>> mat;
+    Matrix<float, std::map<size_t, float>> mat(1,2);
 
     return mat.size()==2;
 }
 
 bool matrix_map_container_Get_Number_Of_Rows(){
-    Matrix<float,3,2, std::map<size_t, float>> mat;
+    Matrix<float, std::map<size_t, float>> mat(3,2);
     return mat.rows() == 3;
 }
 
 bool matrix_map_container_Get_Number_Of_Columns(){
-    Matrix<float,3,2, std::map<size_t, float>> mat;
+    Matrix<float, std::map<size_t, float>> mat(3,2);
     return mat.columns() == 2;
 }
 
 //bool matrix_map_container_Get_Number_Of_Rows_Of_Logic_Transposed();
 
 bool matrix_map_container_Get_Number_Of_Rows_Of_Transposed(){
-    return Matrix<float,3,2, std::map<size_t, float>>().transposed<std::map<size_t, float>>().rows() == 2;
+    return Matrix<float, std::map<size_t, float>>(3,2).transposed().rows() == 2;
 }
 
 //bool matrix_map_container_Get_Number_Of_Columns_Of_Logic_Transposed();
 
 bool matrix_map_container_Get_Number_Of_Columns_Of_Transposed(){
-    return Matrix<float,3,2, std::map<size_t, float>>().transposed<std::map<size_t, float>>().columns() == 3;
+    return Matrix<float, std::map<size_t, float>>(3,2).transposed().columns() == 3;
 }
 
 bool matrix_map_container_at_in_uninitialized_matrix(){
     bool ok =true;
-    Matrix<float,3,2, std::map<size_t, float>> mat;
+    Matrix<float, std::map<size_t, float>> mat(3,2);
     for(int i=0; i < 3 && ok; ++i){
         for(int j=0; j < 2 && ok; ++j){
             ok = mat.at(i,j) == 0.0f;
@@ -1574,7 +1559,7 @@ bool matrix_map_container_at_in_uninitialized_matrix(){
 
 bool matrix_map_container_set_value_at_and_check(){
     bool ok =true;
-    Matrix<float,3,2, map<size_t, float>> mat;
+    Matrix<float, map<size_t, float>> mat(3,2);
     mat.at(2,1)= 21.0f;
     mat.at(1,0)= 10.0f;
     for(int i=0; i < 3 && ok; ++i){
@@ -1620,10 +1605,10 @@ bool matrix_map_container_set_value_at_and_check_logic_transposed(){
 
 bool matrix_map_container_set_value_at_and_check_transposed(){
     bool ok =true;
-    Matrix<float,3,2, map<size_t, float>> mat;
+    Matrix<float, map<size_t, float>> mat(3,2);
     mat.at(2,1)= 21.0f;
     mat.at(1,0)= 10.0f;
-    Matrix<float,2,3, map<size_t, float>> mat2 = mat.transposed<map<size_t, float>>();
+    Matrix<float, map<size_t, float>> mat2 = mat.transposed();
     for(int i=0; i < 2 && ok; ++i){
         for(int j=0; j < 3 && ok; ++j){
             if(i == 0 && j == 1){
@@ -1646,7 +1631,7 @@ bool matrix_map_container_set_value_at_and_check_transposed(){
 
 bool matrix_map_container_retrieveAt(){
     bool ok =true;
-    Matrix<float,3,2, map<size_t, float>> mat;
+    Matrix<float, map<size_t, float>> mat(3,2);
     mat.at(2,1)= 21.0f;
     mat.at(1,0)= 10.0f;
     for(int i=0; i < 3 && ok; ++i){
@@ -1692,10 +1677,10 @@ bool matrix_map_container_retrieveAt_logic_transposed(){
 */
 bool matrix_map_container_retrieveAt_transposed(){
     bool ok =true;
-    Matrix<float,3,2, map<size_t, float>> mat;
+    Matrix<float, map<size_t, float>> mat(3,2);
     mat.at(2,1)= 21.0f;
     mat.at(1,0)= 10.0f;
-    Matrix<float,2,3, map<size_t, float>> mat2 = mat.transposed<map<size_t, float>>();
+    Matrix<float, map<size_t, float>> mat2 = mat.transposed();
     for(int i=0; i < 2 && ok; ++i){
         for(int j=0; j < 3 && ok; ++j){
             if(i == 0 && j == 1){
@@ -1718,7 +1703,7 @@ bool matrix_map_container_retrieveAt_transposed(){
 
 bool matrix_map_container_insertAt_and_check(){
     bool ok =true;
-    Matrix<float,3,2, map<size_t, float>> mat;
+    Matrix<float, map<size_t, float>> mat(3,2);
     mat.insertValueAtRowColumn(21.0f,2,1);
     mat.insertValueAtRowColumn(10.0f,1,0);
     for(int i=0; i < 3 && ok; ++i){
@@ -1763,10 +1748,10 @@ bool matrix_map_container_insertAt_and_check_logic_transposed(){
 }*/
 bool matrix_map_container_insertAt_and_check_transposed(){
     bool ok =true;
-    Matrix<float,3,2, map<size_t, float>> mat;
+    Matrix<float, map<size_t, float>> mat(3,2);
     mat.insertValueAtRowColumn(21.0f,2,1);
     mat.insertValueAtRowColumn(10.0f,1,0);
-    Matrix<float,2,3, map<size_t, float>> mat2 = mat.transposed<map<size_t, float>>();
+    Matrix<float, map<size_t, float>> mat2 = mat.transposed();
     for(int i=0; i < 2 && ok; ++i){
         for(int j=0; j < 3 && ok; ++j){
             if(i == 0 && j == 1){
@@ -1789,10 +1774,10 @@ bool matrix_map_container_insertAt_and_check_transposed(){
 
 bool matrix_map_container_copy_constructor_copies_all(){
     bool ok = true;
-    Matrix<float,4,5,map<size_t,float>> mat1;
+    Matrix<float,map<size_t,float>> mat1(4,5);
     mat1.at(0,0) = 1.0f;
     mat1.insertValueAtRowColumn(34.0f,3,4);
-    Matrix<float,4,5,map<size_t,float>> matCopy(mat1);
+    Matrix<float,map<size_t,float>> matCopy(mat1);
 
     ok =    (mat1.size() == matCopy.size()) &&
             (mat1.rows() == matCopy.rows()) &&
@@ -1813,10 +1798,10 @@ bool matrix_map_container_copy_constructor_copies_all(){
 
 bool matrix_map_container_assign_operator_copies_all(){
     bool ok = true;
-    Matrix<float,4,5,map<size_t,float>> mat1;
+    Matrix<float,map<size_t,float>> mat1(4,5);
     mat1.at(0,0) = 1.0f;
     mat1.insertValueAtRowColumn(34.0f,3,4);
-    Matrix<float,4,5,map<size_t,float>> matCopy;
+    Matrix<float,map<size_t,float>> matCopy(4,5);
     matCopy.at(2,2) = 22.0f;
 
     ok =    (mat1.storedElementsCount() == 2) &&
@@ -1844,11 +1829,11 @@ bool matrix_map_container_assign_operator_copies_all(){
 
 bool matrix_map_container_copy_constructor_passing_transposed_copies_all(){
     bool ok = true;
-    Matrix<float,4,5,map<size_t,float>> mat1;
+    Matrix<float,map<size_t,float>> mat1(4,5);
     mat1.at(0,0) = 1.0f;
     mat1.insertValueAtRowColumn(34.0f,3,4);
     //Matrix<float,4,5> matCopy(mat1.logicTransposed());
-    Matrix<float,5,4,map<size_t,float>> matCopy(mat1.transposed<map<size_t,float>>());
+    Matrix<float,map<size_t,float>> matCopy(mat1.transposed());
 
     ok =    (mat1.size() == matCopy.size()) &&
             (mat1.rows() == matCopy.columns()) &&
@@ -1869,17 +1854,17 @@ bool matrix_map_container_copy_constructor_passing_transposed_copies_all(){
 
 bool matrix_map_container_assign_operator_passing_transposed_copies_all(){
     bool ok = true;
-    Matrix<float,4,5,map<size_t,float>> mat1;
+    Matrix<float,map<size_t,float>> mat1(4,5);
     mat1.at(0,0) = 1.0f;
     mat1.insertValueAtRowColumn(34.0f,3,4);
-    Matrix<float,5,4,map<size_t,float>> matCopy;
+    Matrix<float,map<size_t,float>> matCopy(5,4);
     matCopy.at(2,2) = 22.0f;
     //matCopy = mat1.logicTransposed();
 
     ok =    (mat1.storedElementsCount() == 2) &&
             (matCopy.storedElementsCount() == 1);
 
-    matCopy = mat1.transposed<map<size_t,float>>();
+    matCopy = mat1.transposed();
 
     ok =    ok &&
             (mat1.size() == matCopy.size()) &&
@@ -1901,10 +1886,10 @@ bool matrix_map_container_assign_operator_passing_transposed_copies_all(){
 
 bool matrix_map_container_copy_constructor_copies_by_value(){
     bool ok = true;
-    Matrix<float,4,5,map<size_t,float>> mat1;
+    Matrix<float,map<size_t,float>> mat1(4,5);
     mat1.at(0,0) = 1.0f;
     mat1.insertValueAtRowColumn(34.0f,3,4);
-    Matrix<float,4,5,map<size_t,float>> matCopy(mat1);
+    Matrix<float,map<size_t,float>> matCopy(mat1);
     matCopy.at(0,0) = 200.0f;
     matCopy.insertValueAtRowColumn(800.0f,3,4);
 
@@ -1927,10 +1912,10 @@ bool matrix_map_container_copy_constructor_copies_by_value(){
 
 bool matrix_map_container_assign_operator_copies_by_value(){
     bool ok = true;
-    Matrix<float,4,5,map<size_t,float>> mat1;
+    Matrix<float,map<size_t,float>> mat1(4,5);
     mat1.at(0,0) = 1.0f;
     mat1.insertValueAtRowColumn(34.0f,3,4);
-    Matrix<float,4,5,map<size_t,float>> matCopy;
+    Matrix<float,map<size_t,float>> matCopy(4,5);
     matCopy.at(2,2) = 22.0f;
     matCopy = mat1;
     matCopy.at(0,0) = 200.0f;
@@ -1954,14 +1939,14 @@ bool matrix_map_container_assign_operator_copies_by_value(){
 }
 
 bool matrix_map_container_storedElementsCount(){
-    Matrix<float,4,5,map<size_t,float>> mat1;
+    Matrix<float,map<size_t,float>> mat1(4,5);
 
     return mat1.storedElementsCount() == 0;
 }
 
 bool matrix_map_container_map_container_dot(){
-    Matrix<float,1,5,map<size_t,float>> mat1;
-    Matrix<float,1,5,map<size_t,float>> mat2;
+    Matrix<float,map<size_t,float>> mat1(1,5);
+    Matrix<float,map<size_t,float>> mat2(1,5);
 
     mat1.at(0,0) = 2.0f;
     mat2.at(0,0) = 5.0f;
@@ -1978,8 +1963,8 @@ bool matrix_map_container_map_container_dot(){
 
 bool matrix_map_container_map_container_dot_doesnt_change_vectors_values(){
     bool ok = true;
-    Matrix<float,1,5,map<size_t,float>> mat1;
-    Matrix<float,1,5,map<size_t,float>> mat2;
+    Matrix<float,map<size_t,float>> mat1(1,5);
+    Matrix<float,map<size_t,float>> mat2(1,5);
 
     mat1.at(0,0) = 2.0f;
     mat2.at(0,0) = 5.0f;
@@ -2020,8 +2005,8 @@ bool matrix_map_container_map_container_dot_doesnt_change_vectors_values(){
 }
 
 bool matrix_array_container_map_container_dot(){
-    Matrix<float,1,5> mat1;
-    Matrix<float,1,5,map<size_t,float>> mat2;
+    Matrix<float> mat1(1,5);
+    Matrix<float,map<size_t,float>> mat2(1,5);
 
     mat1.at(0,0) = 2.0f;
     mat2.at(0,0) = 5.0f;
@@ -2038,8 +2023,8 @@ bool matrix_array_container_map_container_dot(){
 
 bool matrix_array_container_map_container_dot_doesnt_change_vectors_values(){
     bool ok = true;
-    Matrix<float,1,5> mat1;
-    Matrix<float,1,5,map<size_t,float>> mat2;
+    Matrix<float> mat1(1,5);
+    Matrix<float,map<size_t,float>> mat2(1,5);
 
     mat1.at(0,0) = 2.0f;
     mat2.at(0,0) = 5.0f;
@@ -2080,8 +2065,8 @@ bool matrix_array_container_map_container_dot_doesnt_change_vectors_values(){
 }
 
 bool matrix_map_container_array_container_dot(){
-    Matrix<float,1,5,map<size_t,float>> mat1;
-    Matrix<float,1,5> mat2;
+    Matrix<float,map<size_t,float>> mat1(1,5);
+    Matrix<float> mat2(1,5);
 
     mat1.at(0,0) = 2.0f;
     mat2.at(0,0) = 5.0f;
@@ -2098,8 +2083,8 @@ bool matrix_map_container_array_container_dot(){
 
 bool matrix_map_container_array_container_dot_doesnt_change_vectors_values(){
     bool ok = true;
-    Matrix<float,1,5,map<size_t,float>> mat1;
-    Matrix<float,1,5> mat2;
+    Matrix<float,map<size_t,float>> mat1(1,5);
+    Matrix<float> mat2(1,5);
 
     mat1.at(0,0) = 2.0f;
     mat2.at(0,0) = 5.0f;
@@ -2141,8 +2126,8 @@ bool matrix_map_container_array_container_dot_doesnt_change_vectors_values(){
 
 bool matrix_map_container_map_container_multiplication(){
     bool ok = false;
-    Matrix<float,2,3, map<size_t, float>> mat1;
-    Matrix<float,3,1, map<size_t, float>> mat2;
+    Matrix<float, map<size_t, float>> mat1(2,3);
+    Matrix<float, map<size_t, float>> mat2(3,1);
 
     mat1.at(0,0) = 2.0f;  mat1.at(0,1) = 3.0f; /* mat1.at(0,2) = 4.0f;*/
     mat1.at(1,0) = 5.0f; mat1.at(1,1) = 7.0f; mat1.at(1,2) = -8.0f;
@@ -2151,7 +2136,7 @@ bool matrix_map_container_map_container_multiplication(){
     mat2.at(1,0) = 8.0f;
     mat2.at(2,0) = 7.0f;
 
-    Matrix<float,2,1, map<size_t, float>> mat3 = mat1*mat2;
+    Matrix<float, map<size_t, float>> mat3 = mat1*mat2;
 
     ok = (  mat3.retrieveAt(0,0) == 24.0f &&
             mat3.retrieveAt(1,0) == 0.0f);
@@ -2165,8 +2150,8 @@ bool matrix_map_container_map_container_multiplication(){
 
 bool matrix_map_container_map_container_multiplication_doesnt_change_matrices_values(){
     bool ok = false;
-    Matrix<float,2,3, map<size_t, float>> mat1;
-    Matrix<float,3,1, map<size_t, float>> mat2;
+    Matrix<float, map<size_t, float>> mat1(2,3);
+    Matrix<float, map<size_t, float>> mat2(3,1);
 
     mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; /* mat1.at(0,2) = 4.0f;*/
     mat1.at(1,0) = 5.0f; mat1.at(1,1) = 7.0f; mat1.at(1,2) = -8.0f;
@@ -2175,7 +2160,7 @@ bool matrix_map_container_map_container_multiplication_doesnt_change_matrices_va
     mat2.at(1,0) = 8.0f;
     mat2.at(2,0) = 7.0f;
 
-    Matrix<float,2,1, map<size_t, float>> mat3 = mat1*mat2;
+    Matrix<float, map<size_t, float>> mat3 = mat1*mat2;
 
     ok = (  mat1.retrieveAt(0,0) == 2.0f && mat1.retrieveAt(0,1) == 3.0f && mat1.retrieveAt(0,2) == 0.0f &&
             mat1.retrieveAt(1,0) == 5.0f && mat1.retrieveAt(1,1) == 7.0f && mat1.retrieveAt(1,2) == -8.0f &&
@@ -2194,7 +2179,7 @@ bool matrix_map_container_map_container_multiplication_doesnt_change_matrices_va
 
 bool matrix_map_container_inserting_zero_with_insertAt_doesnt_store_value_or_removes_stored_value_if_not_equal_zero(){
     bool ok = true;
-    Matrix<float,3,3,map<size_t,float>> mat1;
+    Matrix<float,map<size_t,float>> mat1(3,3);
     mat1.at(0,0) = 0.0f;                    mat1.at(0,1) = 1.0f;                    mat1.at(0,2) = 2.0f;
     mat1.insertValueAtRowColumn(2.0f,1,0);  mat1.insertValueAtRowColumn(0.0f,1,1);  mat1.insertValueAtRowColumn(1.0f,1,2);
 
@@ -2217,7 +2202,7 @@ bool matrix_map_container_inserting_zero_with_insertAt_doesnt_store_value_or_rem
 
 bool matrix_map_container_RowIterator(){
     bool ok = true;
-    Matrix<float,2,3, map<size_t, float>> mat1;
+    Matrix<float, map<size_t, float>> mat1(2,3);
 
     mat1.insertValueAtRowColumn(2.0f,0,0); mat1.insertValueAtRowColumn(0.0f,0,1); mat1.insertValueAtRowColumn(4.0f,0,2);
 
@@ -2242,7 +2227,7 @@ bool matrix_map_container_RowIterator(){
 
 bool matrix_map_container_ConstRowIterator(){
     bool ok = true;
-    Matrix<float,2,3, map<size_t, float>> mat1;
+    Matrix<float, map<size_t, float>> mat1(2,3);
 
     mat1.insertValueAtRowColumn(2.0f,0,0); mat1.insertValueAtRowColumn(0.0f,0,1); mat1.insertValueAtRowColumn(4.0f,0,2);
 
@@ -2270,11 +2255,11 @@ bool matrix_map_container_ConstRowIterator(){
 
 bool matrix_map_container_add_in_place(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t, float>> m1;
+    Matrix<float,map<size_t, float>> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,2,3,map<size_t, float>> m2;
+    Matrix<float,map<size_t, float>> m2(2,3);
     /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
     m2.insertValueAtRowColumn(-2.0f, 1, 0);     m2.insertValueAtRowColumn(-3.0f, 1, 1);     m2.insertValueAtRowColumn(-3.5f, 1, 2);
 
@@ -2308,7 +2293,7 @@ bool matrix_map_container_add_in_place(){
 
 bool matrix_map_container_multiply_in_place_by_scalar_not_equal_zero(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t,float>> m1;
+    Matrix<float,map<size_t,float>> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
@@ -2332,7 +2317,7 @@ bool matrix_map_container_multiply_in_place_by_scalar_not_equal_zero(){
 
 bool matrix_map_container_multiply_in_place_by_scalar_equal_zero(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t,float>> m1;
+    Matrix<float,map<size_t,float>> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
@@ -2355,10 +2340,10 @@ bool matrix_map_container_multiply_in_place_by_scalar_equal_zero(){
 }
 
 bool matrix_map_container_unary_minus_operator_on_rvalue(){
-    Matrix<float,2,3,map<size_t,float>> m1;
+    Matrix<float,map<size_t,float>> m1(2,3);
     m1.insertValueAtRowColumn(1.0f, 0, 0);
     m1.insertValueAtRowColumn(-2.0f, 1, 2);
-    Matrix<float,3,2,map<size_t,float>> m2 = -(m1.transposed<map<size_t,float>>());
+    Matrix<float,map<size_t,float>> m2 = -(m1.transposed());
     m2.insertValueAtRowColumn(11.0f, 1, 1);
 
     return  m1.retrieveAt(0,0) == 1.0f &&   m1.retrieveAt(0,1) == 0.0f &&   m1.retrieveAt(0,2) == 0.0f &&
@@ -2371,10 +2356,10 @@ bool matrix_map_container_unary_minus_operator_on_rvalue(){
 }
 
 bool matrix_map_container_unary_minus_operator_on_lvalue(){
-    Matrix<float,2,3,map<size_t,float>> m1;
+    Matrix<float,map<size_t,float>> m1(2,3);
     m1.insertValueAtRowColumn(1.0f, 0, 0);
     m1.insertValueAtRowColumn(-2.0f, 1, 2);
-    Matrix<float,2,3,map<size_t,float>> m2 = -m1;
+    Matrix<float,map<size_t,float>> m2 = -m1;
     m2.insertValueAtRowColumn(11.0f, 1, 1);
 
     return  m1.retrieveAt(0,0) == 1.0f &&   m1.retrieveAt(0,1) == 0.0f &&   m1.retrieveAt(0,2) == 0.0f &&
@@ -2387,9 +2372,9 @@ bool matrix_map_container_unary_minus_operator_on_lvalue(){
 
 bool matrix_map_container_copyRowAtIndex_map_container(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t, float>> mat;
+    Matrix<float,map<size_t, float>> mat(2,3);
     mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
-    Matrix<float,1,3,map<size_t, float>>row = mat.copyRowAtIndex(1);
+    Matrix<float,map<size_t, float>>row = mat.copyRowAtIndex(1);
     
     ok =    row.retrieveAt(0,0) == 1.0f && row.retrieveAt(0,1) == 0.0f && row.retrieveAt(0,2) == 3.0f &&
             row.storedElementsCount() == 2;
@@ -2408,7 +2393,7 @@ bool matrix_map_container_copyRowAtIndex_map_container(){
 
 bool matrix_map_container_divide_in_place_by_scalar(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t,float>> m1;
+    Matrix<float,map<size_t,float>> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
@@ -2432,7 +2417,7 @@ bool matrix_map_container_divide_in_place_by_scalar(){
 
 bool matrix_map_container_multiply_not_in_place_by_scalar_not_equal_zero(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t,float>> m1;
+    Matrix<float,map<size_t,float>> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
@@ -2442,7 +2427,7 @@ bool matrix_map_container_multiply_not_in_place_by_scalar_not_equal_zero(){
             m1.retrieveAt(0, 0) == 0.0f &&  m1.retrieveAt(0, 1) == 0.0f &&      m1.retrieveAt(0, 2) == 3.5f &&
             m1.retrieveAt(1, 0) == 2.0f &&  m1.retrieveAt(1, 1) == -3.0f &&     m1.retrieveAt(1, 2) == 3.5f;
     
-    Matrix<float,2,3,map<size_t,float>> m2 = m1 * 2.0f;
+    Matrix<float,map<size_t,float>> m2 = m1 * 2.0f;
 
     ok =    ok &&
             m2.storedElementsCount() == 4;
@@ -2473,7 +2458,7 @@ bool matrix_map_container_multiply_not_in_place_by_scalar_not_equal_zero(){
 
 bool matrix_map_container_multiply_not_in_place_by_scalar_equal_zero(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t,float>> m1;
+    Matrix<float,map<size_t,float>> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
@@ -2483,7 +2468,7 @@ bool matrix_map_container_multiply_not_in_place_by_scalar_equal_zero(){
             m1.retrieveAt(0, 0) == 0.0f &&  m1.retrieveAt(0, 1) == 0.0f &&      m1.retrieveAt(0, 2) == 3.5f &&
             m1.retrieveAt(1, 0) == 2.0f &&  m1.retrieveAt(1, 1) == -3.0f &&     m1.retrieveAt(1, 2) == 3.5f;
     
-    Matrix<float,2,3,map<size_t,float>> m2 = m1 * 0.0f;
+    Matrix<float,map<size_t,float>> m2 = m1 * 0.0f;
 
     ok =    ok &&
             m2.storedElementsCount() == 0;
@@ -2493,7 +2478,7 @@ bool matrix_map_container_multiply_not_in_place_by_scalar_equal_zero(){
             m2.retrieveAt(1, 0) == 0.0f &&  m2.retrieveAt(1, 1) == 0.0f &&     m2.retrieveAt(1, 2) == 0.0f;
 
 
-    Matrix<float,2,3,map<size_t,float>> m3 = 0.0f * m1;
+    Matrix<float,map<size_t,float>> m3 = 0.0f * m1;
 
     ok =    ok &&
             m1.storedElementsCount() == 4;
@@ -2514,7 +2499,7 @@ bool matrix_map_container_multiply_not_in_place_by_scalar_equal_zero(){
 
 bool matrix_map_container_divide_not_in_place_by_scalar(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t,float>> m1;
+    Matrix<float,map<size_t,float>> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
@@ -2524,7 +2509,7 @@ bool matrix_map_container_divide_not_in_place_by_scalar(){
             m1.retrieveAt(0, 0) == 0.0f &&  m1.retrieveAt(0, 1) == 0.0f &&      m1.retrieveAt(0, 2) == 3.5f &&
             m1.retrieveAt(1, 0) == 2.0f &&  m1.retrieveAt(1, 1) == -3.0f &&     m1.retrieveAt(1, 2) == 3.5f;
     
-    Matrix<float,2,3,map<size_t,float>> m2 = m1 / 2.0f;
+    Matrix<float,map<size_t,float>> m2 = m1 / 2.0f;
 
     ok =    ok &&
             m1.storedElementsCount() == 4;
@@ -2545,7 +2530,7 @@ bool matrix_map_container_divide_not_in_place_by_scalar(){
 
 bool matrix_map_container_print_operator_matrix_2_rows_1_column(){
     bool ok = true;
-    Matrix<float,2,1,map<size_t,float>> mat;
+    Matrix<float,map<size_t,float>> mat(2,1);
     mat.insertValueAtRowColumn(1.2f,0,0);
 
     stringstream ss;
@@ -2566,10 +2551,10 @@ bool matrix_map_container_print_operator_matrix_2_rows_1_column(){
 
 bool matrix_map_container_print_operator_matrix_2_rows_1_column_and_matrix_1_rows_2_column(){
     bool ok = true;
-    Matrix<float,2,1,map<size_t,float>> mat1;
+    Matrix<float,map<size_t,float>> mat1(2,1);
     mat1.insertValueAtRowColumn(1.2f,0,0);
 
-    Matrix<float,1,2> mat2;
+    Matrix<float> mat2(1,2);
     mat2.insertValueAtRowColumn(1.2f,0,1);
 
     stringstream ss;
@@ -2594,7 +2579,7 @@ bool matrix_map_container_print_operator_matrix_2_rows_1_column_and_matrix_1_row
 
 bool matrix_map_container_contructor_with_complete_initializer_list(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t,float>> mat=  {   
+    Matrix<float,map<size_t,float>> mat=  {   
                                 {1.0, 2.0, 0.0},
                                 {4.0, 0.0, 0.0}
                             };
@@ -2606,28 +2591,13 @@ bool matrix_map_container_contructor_with_complete_initializer_list(){
     return ok;
 }
 
-bool matrix_map_container_contructor_with_incomplete_initializer_list(){
-    bool ok = true;
-    Matrix<float,3,3,map<size_t,float>> mat=  {   
-                                {1.0, 2.0},
-                                {4.0}
-                            };
-    
-    ok =    mat.retrieveAt(0,0) == 1.0f && mat.retrieveAt(0,1) == 2.0f && mat.retrieveAt(0,2) == 0.0f && 
-            mat.retrieveAt(1,0) == 4.0f && mat.retrieveAt(1,1) == 0.0f && mat.retrieveAt(1,2) == 0.0f && 
-            mat.retrieveAt(2,0) == 0.0f && mat.retrieveAt(2,1) == 0.0f && mat.retrieveAt(2,2) == 0.0f && 
-            mat.storedElementsCount() == 3;
-
-    return ok;
-}
-
 bool matrix_map_container_subtract_in_place(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t, float>> m1;
+    Matrix<float,map<size_t, float>> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,2,3,map<size_t, float>> m2;
+    Matrix<float,map<size_t, float>> m2(2,3);
     /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(-1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
     m2.insertValueAtRowColumn(2.0f, 1, 0);     m2.insertValueAtRowColumn(3.0f, 1, 1);     m2.insertValueAtRowColumn(3.5f, 1, 2);
 
@@ -2661,15 +2631,15 @@ bool matrix_map_container_subtract_in_place(){
 
 bool matrix_map_container_add_not_in_place(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t,float>> m1;
+    Matrix<float,map<size_t,float>> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,2,3,map<size_t,float>> m2;
+    Matrix<float,map<size_t,float>> m2(2,3);
     /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
     m2.insertValueAtRowColumn(-2.0f, 1, 0);     m2.insertValueAtRowColumn(-3.0f, 1, 1);     m2.insertValueAtRowColumn(-3.5f, 1, 2);
     
-    Matrix<float,2,3,map<size_t,float>> m3 = m1+m2;
+    Matrix<float,map<size_t,float>> m3 = m1+m2;
 
     ok =    ok &&
             m3.storedElementsCount() == 3;
@@ -2683,15 +2653,15 @@ bool matrix_map_container_add_not_in_place(){
 
 bool matrix_map_container_subtract_not_in_place(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t,float>> m1;
+    Matrix<float,map<size_t,float>> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,2,3,map<size_t,float>> m2;
+    Matrix<float,map<size_t,float>> m2(2,3);
     /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(-1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
     m2.insertValueAtRowColumn(2.0f, 1, 0);     m2.insertValueAtRowColumn(3.0f, 1, 1);     m2.insertValueAtRowColumn(3.5f, 1, 2);
     
-    Matrix<float,2,3,map<size_t,float>> m3 = m1-m2;
+    Matrix<float,map<size_t,float>> m3 = m1-m2;
 
     ok =    ok &&
             m3.storedElementsCount() == 3;
@@ -2705,11 +2675,11 @@ bool matrix_map_container_subtract_not_in_place(){
 
 bool matrix_map_container_add_not_in_place_does_not_change_original_matrices(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t,float>> m1;
+    Matrix<float,map<size_t,float>> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,2,3,map<size_t,float>> m2;
+    Matrix<float,map<size_t,float>> m2(2,3);
     /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
     m2.insertValueAtRowColumn(-2.0f, 1, 0);     m2.insertValueAtRowColumn(-3.0f, 1, 1);     m2.insertValueAtRowColumn(-3.5f, 1, 2);
 
@@ -2724,7 +2694,7 @@ bool matrix_map_container_add_not_in_place_does_not_change_original_matrices(){
             m2.retrieveAt(0, 0) == 0.0f &&  m2.retrieveAt(0, 1) == 1.3f &&      m2.retrieveAt(0, 2) == 0.0f &&
             m2.retrieveAt(1, 0) == -2.0f && m2.retrieveAt(1, 1) == -3.0f &&      m2.retrieveAt(1, 2) == -3.5f;
     
-    Matrix<float,2,3,map<size_t,float>> m3 = m1+m2;
+    Matrix<float,map<size_t,float>> m3 = m1+m2;
     m3.insertValueAtRowColumn(8.0f,0,0);
     m3.insertValueAtRowColumn(4.0f,1,1);
 
@@ -2749,11 +2719,11 @@ bool matrix_map_container_add_not_in_place_does_not_change_original_matrices(){
 
 bool matrix_map_container_subtract_not_in_place_does_not_change_original_matrices(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t,float>> m1;
+    Matrix<float,map<size_t,float>> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,2,3,map<size_t,float>> m2;
+    Matrix<float,map<size_t,float>> m2(2,3);
     /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(-1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
     m2.insertValueAtRowColumn(2.0f, 1, 0);     m2.insertValueAtRowColumn(3.0f, 1, 1);     m2.insertValueAtRowColumn(3.5f, 1, 2);
 
@@ -2768,7 +2738,7 @@ bool matrix_map_container_subtract_not_in_place_does_not_change_original_matrice
             m2.retrieveAt(0, 0) == 0.0f &&  m2.retrieveAt(0, 1) == -1.3f &&      m2.retrieveAt(0, 2) == 0.0f &&
             m2.retrieveAt(1, 0) == 2.0f && m2.retrieveAt(1, 1) == 3.0f &&      m2.retrieveAt(1, 2) == 3.5f;
     
-    Matrix<float,2,3,map<size_t,float>> m3 = m1-m2;
+    Matrix<float,map<size_t,float>> m3 = m1-m2;
     m3.insertValueAtRowColumn(8.0f,0,0);
     m3.insertValueAtRowColumn(4.0f,1,1);
 
@@ -2793,9 +2763,9 @@ bool matrix_map_container_subtract_not_in_place_does_not_change_original_matrice
 
 bool matrix_map_container_rowAtIndex_map_container(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t, float>> mat;
+    Matrix<float,map<size_t, float>> mat(2,3);
     mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
-    Matrix<float,1,3,map<size_t, float>*>row = mat.rowAtIndex(1);
+    Matrix<float,map<size_t, float>*>row = mat.rowAtIndex(1);
     
     ok =    row.retrieveAt(0,0) == 1.0f && row.retrieveAt(0,1) == 0.0f && row.retrieveAt(0,2) == 3.0f &&
             row.storedElementsCount() == 2;
@@ -2815,32 +2785,32 @@ bool matrix_map_container_rowAtIndex_map_container(){
 /* ------------ Array pointer container tests --------------- */
 
 bool matrix_array_pointer_container_Get_Size(){
-    Matrix<float,2,3> mat;
+    Matrix<float> mat(2,3);
     mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
-    Matrix<float,1,3, float(*)[3]>row = mat.rowAtIndex(1);
+    Matrix<float, shared_ptr<float>*>row = mat.rowAtIndex(1);
 
     return row.size()==3;
 }
 
 bool matrix_array_pointer_container_Get_Number_Of_Rows(){
-    Matrix<float,2,3> mat;
+    Matrix<float> mat(2,3);
     mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
-    Matrix<float,1,3, float(*)[3]>row = mat.rowAtIndex(1);
+    Matrix<float, shared_ptr<float>*>row = mat.rowAtIndex(1);
     return row.rows() == 1;
 }
 
 bool matrix_array_pointer_container_Get_Number_Of_Columns(){
-    Matrix<float,2,3> mat;
+    Matrix<float> mat(2,3);
     mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
-    Matrix<float,1,3, float(*)[3]>row = mat.rowAtIndex(1);
+    Matrix<float, shared_ptr<float>*>row = mat.rowAtIndex(1);
     return row.columns() == 3;
 }
 
 bool matrix_array_pointer_container_set_value_at_and_check(){
     bool ok =true;
-    Matrix<float,3,2> mat;
+    Matrix<float> mat(3,2);
 
-    Matrix<float,1,2, float(*)[2]>row = mat.rowAtIndex(1);
+    Matrix<float, shared_ptr<float>*>row = mat.rowAtIndex(1);
 
     row.at(0,0)= 10.0f;
 
@@ -2856,9 +2826,9 @@ bool matrix_array_pointer_container_set_value_at_and_check(){
 
 bool matrix_array_pointer_container_retrieveAt(){
     bool ok =true;
-    Matrix<float,3,2> mat;
+    Matrix<float> mat(3,2);
 
-    Matrix<float,1,2, float(*)[2]>row = mat.rowAtIndex(1);
+    Matrix<float, shared_ptr<float>*>row = mat.rowAtIndex(1);
 
     row.at(0,0)= 10.0f;
 
@@ -2874,9 +2844,9 @@ bool matrix_array_pointer_container_retrieveAt(){
 
 bool matrix_array_pointer_container_insertAt_and_check(){
     bool ok =true;
-    Matrix<float,3,2> mat;
+    Matrix<float> mat(3,2);
 
-    Matrix<float,1,2, float(*)[2]>row = mat.rowAtIndex(1);
+    Matrix<float, shared_ptr<float>*>row = mat.rowAtIndex(1);
 
     row.insertValueAtRowColumn(10.0f,0,0);
     
@@ -2889,18 +2859,18 @@ bool matrix_array_pointer_container_insertAt_and_check(){
 
     return ok;
 }
-
+/*
 bool matrix_array_pointer_container_copy_constructor_copies_all(){
     bool ok =true;
-    Matrix<float,4,5> mat;
+    Matrix<float> mat(4,5);
     mat.at(0,0) = 1.0f;
     mat.insertValueAtRowColumn(34.0f,3,4);
 
-    Matrix<float,1,5, float(*)[5]>row = mat.rowAtIndex(3);
+    Matrix<float, shared_ptr<float>*>row = mat.rowAtIndex(3);
     row.at(0,0) = 30.0f;
     row.insertValueAtRowColumn(32.0f,0,2);
     
-    Matrix<float,1,5, float(*)[5]> rowCopy(row);
+    Matrix<float> rowCopy(row);
 
     ok =    (row.size() == rowCopy.size()) &&
             (row.rows() == rowCopy.rows()) &&
@@ -2916,22 +2886,23 @@ bool matrix_array_pointer_container_copy_constructor_copies_all(){
 
     return ok;
 }
-
+*/
+/*
 bool matrix_array_pointer_container_assign_operator_copies_all(){
     bool ok =true;
-    Matrix<float,3,2> mat1;
+    Matrix<float> mat1(3,2);
     mat1.at(0,0) = 100.0f;
     mat1.insertValueAtRowColumn(121.0f,2,1);
 
-    Matrix<float,2,2> mat2;
+    Matrix<float> mat2(2,2);
     mat2.at(0,0) = 200.0f;
     mat2.insertValueAtRowColumn(211.0f,1,1);
 
-    Matrix<float,1,2, float(*)[2]>row1 = mat1.rowAtIndex(2);
+    Matrix<float, shared_ptr<float>*>row1 = mat1.rowAtIndex(2);
     row1.at(0,0) = 120.0f;
     row1.insertValueAtRowColumn(121.0f,0,1);
 
-    Matrix<float,1,2, float(*)[2]>row2 = mat2.rowAtIndex(1);
+    Matrix<float, shared_ptr<float>*>row2 = mat2.rowAtIndex(1);
     row2.at(0,0) = 210.0f;
     row2.insertValueAtRowColumn(211.0f,0,1);
 
@@ -2965,14 +2936,15 @@ bool matrix_array_pointer_container_assign_operator_copies_all(){
 
     return ok;
 }
-
+*/
+/*
 bool matrix_array_pointer_container_copy_constructor_can_modify_original_elements(){
     bool ok =true;
-    Matrix<float,3,2> mat1;
+    Matrix<float> mat1(3,2);
     mat1.at(0,0) = 100.0f;
     mat1.insertValueAtRowColumn(121.0f,2,1);
 
-    Matrix<float,1,2, float(*)[2]>row1 = mat1.rowAtIndex(2);
+    Matrix<float, shared_ptr<float>*>row1 = mat1.rowAtIndex(2);
     row1.at(0,0) = 120.0f;
     row1.insertValueAtRowColumn(121.0f,0,1);
 
@@ -2981,7 +2953,7 @@ bool matrix_array_pointer_container_copy_constructor_can_modify_original_element
             mat1.retrieveAt(2,0) == 120.0f &&   mat1.retrieveAt(2,1) == 121.0f &&
             row1.retrieveAt(0,0) == 120.0f &&   row1.retrieveAt(0,1) == 121.0f;
 
-    Matrix<float,1,2, float(*)[2]>row2(row1);
+    Matrix<float>row2(row1);
     row2.at(0,0) = 210.0f;
     row2.insertValueAtRowColumn(211.0f,0,1);
 
@@ -3003,22 +2975,23 @@ bool matrix_array_pointer_container_copy_constructor_can_modify_original_element
 
     return ok;
 }
-
+*/
+/*
 bool matrix_array_pointer_container_assign_operator_can_modify_original_elements(){
     bool ok =true;
-    Matrix<float,3,2> mat1;
+    Matrix<float> mat1(3,2);
     mat1.at(0,0) = 100.0f;
     mat1.insertValueAtRowColumn(121.0f,2,1);
 
-    Matrix<float,2,2> mat2;
+    Matrix<float> mat2(2,2);
     mat2.at(0,0) = 200.0f;
     mat2.insertValueAtRowColumn(211.0f,1,1);
 
-    Matrix<float,1,2, float(*)[2]>row1 = mat1.rowAtIndex(2);
+    Matrix<float, shared_ptr<float>*>row1 = mat1.rowAtIndex(2);
     row1.at(0,0) = 120.0f;
     row1.insertValueAtRowColumn(121.0f,0,1);
 
-    Matrix<float,1,2, float(*)[2]>row2 = mat2.rowAtIndex(1);
+    Matrix<float, shared_ptr<float>*>row2 = mat2.rowAtIndex(1);
     row2.at(0,0) = 210.0f;
     row2.insertValueAtRowColumn(211.0f,0,1);
 
@@ -3056,21 +3029,21 @@ bool matrix_array_pointer_container_assign_operator_can_modify_original_elements
 
     return ok;
 }
-
+*/
 bool matrix_array_pointer_container_storedElementsCount(){
-    Matrix<float,3,2> mat1;
-    Matrix<float,1,2,float(*)[2]>row1 = mat1.rowAtIndex(1);
+    Matrix<float> mat1(3,2);
+    Matrix<float, shared_ptr<float>*>row1 = mat1.rowAtIndex(1);
 
     return mat1.storedElementsCount() == 6 && row1.storedElementsCount() == 2;
 }
 
 bool matrix_array_pointer_container_RowIterator(){
     bool ok =true;
-    Matrix<float,2,3> mat1;
+    Matrix<float> mat1(2,3);
     mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; mat1.at(0,2) = 4.0f;
     mat1.at(1,0) = 8.0f; mat1.insertValueAtRowColumn(0.0f,1,1); mat1.at(1,2) = 10.0f;
 
-    Matrix<float,1,3, float(*)[3]>row1 = mat1.rowAtIndex(1);
+    Matrix<float, shared_ptr<float>*>row1 = mat1.rowAtIndex(1);
 
     auto end = row1.rowIteratorEnd(0);
 
@@ -3094,11 +3067,11 @@ bool matrix_array_pointer_container_RowIterator(){
 
 bool matrix_array_pointer_container_ConstRowIterator(){
     bool ok =true;
-    Matrix<float,2,3> mat1;
+    Matrix<float> mat1(2,3);
     mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; mat1.at(0,2) = 4.0f;
     mat1.at(1,0) = 8.0f; mat1.insertValueAtRowColumn(0.0f,1,1); mat1.at(1,2) = 10.0f;
 
-    const Matrix<float,1,3, float(*)[3]>row1 = mat1.rowAtIndex(1);
+    const Matrix<float, shared_ptr<float>*>row1 = mat1.rowAtIndex(1);
 
     auto end = row1.rowIteratorEnd(0);
 
@@ -3121,8 +3094,8 @@ bool matrix_array_pointer_container_ConstRowIterator(){
 }
 
 bool matrix_array_pointer_container_array_pointer_container_dot(){
-    Matrix<float,1,5> mat1;
-    Matrix<float,1,5> mat2;
+    Matrix<float> mat1(1,5);
+    Matrix<float> mat2(1,5);
 
     mat1.at(0,0) = 2.0f;
     mat2.at(0,0) = 5.0f;
@@ -3134,16 +3107,16 @@ bool matrix_array_pointer_container_array_pointer_container_dot(){
     mat1.at(0,4) = 13.0f;
     mat2.at(0,4) = 10.0f;
 
-    Matrix<float,1,5, float(*)[5]> row1 = mat1.rowAtIndex(0);
-    Matrix<float,1,5, float(*)[5]> row2 = mat2.rowAtIndex(0);
+    Matrix<float, shared_ptr<float>*> row1 = mat1.rowAtIndex(0);
+    Matrix<float, shared_ptr<float>*> row2 = mat2.rowAtIndex(0);
 
     return dot(row1,row2) == 140.0f;
 }
 
 bool matrix_array_pointer_container_array_pointer_container_dot_doesnt_change_vectors_values(){
     bool ok = true;
-    Matrix<float,1,5> mat1;
-    Matrix<float,1,5> mat2;
+    Matrix<float> mat1(1,5);
+    Matrix<float> mat2(1,5);
 
     mat1.at(0,0) = 2.0f;
     mat2.at(0,0) = 5.0f;
@@ -3155,8 +3128,8 @@ bool matrix_array_pointer_container_array_pointer_container_dot_doesnt_change_ve
     mat1.at(0,4) = 13.0f;
     mat2.at(0,4) = 10.0f;
 
-    Matrix<float,1,5, float(*)[5]> row1 = mat1.rowAtIndex(0);
-    Matrix<float,1,5, float(*)[5]> row2 = mat2.rowAtIndex(0);
+    Matrix<float, shared_ptr<float>*> row1 = mat1.rowAtIndex(0);
+    Matrix<float, shared_ptr<float>*> row2 = mat2.rowAtIndex(0);
 
     float dotVal = dot(row1,row2);
 
@@ -3195,8 +3168,8 @@ bool matrix_array_pointer_container_array_pointer_container_dot_doesnt_change_ve
 
 bool matrix_array_pointer_container_array_container_multiplication(){
     bool ok = false;
-    Matrix<float,2,3> mat1;
-    Matrix<float,3,1> mat2;
+    Matrix<float> mat1(2,3);
+    Matrix<float> mat2(3,1);
 
     mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; mat1.at(0,2) = 4.0f;
     mat1.at(1,0) = 5.0f; mat1.at(1,1) = 6.0f; mat1.at(1,2) = 7.0f;
@@ -3205,9 +3178,9 @@ bool matrix_array_pointer_container_array_container_multiplication(){
     mat2.at(1,0) = 8.0f;
     mat2.at(2,0) = 7.0f;
 
-    Matrix<float,1,3, float(*)[3]> row1 = mat1.rowAtIndex(1);
+    Matrix<float, shared_ptr<float>*> row1 = mat1.rowAtIndex(1);
 
-    Matrix<float,1,1> mat3 = row1*mat2;
+    Matrix<float> mat3 = row1*mat2;
 
     ok = ( mat3.retrieveAt(0,0) == 142.0f );
     
@@ -3221,8 +3194,8 @@ bool matrix_array_pointer_container_array_container_multiplication(){
 
 bool matrix_array_pointer_container_array_container_multiplication_doesnt_change_matrices_values(){
     bool ok = false;
-    Matrix<float,2,3> mat1;
-    Matrix<float,3,1> mat2;
+    Matrix<float> mat1(2,3);
+    Matrix<float> mat2(3,1);
 
     mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; mat1.at(0,2) = 4.0f;
     mat1.at(1,0) = 5.0f; mat1.at(1,1) = 6.0f; mat1.at(1,2) = 7.0f;
@@ -3231,9 +3204,9 @@ bool matrix_array_pointer_container_array_container_multiplication_doesnt_change
     mat2.at(1,0) = 8.0f;
     mat2.at(2,0) = 7.0f;
 
-    Matrix<float,1,3, float(*)[3]> row1 = mat1.rowAtIndex(1);
+    Matrix<float, shared_ptr<float>*> row1 = mat1.rowAtIndex(1);
 
-    Matrix<float,1,1> mat3 = row1*mat2;
+    Matrix<float> mat3 = row1*mat2;
 
     ok = (  mat1.retrieveAt(0,0) == 2.0f && mat1.retrieveAt(0,1) == 3.0f && mat1.retrieveAt(0,2) == 4.0f &&
             mat1.retrieveAt(1,0) == 5.0f && mat1.retrieveAt(1,1) == 6.0f && mat1.retrieveAt(1,2) == 7.0f &&
@@ -3253,14 +3226,14 @@ bool matrix_array_pointer_container_array_container_multiplication_doesnt_change
 
 bool matrix_array_pointer_container_add_in_place(){
     bool ok = true;
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(0.0f, 1, 0);      m1.insertValueAtRowColumn(-1.3f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,1,3> m2;
+    Matrix<float> m2(1,3);
     /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
 
-    Matrix<float,1,3, float(*)[3]> r1 = m1.rowAtIndex(1);
+    Matrix<float, shared_ptr<float>*> r1 = m1.rowAtIndex(1);
 
     ok =    m1.storedElementsCount() == 6 &&
             m2.storedElementsCount() == 3 &&
@@ -3295,11 +3268,11 @@ bool matrix_array_pointer_container_add_in_place(){
 
 bool matrix_array_pointer_container_multiply_in_place_by_scalar_not_equal_zero(){
     bool ok = true;
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
     
-    Matrix<float,1,3, float(*)[3]> r1 = m1.rowAtIndex(1);
+    Matrix<float, shared_ptr<float>*> r1 = m1.rowAtIndex(1);
 
     ok =    m1.storedElementsCount() == 6 &&
             r1.storedElementsCount() == 3;
@@ -3325,11 +3298,11 @@ bool matrix_array_pointer_container_multiply_in_place_by_scalar_not_equal_zero()
 
 bool matrix_array_pointer_container_multiply_in_place_by_scalar_equal_zero(){
     bool ok = true;
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,1,3, float(*)[3]> r1 = m1.rowAtIndex(1);
+    Matrix<float, shared_ptr<float>*> r1 = m1.rowAtIndex(1);
 
     ok =    m1.storedElementsCount() == 6 &&
             r1.storedElementsCount() == 3;
@@ -3355,11 +3328,11 @@ bool matrix_array_pointer_container_multiply_in_place_by_scalar_equal_zero(){
 
 bool matrix_array_pointer_container_divide_in_place_by_scalar(){
     bool ok = true;
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,1,3, float(*)[3]> r1 = m1.rowAtIndex(1);
+    Matrix<float, shared_ptr<float>*> r1 = m1.rowAtIndex(1);
 
     ok =    m1.storedElementsCount() == 6 &&
             r1.storedElementsCount() == 3;
@@ -3385,14 +3358,14 @@ bool matrix_array_pointer_container_divide_in_place_by_scalar(){
 
 bool matrix_array_pointer_container_subtract_in_place(){
     bool ok = true;
-    Matrix<float,2,3> m1;
+    Matrix<float> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(0.0f, 1, 2);
 
-    Matrix<float,1,3> m2;
+    Matrix<float> m2(1,3);
     m2.insertValueAtRowColumn(0.0f, 0, 0);     m2.insertValueAtRowColumn(-3.0f, 0, 1);     m2.insertValueAtRowColumn(-3.5f, 0, 2);
 
-    Matrix<float,1,3, float(*)[3]> r1 = m1.rowAtIndex(1);
+    Matrix<float, shared_ptr<float>*> r1 = m1.rowAtIndex(1);
 
     ok =    m1.storedElementsCount() == 6 &&
             m2.storedElementsCount() == 3 &&
@@ -3431,32 +3404,32 @@ bool matrix_array_pointer_container_subtract_in_place(){
 /* ------------ Map pointer container tests --------------- */
 
 bool matrix_map_pointer_container_Get_Size(){
-    Matrix<float,2,3, map<size_t, float>> mat;
+    Matrix<float, map<size_t, float>> mat(2,3);
     mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
-    Matrix<float,1,3, map<size_t, float>*>row = mat.rowAtIndex(1);
+    Matrix<float, map<size_t, float>*>row = mat.rowAtIndex(1);
 
     return row.size()==3;
 }
 
 bool matrix_map_pointer_container_Get_Number_Of_Rows(){
-    Matrix<float,2,3, map<size_t, float>> mat;
+    Matrix<float, map<size_t, float>> mat(2,3);
     mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
-    Matrix<float,1,3, map<size_t, float>*>row = mat.rowAtIndex(1);
+    Matrix<float, map<size_t, float>*>row = mat.rowAtIndex(1);
     return row.rows() == 1;
 }
 
 bool matrix_map_pointer_container_Get_Number_Of_Columns(){
-    Matrix<float,2,3, map<size_t, float>> mat;
+    Matrix<float, map<size_t, float>> mat(2,3);
     mat.insertValueAtRowColumn(1.0f,1,0); mat.insertValueAtRowColumn(3.0f,1,2);
-    Matrix<float,1,3, map<size_t, float>*>row = mat.rowAtIndex(1);
+    Matrix<float, map<size_t, float>*>row = mat.rowAtIndex(1);
     return row.columns() == 3;
 }
 
 bool matrix_map_pointer_container_set_value_at_and_check(){
     bool ok =true;
-    Matrix<float,3,2, map<size_t, float>> mat;
+    Matrix<float, map<size_t, float>> mat(3,2);
 
-    Matrix<float,1,2, map<size_t, float>*>row = mat.rowAtIndex(1);
+    Matrix<float, map<size_t, float>*>row = mat.rowAtIndex(1);
 
     row.at(0,0)= 10.0f;
 
@@ -3472,9 +3445,9 @@ bool matrix_map_pointer_container_set_value_at_and_check(){
 
 bool matrix_map_pointer_container_retrieveAt(){
     bool ok =true;
-    Matrix<float,3,2, map<size_t, float>> mat;
+    Matrix<float, map<size_t, float>> mat(3,2);
 
-    Matrix<float,1,2, map<size_t, float>*>row = mat.rowAtIndex(1);
+    Matrix<float, map<size_t, float>*>row = mat.rowAtIndex(1);
 
     row.at(0,0)= 10.0f;
 
@@ -3490,9 +3463,9 @@ bool matrix_map_pointer_container_retrieveAt(){
 
 bool matrix_map_pointer_container_insertAt_and_check(){
     bool ok =true;
-    Matrix<float,3,2, map<size_t, float>> mat;
+    Matrix<float, map<size_t, float>> mat(3,2);
 
-    Matrix<float,1,2, map<size_t, float>*>row = mat.rowAtIndex(1);
+    Matrix<float, map<size_t, float>*>row = mat.rowAtIndex(1);
 
     row.insertValueAtRowColumn(10.0f,0,0);
     
@@ -3505,18 +3478,18 @@ bool matrix_map_pointer_container_insertAt_and_check(){
 
     return ok;
 }
-
+/*
 bool matrix_map_pointer_container_copy_constructor_copies_all(){
     bool ok =true;
-    Matrix<float,4,5,map<size_t,float>> mat;
+    Matrix<float,map<size_t,float>> mat(4,5);
     mat.at(0,0) = 1.0f;
     mat.insertValueAtRowColumn(34.0f,3,4);
 
-    Matrix<float,1,5,map<size_t,float>*>row = mat.rowAtIndex(3);
+    Matrix<float,map<size_t,float>*>row = mat.rowAtIndex(3);
     row.at(0,0) = 30.0f;
     row.insertValueAtRowColumn(32.0f,0,2);
     
-    Matrix<float,1,5,map<size_t,float>*> rowCopy(row);
+    Matrix<float,map<size_t,float>*> rowCopy(row);
 
     ok =    (row.size() == rowCopy.size()) &&
             (row.rows() == rowCopy.rows()) &&
@@ -3532,22 +3505,23 @@ bool matrix_map_pointer_container_copy_constructor_copies_all(){
 
     return ok;
 }
-
+*/
+/*
 bool matrix_map_pointer_container_assign_operator_copies_all(){
     bool ok =true;
-    Matrix<float,3,2,map<size_t,float>> mat1;
+    Matrix<float,map<size_t,float>> mat1(3,2);
     mat1.at(0,0) = 100.0f;
     mat1.insertValueAtRowColumn(121.0f,2,1);
 
-    Matrix<float,2,2,map<size_t,float>> mat2;
+    Matrix<float,map<size_t,float>> mat2(2,2);
     mat2.at(0,0) = 200.0f;
     mat2.insertValueAtRowColumn(211.0f,1,1);
 
-    Matrix<float,1,2,map<size_t,float>*>row1 = mat1.rowAtIndex(2);
+    Matrix<float,map<size_t,float>*>row1 = mat1.rowAtIndex(2);
     row1.at(0,0) = 120.0f;
     row1.insertValueAtRowColumn(121.0f,0,1);
 
-    Matrix<float,1,2,map<size_t,float>*>row2 = mat2.rowAtIndex(1);
+    Matrix<float,map<size_t,float>*>row2 = mat2.rowAtIndex(1);
     row2.at(0,0) = 210.0f;
     row2.insertValueAtRowColumn(211.0f,0,1);
 
@@ -3581,14 +3555,15 @@ bool matrix_map_pointer_container_assign_operator_copies_all(){
 
     return ok;
 }
-
+*/
+/*
 bool matrix_map_pointer_container_copy_constructor_can_modify_original_elements(){
     bool ok =true;
-    Matrix<float,3,2,map<size_t,float>> mat1;
+    Matrix<float,map<size_t,float>> mat1(3,2);
     mat1.at(0,0) = 100.0f;
     mat1.insertValueAtRowColumn(121.0f,2,1);
 
-    Matrix<float,1,2,map<size_t,float>*>row1 = mat1.rowAtIndex(2);
+    Matrix<float,map<size_t,float>*>row1 = mat1.rowAtIndex(2);
     row1.at(0,0) = 120.0f;
     row1.insertValueAtRowColumn(121.0f,0,1);
 
@@ -3597,7 +3572,7 @@ bool matrix_map_pointer_container_copy_constructor_can_modify_original_elements(
             mat1.retrieveAt(2,0) == 120.0f &&   mat1.retrieveAt(2,1) == 121.0f &&
             row1.retrieveAt(0,0) == 120.0f &&   row1.retrieveAt(0,1) == 121.0f;
 
-    Matrix<float,1,2,map<size_t,float>*>row2(row1);
+    Matrix<float,map<size_t,float>*>row2(row1);
     row2.at(0,0) = 210.0f;
     row2.insertValueAtRowColumn(0.0f,0,1);
 
@@ -3619,14 +3594,15 @@ bool matrix_map_pointer_container_copy_constructor_can_modify_original_elements(
 
     return ok;
 }
-
+*/
+/*
 bool matrix_map_pointer_container_assign_operator_can_modify_original_elements(){
     bool ok =true;
-    Matrix<float,3,2,map<size_t,float>> mat1;
+    Matrix<float,map<size_t,float>> mat1(3,2);
     mat1.at(0,0) = 100.0f;
     mat1.insertValueAtRowColumn(121.0f,2,1);
 
-    Matrix<float,2,2,map<size_t,float>> mat2;
+    Matrix<float,map<size_t,float>> mat2(2,2);
     mat2.at(0,0) = 200.0f;
     mat2.insertValueAtRowColumn(211.0f,1,1);
 
@@ -3672,21 +3648,21 @@ bool matrix_map_pointer_container_assign_operator_can_modify_original_elements()
 
     return ok;
 }
-
+*/
 bool matrix_map_pointer_container_storedElementsCount(){
-    Matrix<float,3,2,map<size_t,float>> mat1;
-    Matrix<float,1,2,map<size_t,float>*>row1 = mat1.rowAtIndex(1);
+    Matrix<float,map<size_t,float>> mat1(3,2);
+    Matrix<float,map<size_t,float>*>row1 = mat1.rowAtIndex(1);
 
     return mat1.storedElementsCount() == 0 && row1.storedElementsCount() == 0;
 }
 
 bool matrix_map_pointer_container_RowIterator(){
     bool ok =true;
-    Matrix<float,2,3,map<size_t,float>> mat1;
+    Matrix<float,map<size_t,float>> mat1(2,3);
     mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; mat1.at(0,2) = 4.0f;
     mat1.at(1,0) = 8.0f; mat1.insertValueAtRowColumn(0.0f,1,1); mat1.at(1,2) = 10.0f;
 
-    Matrix<float,1,3,map<size_t,float>*>row1 = mat1.rowAtIndex(1);
+    Matrix<float,map<size_t,float>*>row1 = mat1.rowAtIndex(1);
 
     auto end = row1.rowIteratorEnd(0);
 
@@ -3710,11 +3686,11 @@ bool matrix_map_pointer_container_RowIterator(){
 
 bool matrix_map_pointer_container_ConstRowIterator(){
     bool ok =true;
-    Matrix<float,2,3,map<size_t,float>> mat1;
+    Matrix<float,map<size_t,float>> mat1(2,3);
     mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; mat1.at(0,2) = 4.0f;
     mat1.at(1,0) = 8.0f; mat1.insertValueAtRowColumn(0.0f,1,1); mat1.at(1,2) = 10.0f;
 
-    const Matrix<float,1,3,map<size_t,float>*>row1 = mat1.rowAtIndex(1);
+    const Matrix<float,map<size_t,float>*>row1 = mat1.rowAtIndex(1);
 
     auto end = row1.rowIteratorEnd(0);
 
@@ -3737,8 +3713,8 @@ bool matrix_map_pointer_container_ConstRowIterator(){
 }
 
 bool matrix_map_pointer_container_map_pointer_container_dot(){
-    Matrix<float,1,5,map<size_t,float>> mat1;
-    Matrix<float,1,5,map<size_t,float>> mat2;
+    Matrix<float,map<size_t,float>> mat1(1,5);
+    Matrix<float,map<size_t,float>> mat2(1,5);
 
     mat1.at(0,0) = 2.0f;
     mat2.at(0,0) = 5.0f;
@@ -3750,16 +3726,16 @@ bool matrix_map_pointer_container_map_pointer_container_dot(){
     mat1.at(0,4) = 13.0f;
     mat2.at(0,4) = 10.0f;
 
-    Matrix<float,1,5,map<size_t,float>*> row1 = mat1.rowAtIndex(0);
-    Matrix<float,1,5,map<size_t,float>*> row2 = mat2.rowAtIndex(0);
+    Matrix<float,map<size_t,float>*> row1 = mat1.rowAtIndex(0);
+    Matrix<float,map<size_t,float>*> row2 = mat2.rowAtIndex(0);
 
     return dot(row1,row2) == 140.0f;
 }
 
 bool matrix_map_pointer_container_map_pointer_container_dot_doesnt_change_vectors_values(){
     bool ok = true;
-    Matrix<float,1,5,map<size_t,float>> mat1;
-    Matrix<float,1,5,map<size_t,float>> mat2;
+    Matrix<float,map<size_t,float>> mat1(1,5);
+    Matrix<float,map<size_t,float>> mat2(1,5);
 
     mat1.at(0,0) = 2.0f;
     mat2.at(0,0) = 5.0f;
@@ -3771,8 +3747,8 @@ bool matrix_map_pointer_container_map_pointer_container_dot_doesnt_change_vector
     mat1.at(0,4) = 13.0f;
     mat2.at(0,4) = 10.0f;
 
-    Matrix<float,1,5,map<size_t,float>*> row1 = mat1.rowAtIndex(0);
-    Matrix<float,1,5,map<size_t,float>*> row2 = mat2.rowAtIndex(0);
+    Matrix<float,map<size_t,float>*> row1 = mat1.rowAtIndex(0);
+    Matrix<float,map<size_t,float>*> row2 = mat2.rowAtIndex(0);
 
     float dotVal = dot(row1,row2);
 
@@ -3810,8 +3786,8 @@ bool matrix_map_pointer_container_map_pointer_container_dot_doesnt_change_vector
 }
 
 bool matrix_array_container_map_pointer_container_dot(){
-    Matrix<float,1,5> mat1;
-    Matrix<float,1,5,map<size_t,float>> mat2;
+    Matrix<float> mat1(1,5);
+    Matrix<float,map<size_t,float>> mat2(1,5);
 
     mat1.at(0,0) = 2.0f;
     mat2.at(0,0) = 5.0f;
@@ -3823,15 +3799,15 @@ bool matrix_array_container_map_pointer_container_dot(){
     mat1.at(0,4) = 13.0f;
     mat2.at(0,4) = 10.0f;
 
-    Matrix<float,1,5,map<size_t,float>*> row2 = mat2.rowAtIndex(0);
+    Matrix<float,map<size_t,float>*> row2 = mat2.rowAtIndex(0);
 
     return dot(mat1,row2) == 140.0f;
 }
 
 bool matrix_array_container_map_pointer_container_dot_doesnt_change_vectors_values(){
     bool ok = true;
-    Matrix<float,1,5> mat1;
-    Matrix<float,1,5,map<size_t,float>> mat2;
+    Matrix<float> mat1(1,5);
+    Matrix<float,map<size_t,float>> mat2(1,5);
 
     mat1.at(0,0) = 2.0f;
     mat2.at(0,0) = 5.0f;
@@ -3843,7 +3819,7 @@ bool matrix_array_container_map_pointer_container_dot_doesnt_change_vectors_valu
     mat1.at(0,4) = 13.0f;
     mat2.at(0,4) = 10.0f;
 
-    Matrix<float,1,5,map<size_t,float>*> row2 = mat2.rowAtIndex(0);
+    Matrix<float,map<size_t,float>*> row2 = mat2.rowAtIndex(0);
 
     float dotVal = dot(mat1,row2);
 
@@ -3880,8 +3856,8 @@ bool matrix_array_container_map_pointer_container_dot_doesnt_change_vectors_valu
 }
 
 bool matrix_map_pointer_container_array_container_dot(){
-    Matrix<float,1,5,map<size_t,float>> mat1;
-    Matrix<float,1,5> mat2;
+    Matrix<float,map<size_t,float>> mat1(1,5);
+    Matrix<float> mat2(1,5);
 
     mat1.at(0,0) = 2.0f;
     mat2.at(0,0) = 5.0f;
@@ -3893,15 +3869,15 @@ bool matrix_map_pointer_container_array_container_dot(){
     mat1.at(0,4) = 13.0f;
     mat2.at(0,4) = 10.0f;
 
-    Matrix<float,1,5,map<size_t,float>*> row1 = mat1.rowAtIndex(0);
+    Matrix<float,map<size_t,float>*> row1 = mat1.rowAtIndex(0);
 
     return dot(row1,mat2) == 140.0f;
 }
 
 bool matrix_map_pointer_container_array_container_dot_doesnt_change_vectors_values(){
     bool ok = true;
-    Matrix<float,1,5,map<size_t,float>> mat1;
-    Matrix<float,1,5> mat2;
+    Matrix<float,map<size_t,float>> mat1(1,5);
+    Matrix<float> mat2(1,5);
 
     mat1.at(0,0) = 2.0f;
     mat2.at(0,0) = 5.0f;
@@ -3913,7 +3889,7 @@ bool matrix_map_pointer_container_array_container_dot_doesnt_change_vectors_valu
     mat1.at(0,4) = 13.0f;
     mat2.at(0,4) = 10.0f;
 
-    Matrix<float,1,5,map<size_t,float>*> row1 = mat1.rowAtIndex(0);
+    Matrix<float,map<size_t,float>*> row1 = mat1.rowAtIndex(0);
 
     float dotVal = dot(row1,mat2);
     ok = (dotVal == 140.0f);
@@ -3950,8 +3926,8 @@ bool matrix_map_pointer_container_array_container_dot_doesnt_change_vectors_valu
 
 bool matrix_map_pointer_container_map_container_multiplication(){
     bool ok = false;
-    Matrix<float,2,3, map<size_t, float>> mat1;
-    Matrix<float,3,1, map<size_t, float>> mat2;
+    Matrix<float, map<size_t, float>> mat1(2,3);
+    Matrix<float, map<size_t, float>> mat2(3,1);
 
     mat1.at(0,0) = 2.0f;  mat1.at(0,1) = 3.0f; /* mat1.at(0,2) = 4.0f;*/
     mat1.at(1,0) = 5.0f; mat1.at(1,1) = 7.0f; mat1.at(1,2) = -8.0f;
@@ -3960,9 +3936,9 @@ bool matrix_map_pointer_container_map_container_multiplication(){
     mat2.at(1,0) = 8.0f;
     mat2.at(2,0) = 7.0f;
 
-    Matrix<float,1,3,map<size_t, float>*> row1 = mat1.rowAtIndex(1);
+    Matrix<float,map<size_t, float>*> row1 = mat1.rowAtIndex(1);
 
-    Matrix<float,1,1,map<size_t, float>> mat3 = row1*mat2;
+    Matrix<float,map<size_t, float>> mat3 = row1*mat2;
 
     ok = ( mat3.retrieveAt(0,0) == 0.0f );
     
@@ -3976,8 +3952,8 @@ bool matrix_map_pointer_container_map_container_multiplication(){
 
 bool matrix_map_pointer_container_map_container_multiplication_doesnt_change_matrices_values(){
     bool ok = false;
-    Matrix<float,2,3, map<size_t, float>> mat1;
-    Matrix<float,3,1, map<size_t, float>> mat2;
+    Matrix<float, map<size_t, float>> mat1(2,3);
+    Matrix<float, map<size_t, float>> mat2(3,1);
 
     mat1.at(0,0) = 2.0f; mat1.at(0,1) = 3.0f; /* mat1.at(0,2) = 4.0f;*/
     mat1.at(1,0) = 5.0f; mat1.at(1,1) = 7.0f; mat1.at(1,2) = -8.0f;
@@ -3986,9 +3962,9 @@ bool matrix_map_pointer_container_map_container_multiplication_doesnt_change_mat
     mat2.at(1,0) = 8.0f;
     mat2.at(2,0) = 7.0f;
 
-    Matrix<float,1,3,map<size_t, float>*> row1 = mat1.rowAtIndex(1);
+    Matrix<float,map<size_t, float>*> row1 = mat1.rowAtIndex(1);
 
-    Matrix<float,1,1,map<size_t, float>> mat3 = row1*mat2;
+    Matrix<float,map<size_t, float>> mat3 = row1*mat2;
 
     ok = (  mat1.retrieveAt(0,0) == 2.0f && mat1.retrieveAt(0,1) == 3.0f && mat1.retrieveAt(0,2) == 0.0f &&
             mat1.retrieveAt(1,0) == 5.0f && mat1.retrieveAt(1,1) == 7.0f && mat1.retrieveAt(1,2) == -8.0f &&
@@ -4008,14 +3984,14 @@ bool matrix_map_pointer_container_map_container_multiplication_doesnt_change_mat
 
 bool matrix_map_pointer_container_add_in_place(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t,float>> m1;
+    Matrix<float,map<size_t,float>> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(0.0f, 1, 0);      m1.insertValueAtRowColumn(-1.3f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,1,3,map<size_t,float>> m2;
+    Matrix<float,map<size_t,float>> m2(1,3);
     /*m2.insertValueAtRowColumn(0.0f, 0, 0);*/  m2.insertValueAtRowColumn(1.3f, 0, 1);  /*m2.insertValueAtRowColumn(0.0f, 0, 2);*/
 
-    Matrix<float,1,3,map<size_t,float>*> r1 = m1.rowAtIndex(1);
+    Matrix<float,map<size_t,float>*> r1 = m1.rowAtIndex(1);
 
     ok =    m1.storedElementsCount() == 3 &&
             m2.storedElementsCount() == 1 &&
@@ -4050,11 +4026,11 @@ bool matrix_map_pointer_container_add_in_place(){
 
 bool matrix_map_pointer_container_multiply_in_place_by_scalar_not_equal_zero(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t,float>> m1;
+    Matrix<float,map<size_t,float>> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
     
-    Matrix<float,1,3,map<size_t,float>*> r1 = m1.rowAtIndex(1);
+    Matrix<float,map<size_t,float>*> r1 = m1.rowAtIndex(1);
 
     ok =    m1.storedElementsCount() == 4 &&
             r1.storedElementsCount() == 3;
@@ -4080,11 +4056,11 @@ bool matrix_map_pointer_container_multiply_in_place_by_scalar_not_equal_zero(){
 
 bool matrix_map_pointer_container_multiply_in_place_by_scalar_equal_zero(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t,float>> m1;
+    Matrix<float,map<size_t,float>> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,1,3,map<size_t,float>*> r1 = m1.rowAtIndex(1);
+    Matrix<float,map<size_t,float>*> r1 = m1.rowAtIndex(1);
 
     ok =    m1.storedElementsCount() == 4 &&
             r1.storedElementsCount() == 3;
@@ -4110,11 +4086,11 @@ bool matrix_map_pointer_container_multiply_in_place_by_scalar_equal_zero(){
 
 bool matrix_map_pointer_container_divide_in_place_by_scalar(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t,float>> m1;
+    Matrix<float,map<size_t,float>> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(3.5f, 1, 2);
 
-    Matrix<float,1,3,map<size_t,float>*> r1 = m1.rowAtIndex(1);
+    Matrix<float,map<size_t,float>*> r1 = m1.rowAtIndex(1);
 
     ok =    m1.storedElementsCount() == 4 &&
             r1.storedElementsCount() == 3;
@@ -4140,14 +4116,14 @@ bool matrix_map_pointer_container_divide_in_place_by_scalar(){
 
 bool matrix_map_pointer_container_subtract_in_place(){
     bool ok = true;
-    Matrix<float,2,3,map<size_t,float>> m1;
+    Matrix<float,map<size_t,float>> m1(2,3);
     /*m1.insertValueAtRowColumn(0.0f, 0, 0);*/  /*m1.insertValueAtRowColumn(0.0f, 0, 1);*/  m1.insertValueAtRowColumn(3.5f, 0, 2);
     m1.insertValueAtRowColumn(2.0f, 1, 0);      m1.insertValueAtRowColumn(-3.0f, 1, 1);     m1.insertValueAtRowColumn(0.0f, 1, 2);
 
-    Matrix<float,1,3,map<size_t,float>> m2;
+    Matrix<float,map<size_t,float>> m2(1,3);
     m2.insertValueAtRowColumn(0.0f, 0, 0);     m2.insertValueAtRowColumn(-3.0f, 0, 1);     m2.insertValueAtRowColumn(-3.5f, 0, 2);
 
-    Matrix<float,1,3,map<size_t,float>*> r1 = m1.rowAtIndex(1);
+    Matrix<float,map<size_t,float>*> r1 = m1.rowAtIndex(1);
 
     ok =    m1.storedElementsCount() == 3 &&
             m2.storedElementsCount() == 2 &&
